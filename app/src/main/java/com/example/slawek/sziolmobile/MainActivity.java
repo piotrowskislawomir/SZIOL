@@ -1,10 +1,17 @@
 package com.example.slawek.sziolmobile;
 
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import sziolmobile.RestClientService;
+import sziolmobile.RestService;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -35,5 +42,18 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void buttonClicked(View v)
+    {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+            RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+            RestService restService = new RestService(restClientService);
+            restService.SendLocation(1,"12.232323","12.42332");
+        }});
     }
 }
