@@ -1,5 +1,6 @@
 package com.example.slawek.sziolmobile;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -56,4 +57,18 @@ public class MainActivity extends ActionBarActivity {
             restService.SendLocation(1,"12.232323","12.42332");
         }});
     }
+    public void buttonLogOnClick(View v)
+    {
+      //  startActivity(new Intent("com.example.slawek.sziolmobile.UserLog"));
+        Intent myIntent = new Intent(MainActivity.this, UserLog.class);
+        MainActivity.this.startActivity(myIntent);
+    }
+
+    public void buttonRegOnClick(View v)
+    {
+        //  startActivity(new Intent("com.example.slawek.sziolmobile.UserLog"));
+        Intent myIntent = new Intent(MainActivity.this, UserReg.class);
+        MainActivity.this.startActivity(myIntent);
+    }
+
 }
