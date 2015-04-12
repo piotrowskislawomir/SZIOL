@@ -17,16 +17,21 @@ import java.io.UnsupportedEncodingException;
 public class RestClientService {
     HttpClient client = new DefaultHttpClient();
     private final String _serviceUrl;
-
+    private  String _token = "";
     public RestClientService(String serviceUrl)
     {
         _serviceUrl = serviceUrl;
     }
 
+    public void SetToken(String token)
+    {
+        _token = "?token=" + token;
+    }
+
     public int SendPost(String resource,String jsonData)
     {
         try {
-            HttpPost request = new HttpPost(_serviceUrl + resource);
+            HttpPost request = new HttpPost(_serviceUrl + resource + _token);
             request.setHeader("Content-type", "application/json");
             request.setEntity(new ByteArrayEntity(jsonData.getBytes("UTF8")));
             HttpResponse response = client.execute(request);
