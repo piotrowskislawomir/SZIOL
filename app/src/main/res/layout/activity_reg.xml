@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff39d2ff"
+    android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Imię"
+            android:id="@+id/textView7"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Imię"
+            android:ems="10"
+            android:id="@+id/ET_name_reg"
+            android:layout_gravity="center_horizontal"
+            android:background="#ffffffff"
+            android:paddingTop="10dp"
+            android:layout_marginTop="0dp"
+            android:width="0dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Nazwisko"
+        android:id="@+id/textView8"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Nazwisko"
+        android:ems="10"
+        android:id="@+id/ET_lastName_reg"
+        android:layout_gravity="center_horizontal"
+        android:background="#ffffffff"
+        android:paddingBottom="10dp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Login"
+            android:id="@+id/log_reg"
+            android:paddingTop="10dp"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/ET_log_reg"
+            android:paddingTop="10dp"
+            android:background="#ffffffff"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Hasło"
+            android:id="@+id/textView4"
+            android:paddingTop="10dp"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/ET_pass_reg"
+            android:paddingTop="10dp"
+            android:background="#ffffffff"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Powtórz hasło"
+            android:id="@+id/textView6"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/ET_pass_reg_2"
+            android:paddingTop="10dp"
+            android:background="#ffffffff"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Unikatowy klucz"
+            android:id="@+id/textView5"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/ET_reg_key"
+            android:paddingTop="10dp"
+            android:background="#ffffffff"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Zarejestruj"
+            android:id="@+id/button4"
+            android:layout_gravity="center_horizontal"
+            android:singleLine="false"
+            android:layout_marginTop="25dp"
+            android:background="#ffffc826"
+            android:onClick="registerButtonOnClick" />
+
+
+
+</LinearLayout>
