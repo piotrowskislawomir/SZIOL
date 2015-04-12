@@ -1,16 +1,24 @@
 package com.example.slawek.sziolmobile;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.slawek.sziolmobile.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import Models.User;
 import sziolmobile.RestClientService;
 import sziolmobile.RestService;
 
@@ -20,12 +28,19 @@ import sziolmobile.RestService;
 
     public class UserLog extends Activity {
 
+    private EditText log;
+    private EditText pass;
+    String res = "";
+    String token ="";
 
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_log);
+
+        log = (EditText)findViewById(R.id.ET_log_log);
+        pass = (EditText)findViewById(R.id.ET_pass_log);
         }
 
 
@@ -51,18 +66,41 @@ import sziolmobile.RestService;
             return super.onOptionsItemSelected(item);
         }
 
-        public void buttonClicked(View v)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
 
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                    RestService restService = new RestService(restClientService);
-                    restService.SendLocation(1,"12.232323","12.42332");
-                }});
-        }
+        public void loginButtonOnClick(View v) {
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+                restService.SendClientLogin(log.getText().toString(), pass.getText().toString());
+            TextView tv = (TextView)findViewById(R.id.textView3);
+
+                try {
+                    JSONObject jsonObj = new JSONObject(RestClientService.resp);
+                    res = jsonObj.get("Result").toString();
+                    token = jsonObj.get("Token").toString();
+                    tv.setText(token);
+
+                }
+                catch(JSONException e)
+                {
+                    e.printStackTrace();
+                }
+                if(res == "true" && token != "") {
+                     Intent myIntent = new Intent(UserLog.this, MainActivity.class);
+                     UserLog.this.startActivity(myIntent);
+                }
+
+                }
+        });
+
+
+    }
     }
 
 

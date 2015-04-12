@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/ET_log_log"
             android:paddingTop="10dp"
             android:background="#ffffffff"
             android:layout_gravity="center_horizontal" />
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/ET_pass_log"
             android:paddingTop="10dp"
             android:background="#ffffffff"
             android:layout_gravity="center_horizontal" />
@@ -58,7 +58,8 @@
             android:layout_gravity="center_horizontal"
             android:singleLine="false"
             android:layout_marginTop="25dp"
-            android:background="#ffffc826" />
+            android:background="#ffffc826"
+            android:onClick="loginButtonOnClick" />
 
     </LinearLayout>
 
