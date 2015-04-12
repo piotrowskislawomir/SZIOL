@@ -31,7 +31,7 @@ import sziolmobile.RestService;
     private EditText log;
     private EditText pass;
     String res = "";
-    String token ="";
+    public static String token ="";
 
 
     @Override
@@ -92,8 +92,14 @@ import sziolmobile.RestService;
                     e.printStackTrace();
                 }
                 if(res == "true" && token != "") {
-                     Intent myIntent = new Intent(UserLog.this, MainActivity.class);
-                     UserLog.this.startActivity(myIntent);
+             //        Intent myIntent = new Intent(UserLog.this, MainActivity.class);
+              //       UserLog.this.startActivity(myIntent);
+               //      UserLog.this.onStop();
+
+                    Intent intent = new Intent(UserLog.this, MainMenu.class);
+                 //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
                 }
 
                 }

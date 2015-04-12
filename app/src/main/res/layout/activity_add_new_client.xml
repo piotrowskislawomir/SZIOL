@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Imię"
+        android:ems="10"
+        android:id="@+id/ET_new_client_name"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Nazwisko"
+        android:ems="10"
+        android:id="@+id/ET_new_client_last_name"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/ET_new_client_address"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Adres" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/ET_new_client_phone_number"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Numer telefonu" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/ET_new_client_emial"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Adres email" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DODAJ KLIENTA"
+        android:id="@+id/button13"
+        android:onClick="addNewClientButtonOnClick" />
+
+</LinearLayout>

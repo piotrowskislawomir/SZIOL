@@ -44,21 +44,32 @@ public class UserReg extends Activity {
 
 
     public void registerButtonOnClick(View v) {
-        final User newUser = new User(login.getText().toString(), pass.getText().toString(), firstName.getText().toString(), lastName.getText().toString());
-        final String teamKeyActivity = teamKey.getText().toString();
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        // equals ignore ?>>>
+        if(pass.getText().toString().equalsIgnoreCase(pass2.getText().toString())) {
+            final User newUser = new User(login.getText().toString(), pass.getText().toString(), firstName.getText().toString(), lastName.getText().toString());
+            final String teamKeyActivity = teamKey.getText().toString();
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
-        runOnUiThread(new Runnable() {
-            public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
-                restService.SendClientRegistry(newUser, Integer.parseInt(teamKeyActivity));
-                Intent myIntent = new Intent(UserReg.this, UserLog.class);
-                UserReg.this.startActivity(myIntent);
-            }
-        });
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                    RestService restService = new RestService(restClientService);
+                    restService.SendClientRegistry(newUser, Integer.parseInt(teamKeyActivity));
+                    Intent myIntent = new Intent(UserReg.this, UserLog.class);
+                    UserReg.this.startActivity(myIntent);
+                }
+            });
+        }
+        else
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "hasła są różne!";
+            int duration = Toast.LENGTH_SHORT;
 
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
 
     }
 }

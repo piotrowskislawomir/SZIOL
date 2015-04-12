@@ -1,10 +1,12 @@
 package sziolmobile;
 
+import com.example.slawek.sziolmobile.UserLog;
 import com.example.slawek.sziolmobile.UserReg;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import Models.Client;
 import Models.User;
 
 /**
@@ -12,9 +14,10 @@ import Models.User;
  */
 
 public class RestService {
-    public final RestClientService _restClientService;
+    public RestClientService _restClientService;
     public final String CoordinateResource = "coordinates";
     public final String Users = "Users";
+    public final String Customers = "Customers";
 
     public RestService(RestClientService restClientService)
     {
@@ -42,6 +45,8 @@ public class RestService {
     {
         JSONObject jsonData = new JSONObject();
         try {
+            //jsonData.put("UserName", "alfred1999");
+            //jsonData.put("Password", "alf1999");
             jsonData.put("UserName", login);
             jsonData.put("Password", pass);
         }
@@ -49,6 +54,37 @@ public class RestService {
         {}
         _restClientService.PutPost(Users, jsonData.toString());
         //UserReg.tv.setText(err);
+    }
+
+
+    public void GetAllClients()
+    {
+      //  JSONObject jsonData = new JSONObject();
+   //     try {
+   //         jsonData.put("FirstName", client.getFirstName());
+    //        jsonData.put("LastName", client.getLastName());
+     //       jsonData.put("Address", client.getAddress());
+      //  }
+       // catch (JSONException jex)
+      //  {}
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.GetPost(Customers);
+    }
+
+
+
+    public void AddNewClient(Client client)
+    {
+        JSONObject jsonData = new JSONObject();
+        try {
+            jsonData.put("FirstName", client.getFirstName());
+            jsonData.put("LastName", client.getLastName());
+            jsonData.put("Address", client.getAddress());
+        }
+        catch (JSONException jex)
+        {}
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.SendPost(Customers, jsonData.toString());
     }
 
     public void SendLocation(Integer workerId, String longitude, String latitude)
