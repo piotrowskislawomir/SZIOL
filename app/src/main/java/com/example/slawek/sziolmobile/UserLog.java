@@ -41,6 +41,8 @@ import sziolmobile.RestService;
 
         log = (EditText)findViewById(R.id.ET_log_log);
         pass = (EditText)findViewById(R.id.ET_pass_log);
+
+
         }
 
 
@@ -78,15 +80,16 @@ import sziolmobile.RestService;
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
                 restService.SendClientLogin(log.getText().toString(), pass.getText().toString());
-            TextView tv = (TextView)findViewById(R.id.textView3);
+                //restService.GetClientById(2);
+
+                TextView tv = (TextView)findViewById(R.id.textView3);
 
                 try {
                     JSONObject jsonObj = new JSONObject(RestClientService.resp);
                     res = jsonObj.get("Result").toString();
                     token = jsonObj.get("Token").toString();
-                    tv.setText(token);
-
-                }
+                 //   tv.setText(token);
+                 }
                 catch(JSONException e)
                 {
                     e.printStackTrace();

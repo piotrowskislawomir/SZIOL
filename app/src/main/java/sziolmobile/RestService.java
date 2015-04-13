@@ -1,5 +1,6 @@
 package sziolmobile;
 
+import com.example.slawek.sziolmobile.Order;
 import com.example.slawek.sziolmobile.UserLog;
 import com.example.slawek.sziolmobile.UserReg;
 
@@ -18,6 +19,8 @@ public class RestService {
     public final String CoordinateResource = "coordinates";
     public final String Users = "Users";
     public final String Customers = "Customers";
+    public final String Tickets = "Tickets";
+
 
     public RestService(RestClientService restClientService)
     {
@@ -38,40 +41,31 @@ public class RestService {
         catch (JSONException jex)
         {}
         _restClientService.SendPost(Users, jsonData.toString());
-        //UserReg.tv.setText(err);
     }
 
     public void SendClientLogin(String login, String pass)
     {
         JSONObject jsonData = new JSONObject();
         try {
-            //jsonData.put("UserName", "alfred1999");
-            //jsonData.put("Password", "alf1999");
             jsonData.put("UserName", login);
             jsonData.put("Password", pass);
         }
         catch (JSONException jex)
         {}
         _restClientService.PutPost(Users, jsonData.toString());
-        //UserReg.tv.setText(err);
     }
 
-
-    public void GetAllClients()
+    public void GetClientById(int id)
     {
-      //  JSONObject jsonData = new JSONObject();
-   //     try {
-   //         jsonData.put("FirstName", client.getFirstName());
-    //        jsonData.put("LastName", client.getLastName());
-     //       jsonData.put("Address", client.getAddress());
-      //  }
-       // catch (JSONException jex)
-      //  {}
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.GetPost(Customers+"/"+id);
+    }
+
+    public void GetAllClients() // co jesli inne gruby zawodowe ???
+    {
         _restClientService.SetToken(UserLog.token);
         _restClientService.GetPost(Customers);
     }
-
-
 
     public void AddNewClient(Client client)
     {
@@ -86,6 +80,51 @@ public class RestService {
         _restClientService.SetToken(UserLog.token);
         _restClientService.SendPost(Customers, jsonData.toString());
     }
+
+    public void AddNewOrder(Order order)
+    {
+        JSONObject jsonData = new JSONObject();
+        try {
+            jsonData.put("Title", order.getTitle());
+            jsonData.put("Description", order.getDescription());
+            jsonData.put("Status", order.getStatus());
+            jsonData.put("CustomerId", order.getCustomerId());
+        }
+        catch (JSONException jex)
+        {}
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.SendPost(Tickets, jsonData.toString());
+    }
+
+    public void AddOrder(Order order)
+    {
+        JSONObject jsonData = new JSONObject();
+        try {
+            jsonData.put("Title", order.getTitle());
+            jsonData.put("Description", order.getDescription());
+            jsonData.put("Status", order.getStatus());
+            jsonData.put("CustomerId", order.getCustomerId());
+        }
+        catch (JSONException jex)
+        {}
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.SendPost(Tickets, jsonData.toString());
+    }
+
+    public void GetAllOrders() // co jesli inne gruby zawodowe ???
+    {
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.GetPost(Tickets);
+    }
+
+    public void GetOrder(int id) // co jesli inne gruby zawodowe ???
+    {
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.GetPost(Tickets+"/"+id);
+    }
+
+
+
 
     public void SendLocation(Integer workerId, String longitude, String latitude)
     {
