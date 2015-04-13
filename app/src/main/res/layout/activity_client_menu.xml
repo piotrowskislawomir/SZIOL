@@ -3,13 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@mipmap/layout_v1">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="445dp"
         android:id="@+id/LV_clients"
-        android:layout_weight="0.89" />
+        android:layout_weight="0.89"
+        android:textColor="#fffffffa"
+        android:layout_marginTop="40dp" />
 
     <TableRow
         android:layout_width="match_parent"
@@ -18,10 +21,12 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="51dp"
             android:text="DODAJ KLIENTA"
             android:id="@+id/button12"
             android:onClick="senderAddClientButtonOnClick"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:background="@mipmap/button_v1"
+            android:textColor="#ffffffff" />
     </TableRow>
 </LinearLayout>

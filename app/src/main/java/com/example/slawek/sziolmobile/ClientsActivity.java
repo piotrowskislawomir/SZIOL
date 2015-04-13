@@ -42,6 +42,17 @@ public class ClientsActivity extends Activity{
         AddClientsToListView();
     }
 
+
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        //When BACK BUTTON is pressed, the activity on the stack is restarted
+        //Do what you want on the refresh procedure here
+        super.onResume();
+        AddClientsToListView();
+    }
+
     private void AddClientsToListView()
     {
         listAdapter = new ArrayList<String>();
@@ -79,11 +90,12 @@ public class ClientsActivity extends Activity{
     }
     public void senderAddClientButtonOnClick(View v)
     {
-
+       // Intent i = new Intent(this, SecondActivity.class);
+       // startActivityForResult(i, 1);
         Intent intent = new Intent(ClientsActivity.this, NewClient.class);
         //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        finish();
+       // finish();
 
     }
 }

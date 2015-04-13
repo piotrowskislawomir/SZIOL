@@ -1,63 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/layout_v1">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Imię"
-        android:ems="10"
-        android:id="@+id/ET_new_client_name"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="20dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="60dp">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Nazwisko"
-        android:ems="10"
-        android:id="@+id/ET_new_client_last_name"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="20dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Imię"
+            android:ems="10"
+            android:id="@+id/ET_new_client_name"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#fffffffa" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/ET_new_client_address"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:text="Adres" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Nazwisko"
+            android:ems="10"
+            android:id="@+id/ET_new_client_last_name"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#fffffffa" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:id="@+id/ET_new_client_phone_number"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:text="Numer telefonu" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
+            android:ems="10"
+            android:id="@+id/ET_new_client_address"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Adres"
+            android:textColor="#fffffffa" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/ET_new_client_emial"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:text="Adres email" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/ET_new_client_phone_number"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Numer telefonu"
+            android:textColor="#fffffffa" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DODAJ KLIENTA"
-        android:id="@+id/button13"
-        android:onClick="addNewClientButtonOnClick" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/ET_new_client_emial"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Adres email"
+            android:textColor="#fffffffa" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:text="DODAJ KLIENTA"
+            android:id="@+id/button13"
+            android:onClick="addNewClientButtonOnClick"
+            android:background="@mipmap/button_v1"
+            android:textColor="#fffffffa"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
 
 </LinearLayout>

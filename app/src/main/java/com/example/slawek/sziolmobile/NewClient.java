@@ -52,8 +52,8 @@ public class NewClient extends Activity {
         }
         });
 
-        Intent intent = new Intent(NewClient.this, MainMenu.class);
-        //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+       Intent intent = new Intent(NewClient.this, MainMenu.class);
+           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
 

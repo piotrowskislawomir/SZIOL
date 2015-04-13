@@ -78,6 +78,7 @@ public class MainMenu extends Activity{
         });
 
 
+
         Intent intent = new Intent(MainMenu.this, ClientsActivity.class);
         //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
