@@ -21,13 +21,23 @@
             android:label="@string/app_name"
 >
 
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OrdersActivity"
+            android:label="@string/app_name">
+         </activity>
+        <activity
+            android:name=".OrdersActivitySettings"
+            android:label="@string/app_name">
+        </activity>
         <activity android:name=".NotificationReciver"></activity>
+        <activity android:name=".CardItems"></activity>
 
         <activity
             android:name=".UserLog"
@@ -48,9 +58,7 @@
         <activity
             android:name=".EditClientActivity">
         </activity>
-        <activity
-            android:name=".OrdersActivity">
-        </activity>
+
 
         <activity
             android:name=".UserReg"

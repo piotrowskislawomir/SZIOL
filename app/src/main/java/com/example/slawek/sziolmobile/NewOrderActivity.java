@@ -30,11 +30,6 @@ public class NewOrderActivity extends Activity {
         status = (EditText)findViewById(R.id.ET_order_status);
         cl = ClientsActivitySettings.cl;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
-
     }
 
     public void addNewOrderActivityOnClick(View v)

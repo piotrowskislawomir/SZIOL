@@ -10,6 +10,8 @@ public class Order {
     private String status;
     private int customerId;
     private String id;
+    private String executorId;
+    private boolean assignToTicket;
 
     public Order(String id, String title) {
         this.title = title;
@@ -24,14 +26,20 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public Order (String id, String title, String description, String status, int customerId) {
+    public Order (String id, String title, String description, String status, int customerId, String executorId, boolean assignToTicket) {
        this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
         this.customerId = customerId;
+        this.executorId = executorId;
+        this.assignToTicket = assignToTicket;
     }
-        public String getId(){ return id; }
+
+    public String getExecutorId(){ return executorId; }
+    public boolean getAssignToTicket(){ return assignToTicket; }
+
+    public String getId(){ return id; }
         public String getTitle(){ return title; }
         public String getDescription(){ return description; }
         public String getStatus(){ return status; }

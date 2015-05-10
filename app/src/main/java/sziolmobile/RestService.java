@@ -221,6 +221,11 @@ public class RestService {
             jsonData.put("CustomerId", order.getCustomerId());
             jsonData.put("Status", order.getStatus());
             jsonData.put("Title", order.getTitle());
+            jsonData.put("ExecutorId", order.getExecutorId());
+            jsonData.put("AssignToTicket", order.getAssignToTicket());
+
+
+
             // ?????????
             //    jsonData.put("HomeNo", client.getHomeNumber());
             //    jsonData.put("FlatNo", client.getFlatNumber());
@@ -229,7 +234,7 @@ public class RestService {
         } catch (JSONException jex) {
         }
         _restClientService.SetToken(UserLog.token);
-        _restClientService.PutPost(Customers + "/" + id, jsonData.toString());
+        _restClientService.PutPost(Tickets + "/" + id, jsonData.toString());
     }
 
       public void AddCoordinate(Coordinate coordinate)
@@ -263,6 +268,12 @@ public class RestService {
     }
 
 
+    public void GetMyCard()
+    {
+        //  Url: http://s384027.iis.wmi.amu.edu.pl/api/Cards/1?token=1234
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.GetPost(Cards+"/"+"0");
+    }
 
     public void GetCard(int workerId)
     {

@@ -22,6 +22,7 @@ public class MainMenu extends Activity{
 
    public static JSONArray clients;
     public static JSONArray orders;
+    public static JSONArray cardsItems;
 
 
     @Override
@@ -112,6 +113,43 @@ public class MainMenu extends Activity{
 
 
     }
+
+    public void myCardMenuButtonOnClick(View v)
+    {
+        Intent intent = new Intent(MainMenu.this, CardItems.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+        //      Button btn = (Button)findViewById(R.id.button7);
+        //     btn.setText(RestClientService.resp);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+                restService.GetMyCard();
+                try {
+                    cardsItems = new JSONArray(RestClientService.resp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+
+
+        //    Intent intent = new Intent(MainMenu.this, OrdersActivity.class);
+        //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //   startActivity(intent);
+        // finish();
+
+
+    }
+
 
     public void getClientsButtonOnClick(View v)
     {

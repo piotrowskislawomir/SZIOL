@@ -59,12 +59,12 @@
             <Button
                 android:layout_width="132dp"
                 android:layout_height="118dp"
-                android:text="Opcja 4"
+                android:text="MÓJ KOSZYK"
                 android:id="@+id/button8"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:background="@mipmap/button_v1"
-                android:onClick="getClientsButtonOnClick"
+                android:onClick="myCardMenuButtonOnClick"
                 android:textColor="#ffffffff" />
         </TableRow>
 

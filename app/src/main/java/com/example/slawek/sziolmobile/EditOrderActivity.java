@@ -55,7 +55,7 @@ public class EditOrderActivity extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                   // tu zmiana     restService.EditOrder(ClientsActivitySettings.cl.getId(), );
+               //  restService.EditOrder(ClientsActivitySettings.cl.getId(), );
 
 
                 TextView tv = (TextView) findViewById(R.id.textView3);

@@ -108,8 +108,8 @@ public class OrdersActivity extends Activity {
                     or =   (Order)(lv.getItemAtPosition(position));
 
 
-                    Intent myIntent = new Intent(view.getContext(), OrdersActivitySettings.class);
-                    OrdersActivity.this.startActivityForResult(myIntent, 0);
+    Intent myIntent = new Intent(view.getContext(), OrdersActivitySettings.class);
+    OrdersActivity.this.startActivityForResult(myIntent, 0);
 
                     //   int color = parent.getAdapter().getItem(position);
 
