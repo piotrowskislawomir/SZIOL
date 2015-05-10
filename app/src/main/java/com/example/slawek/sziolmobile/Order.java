@@ -9,14 +9,16 @@ public class Order {
     private String description;
     private String status;
     private int customerId;
+    private String id;
 
-    public Order (String title, String description, String status, int customerId) {
+    public Order (String id, String title, String description, String status, int customerId) {
+       this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
         this.customerId = customerId;
     }
-
+        public String getId(){ return id; }
         public String getTitle(){ return title; }
         public String getDescription(){ return description; }
         public String getStatus(){ return status; }

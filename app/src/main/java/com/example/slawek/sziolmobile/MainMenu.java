@@ -79,12 +79,12 @@ public class MainMenu extends Activity{
     }
     public void orderMenuButtonOnClick(View v)
     {
-        //     Intent intent = new Intent(MainMenu.this, NewClient.class);
-        //    //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //   startActivity(intent);
-        //finish();
-        //   Button btn = (Button)findViewById(R.id.button7);
-        //  btn.setText(RestClientService.resp);
+             Intent intent = new Intent(MainMenu.this, OrdersActivity.class);
+               intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           startActivity(intent);
+        finish();
+     //      Button btn = (Button)findViewById(R.id.button7);
+     //     btn.setText(RestClientService.resp);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -105,9 +105,9 @@ public class MainMenu extends Activity{
 
 
 
-        Intent intent = new Intent(MainMenu.this, OrdersActivity.class);
+    //    Intent intent = new Intent(MainMenu.this, OrdersActivity.class);
         //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+     //   startActivity(intent);
        // finish();
 
 

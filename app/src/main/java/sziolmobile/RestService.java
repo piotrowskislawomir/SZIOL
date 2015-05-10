@@ -189,6 +189,14 @@ public class RestService {
 
     }
 
+
+    public void GetCards()
+    {
+        // Url: http://s384027.iis.wmi.amu.edu.pl/api/Cards?token=1234
+        _restClientService.SetToken(UserLog.token);
+        _restClientService.GetPost(Cards);
+    }
+
     public void EditOrder(int id, Order order) {
         //13.	Edycja zgłoszenia
         // Typ: put
@@ -255,18 +263,12 @@ public class RestService {
     }
 
 
-    public void GetCards() // koszyk teamu
-    {
-      //  Url: http://s384027.iis.wmi.amu.edu.pl/api/Cards?token=1234
-        _restClientService.SetToken(UserLog.token);
-        _restClientService.GetPost(Cards);
-    }
 
-    public void GetCard(int id) // po id
+    public void GetCard(int workerId)
     {
         //  Url: http://s384027.iis.wmi.amu.edu.pl/api/Cards/1?token=1234
         _restClientService.SetToken(UserLog.token);
-        _restClientService.GetPost(Cards+"/"+id);
+        _restClientService.GetPost(Cards+"/"+workerId);
     }
 
 

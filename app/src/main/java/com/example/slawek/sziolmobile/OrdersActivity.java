@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,15 +71,18 @@ public class OrdersActivity extends Activity {
         {
             try {
                 JSONObject jsonObj = MainMenu.orders.getJSONObject(i);
+                id = jsonObj.get("Id").toString();
                 title = jsonObj.get("Title").toString();
-                description = jsonObj.get("Title").toString();
+                description = jsonObj.get("Description").toString();
                 status = jsonObj.get("Status").toString();
                customerId = jsonObj.get("CustomerId").toString();
 
 
-                ordersList.add(new Order(title.toString(), description.toString(), status.toString(), Integer.parseInt(customerId.toString())));
+                ordersList.add(new Order(id.toString(), title.toString(), description.toString(), status.toString(), Integer.parseInt(customerId.toString())));
                 //  clientsList.add(new Client(clientId, firstName, lastName, address));
               //  listAdapter.add(firstName+" "+lastName+"\n"+address);
+             //   Toast.makeText(getApplicationContext(), ordersList.get(1),Toast.LENGTH_LONG, );
+
             }
             catch(JSONException e)
             {
