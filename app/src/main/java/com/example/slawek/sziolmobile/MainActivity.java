@@ -1,29 +1,150 @@
 package com.example.slawek.sziolmobile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import sziolmobile.RestClientService;
 import sziolmobile.RestService;
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class MainActivity extends ActionBarActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    Timer timer;
+    TimerTask timerTask;
+    GpsLocalizator gps;
 
-        setContentView(R.layout.activity_main);
+    final Handler handler = new Handler();
+
+ //   @Override
+  //  protected void onResume() {
+   //     super.onResume();
+
+     //   startTimer();
+    //}
+
+    public void startTimer() {
+        timer = new Timer();
+        //initializeTimerTask();
+        timer.schedule(timerTask, 5000, 10000); //
     }
+
+    public void stoptimertask(View v) {
+        //stop the timer, if it's not already null
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    /*
+    public void initializeTimerTask() {
+        timerTask = new TimerTask() {
+            public void run() {
+                //use a handler to run a toast that shows the current timestamp
+                handler.post(new Runnable() {
+                    public void run() {
+                        //get the current timeStamp
+
+                        getLocation();
+                    }
+                });
+            }
+        };
+    }
+*/
+
+private void Alert()
+{
+    new AlertDialog.Builder(this)
+            .setTitle("Zadanie")
+            .setMessage("Czy przyjmujesz zadanie?")
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // continue with delete
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // do nothing
+                }
+            })
+                    // .setIcon(android.R.drawable.ic_dialog_alert)
+            .show();
+}
+
+    private void startMyService() {
+        Intent serviceIntent = new Intent(this, GpsService.class);
+        startService(serviceIntent);
+    }
+
+    private void stopMyService() {
+        Intent serviceIntent = new Intent(this, GpsService.class);
+        stopService(serviceIntent);
+    }
+
+    private void startNotificationService() {
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        startService(serviceIntent);
+    }
+
+    private void stopNotificationService() {
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        stopService(serviceIntent);
+    }
+
+
+ @Override
+    protected void onCreate(Bundle savedInstanceState) {
+     super.onCreate(savedInstanceState);
+     setContentView(R.layout.activity_main);
+
+     //  startTimer();
+    startNotificationService();
+    // Alert();   // startGpsService();
+
+     ///////////////////
+
+
+
+
+
+/*
+   gps = new GpsTracker(MainActivity.this);
+
+        if(gps.canGetLocation())
+        {
+            double latitude = gps.getLatitude();
+            double longitiude = gps.getLongitude();
+           Toast.makeText(getBaseContext(), "Twoja lokalizacja to:" + latitude + " " + longitiude, Toast.LENGTH_LONG).show();
+       }
+      else
+      {
+          gps.showSettingAlert();
+      }
+*/
+     try
+     {
+     stopMyService();}
+     catch(Exception ex)
+     {}
+    startMyService();
+ }
+
+    //////
+
+
+
 
 
     @Override
@@ -42,7 +163,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+      //      Intent intent = new Intent(this, NotificationActivity.class);
+      //      startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -55,23 +177,42 @@ public class MainActivity extends ActionBarActivity {
 
         runOnUiThread(new Runnable() {
             public void run() {
-            RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-            RestService restService = new RestService(restClientService);
-            restService.SendLocation(1,"12.232323","12.42332");
-        }});
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+     //           restService.SendLocation(1, "12.232323", "12.42332");
+            }
+        });
     }
+
+    // przycisk logowanie
     public void buttonLogOnClick(View v)
     {
-      //  startActivity(new Intent("com.example.slawek.sziolmobile.UserLog"));
+     //   gps = new GpsTracker(MainActivity.this);
+
+     //   if(gps.canGetLocation())
+     //   {
+     //       double latitude = gps.getLatitude();
+     //       double longitiude = gps.getLongitude();
+      //      Toast.makeText(getApplicationContext(), "Twoja lokalizacja to:" + latitude + " " + longitiude, Toast.LENGTH_LONG).show();
+      //  }
+       // else
+       // {
+       //     gps.showSettingAlert();
+       // }
+
+        //
         Intent myIntent = new Intent(MainActivity.this, UserLog.class);
         MainActivity.this.startActivity(myIntent);
     }
 
+    // przycisk rejestracja
     public void buttonRegOnClick(View v)
     {
         //  startActivity(new Intent("com.example.slawek.sziolmobile.UserLog"));
         Intent myIntent = new Intent(MainActivity.this, UserReg.class);
         MainActivity.this.startActivity(myIntent);
     }
+
+
 
 }

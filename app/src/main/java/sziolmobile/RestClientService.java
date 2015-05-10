@@ -3,6 +3,7 @@ package sziolmobile;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -66,8 +67,28 @@ public class RestClientService {
         {}
 
         return -1;
+    }
 
+    public int DeletePost(String resource)
+    {
+        try {
+            HttpDelete req = new HttpDelete(_serviceUrl + resource + _token);
+            req.setHeader("Content-type", "application/json");
+          //  req.setEntity(new ByteArrayEntity(jsonData.getBytes("UTF8")));
+            HttpResponse res = client.execute(req);
+//
+            resp = Userrequest(res);
 
+            return res.getStatusLine().getStatusCode();
+        }
+        catch (UnsupportedEncodingException ueex)
+        {}
+        catch (ClientProtocolException cpex)
+        {}
+        catch (IOException ioex)
+        {}
+
+        return -1;
     }
 
     public int GetPost(String resource)

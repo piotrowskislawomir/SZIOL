@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.slawek.sziolmobile" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
@@ -10,6 +12,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <service android:name=".GpsService"></service>
+        <service android:name=".NotificationService"></service>
+
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -21,6 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".NotificationReciver"></activity>
+
         <activity
             android:name=".UserLog"
           android:label="@string/app_name" >
@@ -31,6 +39,19 @@
                  </intent-filter>
                  -->
         </activity>
+        <activity
+            android:name=".ClientsActivitySettings">
+         </activity>
+        <activity
+            android:name=".NewOrderActivity">
+        </activity>
+        <activity
+            android:name=".EditClientActivity">
+        </activity>
+        <activity
+            android:name=".OrdersActivity">
+        </activity>
+
         <activity
             android:name=".UserReg"
             android:label="@string/app_name" >

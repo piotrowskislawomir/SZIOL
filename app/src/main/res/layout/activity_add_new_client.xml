@@ -35,12 +35,20 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Miasto"
+            android:ems="10"
+            android:id="@+id/ET_new_client_city" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="textPostalAddress"
             android:ems="10"
-            android:id="@+id/ET_new_client_address"
+            android:id="@+id/ET_new_client_street"
             android:paddingBottom="10dp"
             android:layout_marginTop="20dp"
-            android:text="Adres"
+            android:text="Ulica"
             android:textColor="#fffffffa" />
 
         <EditText
@@ -48,10 +56,10 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
-            android:id="@+id/ET_new_client_phone_number"
+            android:id="@+id/ET_client_home_number"
             android:paddingBottom="10dp"
             android:layout_marginTop="20dp"
-            android:text="Numer telefonu"
+            android:text="Numer domu"
             android:textColor="#fffffffa" />
 
         <EditText
@@ -59,10 +67,10 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/ET_new_client_emial"
+            android:id="@+id/ET_new_client_flat_number"
             android:paddingBottom="10dp"
             android:layout_marginTop="20dp"
-            android:text="Adres email"
+            android:text="Numer mieszkania"
             android:textColor="#fffffffa" />
 
         <Button

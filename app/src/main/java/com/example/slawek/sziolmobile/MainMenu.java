@@ -12,7 +12,6 @@ import android.widget.Button;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import Models.User;
 import sziolmobile.RestClientService;
 import sziolmobile.RestService;
 
@@ -22,6 +21,8 @@ import sziolmobile.RestService;
 public class MainMenu extends Activity{
 
    public static JSONArray clients;
+    public static JSONArray orders;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +52,13 @@ public class MainMenu extends Activity{
         return super.onOptionsItemSelected(item);
     }
 
-    public void clientMenuButtonOnClick(View v)
-    {
-   //     Intent intent = new Intent(MainMenu.this, NewClient.class);
-    //    //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-     //   startActivity(intent);
-        //finish();
-     //   Button btn = (Button)findViewById(R.id.button7);
-      //  btn.setText(RestClientService.resp);
+    public void clientMenuButtonOnClick(View v) {
+            Intent intent = new Intent(MainMenu.this, ClientsActivity.class);
+           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           startActivity(intent);
+        finish();
+          Button btn = (Button)findViewById(R.id.button7);
+         btn.setText(RestClientService.resp);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -67,9 +67,35 @@ public class MainMenu extends Activity{
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetAllClients();
+                restService.GetAllCustomers();
                 try {
                     clients = new JSONArray(RestClientService.resp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+    public void orderMenuButtonOnClick(View v)
+    {
+        //     Intent intent = new Intent(MainMenu.this, NewClient.class);
+        //    //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //   startActivity(intent);
+        //finish();
+        //   Button btn = (Button)findViewById(R.id.button7);
+        //  btn.setText(RestClientService.resp);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+                restService.GetAllOrders();
+                try {
+                    orders = new JSONArray(RestClientService.resp);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -79,7 +105,7 @@ public class MainMenu extends Activity{
 
 
 
-        Intent intent = new Intent(MainMenu.this, ClientsActivity.class);
+        Intent intent = new Intent(MainMenu.this, OrdersActivity.class);
         //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
        // finish();
@@ -101,7 +127,7 @@ public class MainMenu extends Activity{
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetAllClients();
+                restService.GetAllCustomers();
                 try {
                      clients = new JSONArray(RestClientService.resp);
                 } catch (JSONException e) {
