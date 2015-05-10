@@ -30,7 +30,6 @@ public class NewOrderActivity extends Activity {
         status = (EditText)findViewById(R.id.ET_order_status);
         cl = ClientsActivitySettings.cl;
 
-        ord = new Order(title.toString(), description.toString(), status.toString(), Integer.parseInt(cl.getId()));
 
 
     }
