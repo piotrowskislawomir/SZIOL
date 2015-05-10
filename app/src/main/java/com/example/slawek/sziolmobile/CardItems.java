@@ -21,14 +21,17 @@ import Models.Client;
  * Created by Michał on 2015-05-10.
  */
 public class CardItems extends Activity {
+
+    String title;
     String cardId;
-    String firstName;
-    String lastName;
 
-    public static Card card;
+    //String firstName;
+    //String lastName;
+
+    public static Order card;
 
 
-    List<Card> cardList;
+    List<Order> cardList;
     ListView lv;
     Client client;
     ArrayAdapter<String> adapter;
@@ -55,20 +58,19 @@ public class CardItems extends Activity {
 
     private void AddItemsFromCardToListView()
     {
-        cardList =  new ArrayList<Card>();
+        cardList =  new ArrayList<Order>();
 
         for(int i=0; i<MainMenu.cardsItems.length(); i++)
         {
             try {
                 JSONObject jsonObj = MainMenu.cardsItems.getJSONObject(i);
-                cardId = jsonObj.get("CardId").toString();
-                firstName = jsonObj.get("FirstName").toString();
-                lastName = jsonObj.get("LastName").toString();
+                cardId = jsonObj.get("Id").toString();
+                title = jsonObj.get("Title").toString();
                 //            status = jsonObj.get("Status").toString();
                 //           customerId = jsonObj.get("CustomerId").toString();
 
 
-                cardList.add(new Card(Integer.parseInt(cardId), firstName.toString(), lastName.toString()));
+                cardList.add(new Order(cardId.toString(), title.toString()));
 
             }
             catch(JSONException e)
@@ -79,7 +81,7 @@ public class CardItems extends Activity {
             //       adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listAdapter);
             //       lv.setAdapter(adapter);
 
-            ArrayAdapter<Card> adapt = new ArrayAdapter<Card>(this,
+            ArrayAdapter<Order> adapt = new ArrayAdapter<Order>(this,
                     android.R.layout.simple_list_item_1, cardList);
 
             lv.setAdapter(adapt);
