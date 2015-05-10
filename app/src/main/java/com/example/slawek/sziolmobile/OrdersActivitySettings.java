@@ -94,14 +94,14 @@ public class OrdersActivitySettings extends Activity {
                 restService.EditOrder(Integer.parseInt(id), order);
 
 
-                TextView tv = (TextView) findViewById(R.id.textView3);
+              //  TextView tv = (TextView) findViewById(R.id.textView3);
 
             }
         });
 
-        Intent myIntent = new Intent(v.getContext(), EditOrderActivity.class);
+        /*Intent myIntent = new Intent(v.getContext(), EditOrderActivity.class);
         OrdersActivitySettings.this.startActivity(myIntent);
-        finish();
+        finish();*/
 
 
     }
