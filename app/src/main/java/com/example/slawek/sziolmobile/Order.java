@@ -11,6 +11,19 @@ public class Order {
     private int customerId;
     private String id;
 
+    public Order(String id, String title) {
+        this.title = title;
+        this.id = id;
+
+    }
+        public Order(String title,String description,String status,int customerId)
+    {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.customerId = customerId;
+    }
+
     public Order (String id, String title, String description, String status, int customerId) {
        this.id = id;
         this.title = title;
@@ -23,4 +36,8 @@ public class Order {
         public String getDescription(){ return description; }
         public String getStatus(){ return status; }
         public int getCustomerId(){ return customerId; }
+
+    public String toString() {
+        return this.title;
+    }
  }

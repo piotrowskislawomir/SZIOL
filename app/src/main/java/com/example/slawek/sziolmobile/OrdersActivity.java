@@ -74,11 +74,11 @@ public class OrdersActivity extends Activity {
                 id = jsonObj.get("Id").toString();
                 title = jsonObj.get("Title").toString();
                 description = jsonObj.get("Description").toString();
-                status = jsonObj.get("Status").toString();
-               customerId = jsonObj.get("CustomerId").toString();
+    //            status = jsonObj.get("Status").toString();
+    //           customerId = jsonObj.get("CustomerId").toString();
 
 
-                ordersList.add(new Order(id.toString(), title.toString(), description.toString(), status.toString(), Integer.parseInt(customerId.toString())));
+                ordersList.add(new Order(id.toString(), title.toString()));
                 //  clientsList.add(new Client(clientId, firstName, lastName, address));
               //  listAdapter.add(firstName+" "+lastName+"\n"+address);
              //   Toast.makeText(getApplicationContext(), ordersList.get(1),Toast.LENGTH_LONG, );
@@ -89,13 +89,13 @@ public class OrdersActivity extends Activity {
                 e.printStackTrace();
             }
 
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listAdapter);
-            lv.setAdapter(adapter);
+     //       adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listAdapter);
+     //       lv.setAdapter(adapter);
 
-            ArrayAdapter<Order> adap = new ArrayAdapter<Order>(this,
+            ArrayAdapter<Order> adapt = new ArrayAdapter<Order>(this,
                     android.R.layout.simple_list_item_1, ordersList);
 
-            lv.setAdapter(adap);
+            lv.setAdapter(adapt);
 
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
