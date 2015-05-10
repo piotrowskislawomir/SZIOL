@@ -10,10 +10,18 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Models.Client;
 import sziolmobile.RestClientService;
 import sziolmobile.RestService;
 
@@ -24,34 +32,71 @@ public class NotificationService extends Service {
     private Timer timer;
     private TimerTask timerTask;
 
+    public static JSONArray notifications;
+    RestService restService;
+    public NotificationService()
+    {
+        RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+        restService = new RestService(restClientService);
+    }
 
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
-            RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-            RestService restService = new RestService(restClientService);
+
             restService.GetNotifications();
-            Alert();
+            try {
+                notifications = new JSONArray(RestClientService.resp);
+                ProcessNotifications();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
          }
 
     }
 
-    private void Alert()
+    private void ProcessNotifications() {
+        String id;
+        String title;
+        String description;
+        String ticketId;
+
+        for (int i = 0; i < notifications.length(); i++) {
+            try {
+                JSONObject jsonObj = notifications.getJSONObject(i);
+                id = jsonObj.get("Id").toString();
+                title = jsonObj.get("Title").toString();
+                description = jsonObj.get("Description").toString();
+                ticketId = jsonObj.get("TicketId").toString();
+
+                Notify(title, description, ticketId);
+                restService.DeleteNotification(Integer.parseInt(id));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    private void Notify(String title, String description, String ticketId)
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        final NotificationManager mgr=
+                (NotificationManager)this.getSystemService(getBaseContext().NOTIFICATION_SERVICE);
+        Notification note=new Notification(R.drawable.abc_ab_share_pack_holo_dark,
+                title,
+                System.currentTimeMillis());
 
+        // This pending intent will open after notification click
+        PendingIntent i=PendingIntent.getActivity(this, 0,
+                new Intent(this, NotificationReciver.class),
+                0);
 
-        Notification n  = new Notification.Builder(this)
-                .setContentTitle("New mail from " + "test@gmail.com")
-                .setContentText("Subject")
-                .setContentIntent(pIntent).build();
+        note.setLatestEventInfo(this, title,
+                description + " : " + ticketId,  i);
 
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        notificationManager.notify(1, n);
+        mgr.notify(2, note);
     }
 
     private void writeToLogs(String message) {

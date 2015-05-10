@@ -30,12 +30,17 @@ public class NewOrderActivity extends Activity {
         status = (EditText)findViewById(R.id.ET_order_status);
         cl = ClientsActivitySettings.cl;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 
     }
 
     public void addNewOrderActivityOnClick(View v)
     {
+        ord = new Order(title.getText().toString(), description.getText().toString(), "C", Integer.parseInt(cl.getId()));
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -44,10 +49,6 @@ public class NewOrderActivity extends Activity {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
                 restService.AddNewOrder(ord);
-
-
-
-
             }
         });
 
