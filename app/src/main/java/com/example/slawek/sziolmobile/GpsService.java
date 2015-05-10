@@ -25,10 +25,6 @@ public class GpsService extends Service {
         private Timer timer;
         private TimerTask timerTask;
 
-        public GpsService()
-        {
-        }
-
         private class MyTimerTask extends TimerTask {
             @Override
             public void run() {
