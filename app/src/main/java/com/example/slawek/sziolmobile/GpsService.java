@@ -46,7 +46,7 @@ public class GpsService extends Service {
             super.onCreate();
             writeToLogs("Called onCreate() method.");
             gpsTracker=new GpsTracker(getApplicationContext());
-            gpsTracker.getLocation();
+
             timer = new Timer();
         }
 
@@ -55,6 +55,7 @@ public class GpsService extends Service {
             writeToLogs("Called onStartCommand() methond");
             clearTimerSchedule();
             initTask();
+            gpsTracker.getLocation();
             timer.scheduleAtFixedRate(timerTask,  1000, 2 * 10 * 1000);
             return super.onStartCommand(intent, flags, startId);
         }

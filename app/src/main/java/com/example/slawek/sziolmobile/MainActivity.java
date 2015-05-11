@@ -110,6 +110,12 @@ private void Alert()
      setContentView(R.layout.activity_main);
 
      //  startTimer();
+
+     try
+     {
+         stopNotificationService();
+     }
+     catch(Exception ex){}
     startNotificationService();
     // Alert();   // startGpsService();
 
