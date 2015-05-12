@@ -57,5 +57,5 @@
         android:text="Zapisz"
         android:id="@+id/BT_edit_client_save"
         android:layout_gravity="center_horizontal"
-        android:onClick="deleteClientOnClick" />
+        android:onClick="saveEditClientOnClick" />
 </LinearLayout>

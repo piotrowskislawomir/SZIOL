@@ -28,14 +28,18 @@ public class NewOrderActivity extends Activity {
         title = (EditText)findViewById(R.id.ET_order_title);
         description = (EditText)findViewById(R.id.ET_order_description);
         status = (EditText)findViewById(R.id.ET_order_status);
-        cl = ClientsActivitySettings.cl;
-
+        cl = ClientsActivitySettings.getSingleClient();
     }
 
     public void addNewOrderActivityOnClick(View v)
     {
+        /// tuuuuuuuuuuuuuu
+
         ord = new Order(title.getText().toString(), description.getText().toString(), "C", Integer.parseInt(cl.getId()));
 
+        //luka w bazie
+
+    //    ord = new Order("tytuł zlecenia", "opis jakis tam lalala", "C", 15);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 

@@ -24,7 +24,7 @@
         android:layout_height="75dp"
         android:text="Edytuj zgloszenie"
         android:id="@+id/BT_edit_order"
-        android:onClick="editOrderOnClick" />
+        android:onClick="editSingleOrderOnClick" />
 
     <Button
         android:layout_width="212dp"

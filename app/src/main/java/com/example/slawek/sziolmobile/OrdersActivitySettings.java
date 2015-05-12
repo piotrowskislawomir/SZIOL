@@ -25,9 +25,15 @@ public class OrdersActivitySettings extends Activity {
     public static Order or;
     JSONArray singleOrder;
     JSONObject jsonObj;
-    Order order;
+    static Order order;
 
-    String id, title, description, status, date, creatorId, executorId, customerId;
+    String id, title, description, status, date, creatorId, executorId, customerId, teamId;
+
+
+    public static Order getSingleOrderFromSettings()
+    {
+       return order;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,26 +64,31 @@ public class OrdersActivitySettings extends Activity {
             creatorId = jsonObj.get("CreatorId").toString();
             executorId = jsonObj.get("ExecutorId").toString();
             customerId = jsonObj.get("CustomerId").toString();
-            //
+            teamId = jsonObj.get("TeamId").toString();
+
+
         }
         catch(JSONException e){}
 
-         order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, true);
+        // order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, true);
+
+        order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, teamId, date, creatorId );
 
 
 
-
-                et = (EditText) findViewById(R.id.ET_orders_settings);
-        et.append(title.toString()+ "\n" + description.toString() + "\n" + date.toString());
+        et = (EditText) findViewById(R.id.ET_orders_settings);
+        et.append(title.toString()+ "\n" + description.toString() + "\n" + status.toString()+ "\n" + date.toString());
     }
 
-    public void editOrderOnClick(View v) {
+    public void editSingleOrderOnClick(View v) {
 
 
 
-        Intent myIntent = new Intent(v.getContext(), EditOrderActivity.class);
-        OrdersActivitySettings.this.startActivity(myIntent);
-        finish();
+        Intent myInt = new Intent(v.getContext(), EditOrderActivity.class);
+       // OrdersActivitySettings.this.startActivity(myInt);
+        startActivity(myInt);
+        this.finish();
+
 
 
 
@@ -115,7 +126,7 @@ public class OrdersActivitySettings extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-              //  restService.DeleteOrder(OrdersActivity.or.getId());
+               restService.DeleteTicket(Integer.parseInt(order.getId()));
 
 
                 //    TextView tv = (TextView) findViewById(R.id.textView3);
@@ -124,6 +135,9 @@ public class OrdersActivitySettings extends Activity {
         });
 
 
+        ////////////
+        ////////////
+        //////////////// TU ZMIENI I ODSWIEZAC WIDOK
         Intent myIntent = new Intent(v.getContext(), MainMenu.class);
         OrdersActivitySettings.this.startActivity(myIntent);
         finish();

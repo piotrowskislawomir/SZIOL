@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,14 +23,17 @@ import java.util.List;
 
 import Models.Client;
 import sziolmobile.RestClientService;
+import sziolmobile.RestService;
 
 /**
  * Created by Michał on 2015-04-12.
  */
 public class ClientsActivity extends Activity{
 
-    /////////////////
+    ///////////////
 
+    // noiwa aktualizacja
+    JSONArray clients;
      ///////////////////
 
     String firstName;
@@ -60,6 +65,25 @@ public class ClientsActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_menu);
         lv = (ListView)findViewById(R.id.LV_clients);
+        ////
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+                restService.GetAllCustomers();
+                try {
+                    clients = new JSONArray(RestClientService.resp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        ////
+
         AddClientsToListView();
     }
 
@@ -79,10 +103,10 @@ public class ClientsActivity extends Activity{
         listAdapter = new ArrayList<String>();
         clientsList =  new ArrayList<Client>();
 
-        for(int i=0; i<MainMenu.clients.length(); i++)
+        for(int i=0; i<clients.length(); i++)
         {
             try {
-                JSONObject jsonObj = MainMenu.clients.getJSONObject(i);
+                JSONObject jsonObj = clients.getJSONObject(i);
                 firstName = jsonObj.get("FirstName").toString();
                 lastName = jsonObj.get("LastName").toString();
                 address = jsonObj.get("Address").toString();

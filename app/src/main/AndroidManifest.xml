@@ -52,12 +52,11 @@
         <activity
             android:name=".ClientsActivitySettings">
          </activity>
+        <activity android:name=".EditClientActivity"></activity>
         <activity
             android:name=".NewOrderActivity">
         </activity>
-        <activity
-            android:name=".EditClientActivity">
-        </activity>
+        <activity android:name=".EditOrderActivity"></activity>
 
 
         <activity

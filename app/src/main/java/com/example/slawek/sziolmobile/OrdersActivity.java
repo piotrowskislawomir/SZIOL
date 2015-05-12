@@ -3,12 +3,14 @@ package com.example.slawek.sziolmobile;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Models.Client;
+import sziolmobile.RestClientService;
+import sziolmobile.RestService;
 
 /**
  * Created by Michał on 2015-05-10.
@@ -34,6 +38,8 @@ public class OrdersActivity extends Activity {
     String gpslat;  ///????
     String gpsLon;  ///????
 
+    JSONArray orders;
+
     public static Order or;
 
     List<String> listAdapter;
@@ -49,6 +55,24 @@ public class OrdersActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_menu);
         lv = (ListView)findViewById(R.id.LV_orders);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+                restService.GetAllOrders();
+                try {
+                    orders = new JSONArray(RestClientService.resp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
         AddOrdersToListView();
     }
 
@@ -63,14 +87,15 @@ public class OrdersActivity extends Activity {
         AddOrdersToListView();
     }
 
+
     private void AddOrdersToListView()
     {
         ordersList =  new ArrayList<Order>();
 
-        for(int i=0; i<MainMenu.orders.length(); i++)
+        for(int i=0; i<orders.length(); i++)
         {
             try {
-                JSONObject jsonObj = MainMenu.orders.getJSONObject(i);
+                JSONObject jsonObj = orders.getJSONObject(i);
                 id = jsonObj.get("Id").toString();
                 title = jsonObj.get("Title").toString();
                 description = jsonObj.get("Description").toString();
@@ -124,6 +149,17 @@ public class OrdersActivity extends Activity {
             // clientsList.add(clients)
         }
 
+
+    }
+
+    public void senderAddClientButtonOnClick(View v)
+    {
+        // Intent i = new Intent(this, SecondActivity.class);
+        // startActivityForResult(i, 1);
+        Intent intent = new Intent(OrdersActivity.this, NewOrderActivity.class);
+        //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        // finish();
 
     }
 

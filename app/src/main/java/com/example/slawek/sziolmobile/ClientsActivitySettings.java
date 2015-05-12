@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import Models.Client;
 import sziolmobile.RestClientService;
@@ -21,28 +22,85 @@ import sziolmobile.RestService;
 public class ClientsActivitySettings extends Activity {
 
     EditText et;
+    JSONObject jsonObj;
+
+    private static Client singleClient;
+    String id;
+    String firstName;
+    String lastName;
+    String address;
+    String teamId;
+    String team;
+    String city;
+    String street;
+    String homeNumber;
+    String flatNumber;
+    String gpsLatitude;
+    String gpsLongitude;
+
 
     public static Client  cl;
+
+    public static Client getSingleClient()
+    {
+        return singleClient;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_options);
 
-        cl = ClientsActivity.cl;
+      //  cl = ClientsActivity.cl;
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+                restService.GetClientById(Integer.parseInt(ClientsActivity.cl.getId()));
+           }
+        });
+
+        try {
+            jsonObj = new JSONObject(RestClientService.resp);
+            id = jsonObj.get("Id").toString();
+            firstName = jsonObj.get("FirstName").toString();
+            lastName = jsonObj.get("LastName").toString();
+            address = jsonObj.get("Address").toString();
+            teamId = jsonObj.get("TeamId").toString();
+            team = jsonObj.get("Team").toString();
+            city = jsonObj.get("City").toString();
+            street = jsonObj.get("Street").toString();
+            homeNumber = jsonObj.get("HomeNo").toString();
+            street = jsonObj.get("Street").toString();
+            flatNumber = jsonObj.get("FlatNo").toString();
+            gpsLatitude = jsonObj.get("GpsLatitude").toString();
+            gpsLongitude = jsonObj.get("GpsLongitude").toString();
+        }
+        catch(JSONException e){}
+
+        singleClient = new Client(id, firstName, lastName, city, street, homeNumber, flatNumber, gpsLatitude, gpsLongitude, teamId, team);
 
         et = (EditText) findViewById(R.id.ET_clients_settings);
-        et.append(ClientsActivity.cl.getFirstName() + " " + ClientsActivity.cl.getLastName() + "\n"
-                + ClientsActivity.cl.getStreet() + " " + ClientsActivity.cl.getHomeNumber() + " " + ClientsActivity.cl.getFlatNumber() + "\n" +
-                ClientsActivity.cl.getCity());
+        et.append("Imię: " + firstName + "\n" +
+                  "Nazwisko: " + lastName +"\n" +
+                  "Ulica " + street + "\n" +
+                  "Numer domu: " + homeNumber + "\n" +
+                  "Numer mieszkania: " + flatNumber + "\n" +
+                  "Miejscowość: " + city);
+
+
+
     }
 
     public void editClientOnClick(View v) {
         Intent myIntent = new Intent(v.getContext(), EditClientActivity.class);
         ClientsActivitySettings.this.startActivity(myIntent);
-        finish();
-
-
+       this.finish();
     }
 
     public void deleteClientOnClick(View v) {
@@ -74,6 +132,6 @@ public class ClientsActivitySettings extends Activity {
     {
         Intent myIntent = new Intent(v.getContext(), NewOrderActivity.class);
         ClientsActivitySettings.this.startActivity(myIntent);
-        finish();
+       // finish();
     }
 }

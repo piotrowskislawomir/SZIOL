@@ -12,12 +12,29 @@ public class Order {
     private String id;
     private String executorId;
     private boolean assignToTicket;
+    private String teamId;
+    private String date;
+    private String creatorId;
 
     public Order(String id, String title) {
         this.title = title;
         this.id = id;
 
     }
+
+    public Order(String id, String title, String description, String status, int customerId, String executorId, String teamId, String date, String creatorId)
+    {
+        this.title = title;
+        this.id = id;
+        this.description = description;
+        this.status = status;
+        this.customerId = customerId;
+        this.executorId = executorId;
+        this.teamId = teamId;
+        this.date = date;
+        this.creatorId = creatorId;
+    }
+
         public Order(String title,String description,String status,int customerId)
     {
         this.title = title;
@@ -48,4 +65,21 @@ public class Order {
     public String toString() {
         return this.title;
     }
+
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public void setStatus(String status)
+    {
+        this.status = status;
+    }
+
  }

@@ -7,19 +7,48 @@ public class Client {
 
     private String firstName;
     private String lastName;
-  //  private String address;
+    private String address;
     private String city;
     private String street;
     private String homeNumber;
     private String flatNumber;
-
-    // To nie po stronie serwera ?
     double gpsLatitude;
     double gpsLongtitude;
-
     private String id;
     private String teamId;
     private String team;
+
+
+    //single Client constructor
+    public Client(String id, String firstName, String lastName, String city, String street, String homeNumber, String flatNumber, String gpsLat, String gpsLong, String teamId, String team)
+    {
+        this.gpsLatitude = Double.parseDouble(gpsLat);
+        this.gpsLongtitude = Double.parseDouble(gpsLong);
+        this.teamId = teamId;
+        this.team = team;
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.street = street;
+        this.homeNumber = homeNumber;
+        this.flatNumber = flatNumber;
+    }
+
+    public void updateData(String id, String firstName, String lastName, String city, String street, String homeNumber, String flatNumber, String gpsLat, String gpsLong, String teamId, String team)
+    {
+        this.gpsLatitude = Double.parseDouble(gpsLat);
+        this.gpsLongtitude = Double.parseDouble(gpsLong);
+        this.teamId = teamId;
+        this.team = team;
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.street = street;
+        this.homeNumber = homeNumber;
+        this.flatNumber = flatNumber;
+    }
 
 
     public Client(String id, String firstName, String lastName, String city, String street, String homeNumber, String flatNumber)
@@ -59,6 +88,22 @@ public class Client {
 
     public String getId(){ return id; }
 
+    public Double getGpsLatitude()
+    {
+        return gpsLatitude;
+    }
+
+    public Double getGpsLongitude()
+    {
+        return gpsLongtitude;
+    }
+
+    public String getTeamId(){return  teamId;}
+
+    public String getTeam()
+    {
+        return team;
+    }
 
     public String getLastName(){ return lastName; }
 

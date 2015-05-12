@@ -1,6 +1,7 @@
 package com.example.slawek.sziolmobile;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -19,27 +20,26 @@ public class EditOrderActivity extends Activity {
 
     Button bt;
 
+    Order ord;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_order);
 
-        bt = (Button)findViewById(R.id.BT_edit_order);
+        ord = OrdersActivitySettings.getSingleOrderFromSettings();
 
-        title = (EditText)findViewById(R.id.ET_order_title);
+        bt = (Button)findViewById(R.id.BT_savae_change_order);
+
+        title = (EditText)findViewById(R.id.ET_edit_order_title);
         desc = (EditText)findViewById(R.id.ET_edit_order_desc);
-        status = (EditText)findViewById(R.id.ET_order_status);
+        status = (EditText)findViewById(R.id.ET_edit_order_status);
 
 
 
-        title.setText(OrdersActivitySettings.or.getTitle().toString());
-        desc.setText(OrdersActivitySettings.or.getDescription().toString());
-        status.setText(OrdersActivitySettings.or.getStatus().toString());
-
-        //      flat.setText(ClientsActivitySettings.cl.getFlatNumber().toString());
-        //     street.setText(ClientsActivitySettings.cl.getStreet().toString());
-        //     home.setText(ClientsActivitySettings.cl.getHomeNumber().toString());
-        //     city.setText(ClientsActivitySettings.cl.getCity().toString());
+        title.setText(ord.getTitle().toString());
+        desc.setText(ord.getDescription().toString());
+        status.setText(ord.getStatus().toString());
 
 
         // Client client = new Client(ClientsActivitySettings.cl.getId());
@@ -48,6 +48,10 @@ public class EditOrderActivity extends Activity {
 
     public void saveEditOrderOnClick(View v) {
 
+       ord.setDescription(desc.getText().toString());
+        ord.setTitle(title.getText().toString());
+        ord.setStatus(status.getText().toString());
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -55,7 +59,7 @@ public class EditOrderActivity extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-               //  restService.EditOrder(ClientsActivitySettings.cl.getId(), );
+                 restService.EditOrder(Integer.parseInt(ord.getId()), ord);
 
 
                 TextView tv = (TextView) findViewById(R.id.textView3);
@@ -63,9 +67,9 @@ public class EditOrderActivity extends Activity {
             }
         });
 
-        //Intent intent = new Intent(NewClient.this, MainMenu.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //startActivity(intent);
+        Intent intent = new Intent(EditOrderActivity.this, OrdersActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         //finish();
 
 
