@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,8 +103,16 @@ public class OrdersActivitySettings extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.EditOrder(Integer.parseInt(id), order);
+              int status =  restService.PinOrder(Integer.parseInt(id), order);
 
+                if(status == 200)
+                {
+                    Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "przypięcie NIE ok", Toast.LENGTH_LONG).show();
+                }
 
               //  TextView tv = (TextView) findViewById(R.id.textView3);
 
@@ -139,7 +148,9 @@ public class OrdersActivitySettings extends Activity {
         ////////////
         //////////////// TU ZMIENI I ODSWIEZAC WIDOK
         Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         OrdersActivitySettings.this.startActivity(myIntent);
+
         finish();
 
 

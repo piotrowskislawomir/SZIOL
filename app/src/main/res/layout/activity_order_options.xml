@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@android:color/darker_gray">
 
     <EditText
         android:layout_width="match_parent"
@@ -11,28 +12,39 @@
         android:layout_weight="0.64" />
 
     <Button
-        android:layout_width="162dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Przypnij"
         android:id="@+id/BT_pin_post"
-        android:layout_gravity="right"
-        android:layout_weight="0.21"
-        android:onClick="pinOrderOnClick" />
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.08"
+        android:onClick="pinOrderOnClick"
+        android:textColor="#fffffffa"
+        android:background="#ffff6d2b"
+        android:layout_marginTop="10dp" />
 
     <Button
-        android:layout_width="169dp"
+        android:layout_width="match_parent"
         android:layout_height="75dp"
         android:text="Edytuj zgloszenie"
         android:id="@+id/BT_edit_order"
-        android:onClick="editSingleOrderOnClick" />
+        android:onClick="editSingleOrderOnClick"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#fffffffa"
+        android:background="#ffff6d2b"
+        android:layout_weight="0.08"
+        android:layout_marginTop="10dp" />
 
     <Button
-        android:layout_width="212dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Usuń"
         android:id="@+id/BT_delete_order"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.07"
-        android:onClick="deleteOrderOnClick" />
+        android:layout_weight="0.08"
+        android:onClick="deleteOrderOnClick"
+        android:textColor="#fffffffa"
+        android:background="#ffff6d2b"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

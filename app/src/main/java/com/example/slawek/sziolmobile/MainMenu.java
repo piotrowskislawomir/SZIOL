@@ -117,10 +117,7 @@ public class MainMenu extends Activity{
 
     public void myCardMenuButtonOnClick(View v)
     {
-        Intent intent = new Intent(MainMenu.this, CardItems.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+
         //      Button btn = (Button)findViewById(R.id.button7);
         //     btn.setText(RestClientService.resp);
 
@@ -140,7 +137,10 @@ public class MainMenu extends Activity{
 
             }
         });
-
+        Intent intent = new Intent(MainMenu.this, CardItems.class);
+       // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+       // finish();
 
 
         //    Intent intent = new Intent(MainMenu.this, OrdersActivity.class);
@@ -148,6 +148,14 @@ public class MainMenu extends Activity{
         //   startActivity(intent);
         // finish();
 
+
+    }
+
+    public void teamOrders(View v)
+    {
+        Intent intent = new Intent(MainMenu.this, TeamOrders.class);
+        // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
 
     }
 

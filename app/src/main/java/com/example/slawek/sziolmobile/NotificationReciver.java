@@ -20,6 +20,8 @@ public class NotificationReciver extends Activity {
         TextView tv = new TextView(this);
         tv.setText("Yo!");
 
+
+
         setContentView(tv);
     }
 }

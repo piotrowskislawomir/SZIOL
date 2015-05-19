@@ -1,8 +1,11 @@
 package com.example.slawek.sziolmobile;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import sziolmobile.RestClientService;
 import sziolmobile.RestService;
@@ -64,24 +68,34 @@ public class MainActivity extends ActionBarActivity {
     }
 */
 
-private void Alert()
+private void Alert(String str)
 {
     new AlertDialog.Builder(this)
-            .setTitle("Zadanie")
-            .setMessage("Czy przyjmujesz zadanie?")
+            .setTitle("Komunikat")
+            .setMessage(str)
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    // continue with delete
+                    finish();
                 }
             })
-            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
+           // .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+           //     public void onClick(DialogInterface dialog, int which) {
                     // do nothing
-                }
-            })
+         //       }
+           // })
                     // .setIcon(android.R.drawable.ic_dialog_alert)
             .show();
 }
+
+    private void startInternetService() {
+        Intent serviceIntent = new Intent(this, InternetConnectionService.class);
+        startService(serviceIntent);
+    }
+
+    private void stopInternetService() {
+        Intent serviceIntent = new Intent(this, InternetConnectionService.class);
+        stopService(serviceIntent);
+    }
 
     private void startMyService() {
         Intent serviceIntent = new Intent(this, GpsService.class);
@@ -103,79 +117,50 @@ private void Alert()
         stopService(serviceIntent);
     }
 
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
 
  @Override
     protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
 
-     //  startTimer();
-
-     try
+     if(!isOnline())
      {
-         stopNotificationService();
+          Alert("BRAK POŁĄCZENIA Z INTERNETEM");
      }
-     catch(Exception ex){}
-    startNotificationService();
-    // Alert();   // startGpsService();
-
-     ///////////////////
-
-
-
-
-
-/*
-   gps = new GpsTracker(MainActivity.this);
-
-        if(gps.canGetLocation())
-        {
-            double latitude = gps.getLatitude();
-            double longitiude = gps.getLongitude();
-           Toast.makeText(getBaseContext(), "Twoja lokalizacja to:" + latitude + " " + longitiude, Toast.LENGTH_LONG).show();
-       }
-      else
-      {
-          gps.showSettingAlert();
-      }
-*/
-     try
+     else
      {
-     stopMyService();}
-     catch(Exception ex)
-     {}
-    startMyService();
- }
+         try {
+             stopNotificationService();
+         } catch (Exception ex) {}
+           startNotificationService();
 
-    //////
+         try {
+             stopInternetService();
+         } catch (Exception ex) {}
+         startInternetService();
 
+         try {
+             stopMyService();
+         } catch (Exception ex) {}
+           startMyService();
+     }
+}
 
-
-
-
-    @Override
+  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
+  }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-      //      Intent intent = new Intent(this, NotificationActivity.class);
-      //      startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    /*
     public void buttonClicked(View v)
     {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -189,25 +174,12 @@ private void Alert()
             }
         });
     }
+    */
 
     // przycisk logowanie
     public void buttonLogOnClick(View v)
     {
-     //   gps = new GpsTracker(MainActivity.this);
-
-     //   if(gps.canGetLocation())
-     //   {
-     //       double latitude = gps.getLatitude();
-     //       double longitiude = gps.getLongitude();
-      //      Toast.makeText(getApplicationContext(), "Twoja lokalizacja to:" + latitude + " " + longitiude, Toast.LENGTH_LONG).show();
-      //  }
-       // else
-       // {
-       //     gps.showSettingAlert();
-       // }
-
-        //
-        Intent myIntent = new Intent(MainActivity.this, UserLog.class);
+         Intent myIntent = new Intent(MainActivity.this, UserLog.class);
         MainActivity.this.startActivity(myIntent);
     }
 

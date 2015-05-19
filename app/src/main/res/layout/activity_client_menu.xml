@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    android:background="@mipmap/layout_v1">
+    android:background="@android:color/darker_gray">
 
     <ListView
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:id="@+id/button12"
             android:onClick="senderAddClientButtonOnClick"
             android:nestedScrollingEnabled="false"
-            android:background="@mipmap/button_v1"
+            android:background="#ffff6d2b"
             android:textColor="#ffffffff" />
     </TableRow>
 </LinearLayout>

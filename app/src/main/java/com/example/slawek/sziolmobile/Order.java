@@ -43,6 +43,8 @@ public class Order {
         this.customerId = customerId;
     }
 
+
+
     public Order (String id, String title, String description, String status, int customerId, String executorId, boolean assignToTicket) {
        this.id = id;
         this.title = title;
@@ -61,6 +63,7 @@ public class Order {
         public String getDescription(){ return description; }
         public String getStatus(){ return status; }
         public int getCustomerId(){ return customerId; }
+    public String getCreatorId(){ return creatorId; }
 
     public String toString() {
         return this.title;

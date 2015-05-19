@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ public class NewClient extends Activity {
     private EditText homeNumberClient;
     private EditText flatNumberClient;
     private EditText cityClient;
+    int restStatus;
 
 
 
@@ -50,28 +52,43 @@ public class NewClient extends Activity {
 
     public void addNewClientButtonOnClick(View v) {
 
+        if (!firstNameClient.getText().toString().isEmpty() && lastNameClient.getText().toString().isEmpty() &&
+                cityClient.getText().toString().isEmpty() && streetClient.getText().toString().isEmpty() &&
+                homeNumberClient.getText().toString().isEmpty() && flatNumberClient.getText().toString().isEmpty()) {
 
-    final Client client = new Client (firstNameClient.getText().toString(),lastNameClient.getText().toString(), cityClient.getText().toString(),  streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
+            final Client client = new Client(firstNameClient.getText().toString(), lastNameClient.getText().toString(), cityClient.getText().toString(), streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
-        runOnUiThread(new Runnable() {
-            public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
-              restService.AddNewCustomer(client);
-              // restService.DeleteCustomer(8);
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                    RestService restService = new RestService(restClientService);
+                    restStatus = restService.AddNewCustomer(client);
+                    // restService.DeleteCustomer(8);
 
-                TextView tv = (TextView) findViewById(R.id.textView3);
+                    TextView tv = (TextView) findViewById(R.id.textView3);
+
+                }
+            });
+            if(restStatus == 200) {
+                Intent intent = new Intent(NewClient.this, MainMenu.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Zła odpowiedź serwera", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Proszę uzupełnić wszystkie informacje o kliencie", Toast.LENGTH_SHORT).show();
 
         }
-        });
-
-       Intent intent = new Intent(NewClient.this, MainMenu.class);
-           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-
     }
+
 }

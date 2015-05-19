@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.slawek.sziolmobile.R;
 
@@ -35,6 +37,11 @@ import sziolmobile.RestService;
     private EditText pass;
     String res = "";
     public static String token ="";
+
+    // do sprawdzenia
+    String message;
+
+    ProgressDialog progress;
 
 
     @Override
@@ -95,38 +102,54 @@ import sziolmobile.RestService;
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.SendClientLogin(log.getText().toString(), pass.getText().toString());
-                //restService.GetClientById(2);
 
-                TextView tv = (TextView)findViewById(R.id.textView3);
-
-                try {
-                    // tu można wyciągnać status
-                    JSONObject jsonObj = new JSONObject(RestClientService.resp);
-                    res = jsonObj.get("Result").toString();
-                    token = jsonObj.get("Token").toString();
-                 //   tv.setText(token);
-                 }
-                catch(JSONException e)
+                if(restService.SendClientLogin(log.getText().toString(), pass.getText().toString()) == 200)
                 {
-                    e.printStackTrace();
-                }
-                if(res == "true" && token != "") {
-             //        Intent myIntent = new Intent(UserLog.this, MainActivity.class);
-              //       UserLog.this.startActivity(myIntent);
-               //      UserLog.this.onStop();
 
-                    Intent intent = new Intent(UserLog.this, MainMenu.class);
-                 //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
-                }
 
+
+                    try
+                    {
+                        // tu można wyciągnać status
+                        JSONObject jsonObj = new JSONObject(RestClientService.resp);
+                        res = jsonObj.get("Result").toString();
+                        token = jsonObj.get("Token").toString();
+                        message = jsonObj.get("Message").toString();
+
+                    }
+                    catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    if(message != "null")
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        if(res == "true" && token != "")
+                        {
+                            Intent intent = new Intent(UserLog.this, MainMenu.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Serwer nie odpowiedział", Toast.LENGTH_SHORT).show();
+                   // progress = ProgressDialog.show(getApplicationContext(),"BŁĄD", "SERWER NIE ODPOWIADA" );
                 }
-        });
+            }
+
+            });
 
 
     }
+
     }
 
 

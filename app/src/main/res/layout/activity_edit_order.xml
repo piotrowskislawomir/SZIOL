@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray">
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
         android:id="@+id/ET_edit_order_title"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="#fffffffa"
+        android:layout_marginTop="100dp" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/ET_edit_order_desc" />
+        android:id="@+id/ET_edit_order_desc"
+        android:background="#fffffffa"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/ET_edit_order_status" />
+        android:id="@+id/ET_edit_order_status"
+        android:background="#fffffffa"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Zapisz"
         android:id="@+id/BT_savae_change_order"
-        android:onClick="saveEditOrderOnClick" />
+        android:onClick="saveEditOrderOnClick"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#ffff6d2b"
+        android:textColor="#fffffffa" />
 </LinearLayout>

@@ -44,32 +44,54 @@ public class UserReg extends Activity {
 
 
     public void registerButtonOnClick(View v) {
-        // equals ignore ?>>>
-        if(pass.getText().toString().equalsIgnoreCase(pass2.getText().toString())) {
-            final User newUser = new User(login.getText().toString(), pass.getText().toString(), firstName.getText().toString(), lastName.getText().toString());
-            final String teamKeyActivity = teamKey.getText().toString();
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
 
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                    RestService restService = new RestService(restClientService);
-                    restService.SendClientRegistry(newUser, Integer.parseInt(teamKeyActivity));
-                    Intent myIntent = new Intent(UserReg.this, UserLog.class);
-                    UserReg.this.startActivity(myIntent);
-                }
-            });
+        if(!tv.getText().toString().isEmpty() && !login.getText().toString().isEmpty() && !pass.getText().toString().isEmpty() && !pass2.getText().toString().isEmpty()
+                && !firstName.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty()&& !teamKey.getText().toString().isEmpty()) {
+            // equals ignore ?>>>
+            if (pass.getText().toString().equalsIgnoreCase(pass2.getText().toString())) {
+                final User newUser = new User(login.getText().toString(), pass.getText().toString(), firstName.getText().toString(), lastName.getText().toString());
+                final String teamKeyActivity = teamKey.getText().toString();
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                        RestService restService = new RestService(restClientService);
+                        int restStatus = restService.SendClientRegistry(newUser, Integer.parseInt(teamKeyActivity));
+                        if(restStatus==200)
+                        {
+                            Toast.makeText(getApplicationContext(), "Rejestracja powiodła się pomyślnie", Toast.LENGTH_SHORT).show();
+                            try {
+                                Thread.sleep(8000);
+                                Intent myIntent = new Intent(UserReg.this, UserLog.class);
+                                UserReg.this.startActivity(myIntent);
+                                finish();
+                            }
+                            catch(InterruptedException ex)
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "Rejestracja nie powiodła się", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+            } else {
+                Context context = getApplicationContext();
+                CharSequence text = "Hasła są różne!";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
         }
         else
         {
-            Context context = getApplicationContext();
-            CharSequence text = "hasła są różne!";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Wszystkie pola muszą zostać uzupełnione", Toast.LENGTH_LONG).show();
         }
-
     }
 }

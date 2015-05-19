@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/layout_v1"
+    android:background="@android:color/darker_gray"
     android:weightSum="1">
 
     <LinearLayout
@@ -13,7 +13,8 @@
         android:paddingTop="150dp"
         android:paddingLeft="10dp"
         android:layout_weight="0.41"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:background="@android:color/darker_gray">
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,7 +62,7 @@
             android:layout_gravity="center_horizontal"
             android:singleLine="false"
             android:layout_marginTop="60dp"
-            android:background="@mipmap/button_v1"
+            android:background="#ffff6d2b"
             android:onClick="loginButtonOnClick"
             android:textColor="#ffffffff" />
 

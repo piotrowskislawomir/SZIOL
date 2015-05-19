@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/layout_v1"
+    android:background="@android:color/darker_gray"
     android:orientation="vertical">
 
 
@@ -10,7 +10,9 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        android:background="@android:color/darker_gray"
+        android:weightSum="1">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -40,7 +42,7 @@
             android:text="Nazwisko"
             android:id="@+id/textView8"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="10dp" />
 
         <EditText
             android:layout_width="250dp"
@@ -136,10 +138,11 @@
                 android:id="@+id/button4"
                 android:layout_gravity="center_horizontal"
                 android:singleLine="false"
-                android:layout_marginTop="20dp"
-                android:background="@mipmap/button_v1"
+                android:layout_marginTop="40dp"
+                android:background="#ffff6d2b"
                 android:onClick="registerButtonOnClick"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:layout_weight="0.19" />
     </LinearLayout>
 
 

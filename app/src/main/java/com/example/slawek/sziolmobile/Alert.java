@@ -10,8 +10,25 @@ import android.content.Intent;
  */
 public class Alert extends Activity {
 
-    public void Alert()
+    public void Alert(String str)
     {
 
+
+
+        new AlertDialog.Builder(this)
+                .setTitle("Komunikat")
+                .setMessage(str)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                        // .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        //     public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                        //       }
+                        // })
+                        // .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

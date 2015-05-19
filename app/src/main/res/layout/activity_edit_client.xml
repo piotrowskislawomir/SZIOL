@@ -1,61 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray">
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/ET_edit_firstName" />
+        android:id="@+id/ET_edit_firstName"
+        android:background="#fffffffa"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/ET_edit_lastName" />
+        android:id="@+id/ET_edit_lastName"
+        android:background="#fffffffa"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/ET_edit_street" />
+        android:id="@+id/ET_edit_street"
+        android:background="#fffffffa"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/ET_edit_homeNumber" />
+        android:id="@+id/ET_edit_homeNumber"
+        android:background="#fffffffa"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/ET_edit_flatNumber" />
+        android:id="@+id/ET_edit_flatNumber"
+        android:background="#fffffffa"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/ET_edit_city" />
+        android:id="@+id/ET_edit_city"
+        android:background="#fffffffa"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Zapisz"
         android:id="@+id/BT_edit_client_save"
         android:layout_gravity="center_horizontal"
-        android:onClick="saveEditClientOnClick" />
+        android:onClick="saveEditClientOnClick"
+        android:background="#ffff6d2b"
+        android:layout_marginTop="50dp" />
 </LinearLayout>

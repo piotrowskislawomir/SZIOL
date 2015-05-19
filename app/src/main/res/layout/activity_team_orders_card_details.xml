@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray">
+    android:weightSum="1">
 
-    <ListView
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LV_card_items"
-        android:background="@android:color/darker_gray" />
+        android:id="@+id/ET_team_card_order_details"
+        android:layout_weight="0.64" />
 </LinearLayout>

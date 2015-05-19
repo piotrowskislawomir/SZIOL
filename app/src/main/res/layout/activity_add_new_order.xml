@@ -2,36 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="addNewOrderActivityOnClick">
+    android:onClick="addNewOrderActivityOnClick"
+    android:background="@android:color/darker_gray">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tytuł zlecenia"
+        android:id="@+id/textView13"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Tytuł zgłoszenia"
         android:ems="10"
-        android:id="@+id/ET_order_title" />
+        android:id="@+id/ET_order_title"
+        android:background="#fffffffa"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Opis zlecenia"
+        android:id="@+id/textView14"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Opis zgłoszenia"
         android:ems="10"
-        android:id="@+id/ET_order_description" />
+        android:id="@+id/ET_order_description"
+        android:background="#fffffffa"
+        android:layout_marginTop="5dp" />
 
-    <EditText
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:text="Status"
+        android:id="@+id/textView15"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/ET_order_status" />
+        android:id="@+id/ET_order_status"
+        android:background="#fffffffa"
+        android:layout_marginTop="5dp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Dodaj zgłoszenie"
         android:id="@+id/BT_add_new_order"
-        android:onClick="addNewOrderActivityOnClick" />
+        android:onClick="addNewOrderActivityOnClick"
+        android:layout_marginTop="40dp"
+        android:background="#ffff6d2b"
+        android:textColor="#fffffffa" />
 </LinearLayout>

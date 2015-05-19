@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@android:color/darker_gray">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="437dp"
         android:id="@+id/LV_orders"
-        android:layout_weight="0.81" />
+        android:layout_weight="0.81"
+        android:background="@android:color/darker_gray" />
 
 </LinearLayout>
