@@ -1,44 +1,47 @@
 package com.example.slawek.sziolmobile;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import Models.Client;
+import sziolmobile.RestClientService;
+import sziolmobile.RestService;
+
 /**
  * Created by Michał on 2015-05-10.
  */
 
+// assign to ticket false
+    //executor id null
+public class CardItemsDetails extends Activity {
+    TextView et;
 
-        import android.app.Activity;
-        import android.os.Bundle;
-        import android.os.StrictMode;
-        import android.view.View;
-        import android.widget.EditText;
-        import android.widget.TextView;
-        import android.widget.Toast;
-
-        import org.json.JSONException;
-        import org.json.JSONObject;
-
-        import Models.NotificationModel;
-        import sziolmobile.RestClientService;
-        import sziolmobile.RestService;
-
-public class NotificationReciver extends Activity {
-
-    NotificationModel nm;
+    public static Order or;
+    JSONArray singleOrder;
     JSONObject jsonObj;
-    String id, description, status, date, creatorId, executorId, customerId, teamId, title;
-    Order order;
-    TextView tv;
+    static Order order;
+
+
+    String id, title, description, status, date, creatorId, executorId, customerId, teamId;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_main);
-        setContentView(R.layout.activity_notification);
+        setContentView(R.layout.activity_card_details);
 
-        //
-           nm = NotificationService.getNotification();
+        or = CardItems.getCard();
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -47,7 +50,7 @@ public class NotificationReciver extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetOrder(Integer.parseInt(nm.getTicketId()));
+                restService.GetOrder(Integer.parseInt(or.getId()));
             }
         });
 
@@ -74,20 +77,13 @@ public class NotificationReciver extends Activity {
 
 
 
-        tv = (TextView) findViewById(R.id.TV_notification);
-        tv.setText(title.toString() + "\n" + description.toString() + "\n" + status.toString() + "\n" + date.toString());
-
-
-        //
-
-     //   TextView tv = new TextView(this);
-     //   tv.setText("Yo!");
-     // setContentView(tv);
+        et = (TextView) findViewById(R.id.TV_card_order_unpin);
+        et.setText(title.toString()+ "\n" + description.toString() + "\n" + status.toString()+ "\n" + date.toString());
     }
 
 
-    public void acceptNotificationOnClick(View v)
-    {
+
+    public void unPinOrderOnClick(View v) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -95,29 +91,28 @@ public class NotificationReciver extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                int status =  restService.PinOrder(Integer.parseInt(id), order);
-         //       status = restService.SendStatusNotification(Integer.parseInt(nm.getNotificationId()), true);
+                int status =  restService.unPinOrder(Integer.parseInt(id), order);
+
                 if(status == 200)
                 {
-                    Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "odpięto", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "przypięcie NIE ok", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "NIE odpięto", Toast.LENGTH_LONG).show();
                 }
 
                 //  TextView tv = (TextView) findViewById(R.id.textView3);
 
             }
         });
-           finish();
-    }
 
 
-    public void notAcceptNotificationOnClick(View v)
-    {
-        //       status = restService.SendStatusNotification(Integer.parseInt(nm.getNotificationId()), false);
-         finish();
-        //????
+    //    Intent myIntent = new Intent(v.getContext(), EditOrderActivity.class);
+    //    OrdersActivitySettings.this.startActivity(myIntent);
+     //   finish();
     }
+
 }
+
+

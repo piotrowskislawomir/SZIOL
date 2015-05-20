@@ -119,9 +119,10 @@ public class OrdersActivitySettings extends Activity {
             }
         });
 
-        /*Intent myIntent = new Intent(v.getContext(), EditOrderActivity.class);
-        OrdersActivitySettings.this.startActivity(myIntent);
-        finish();*/
+        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myIntent);
+        finish();
 
 
     }

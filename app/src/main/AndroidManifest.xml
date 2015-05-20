@@ -53,6 +53,8 @@
         <activity android:name=".TeamOrders"></activity>
         <activity android:name=".TeamOrdersList"></activity>
         <activity android:name=".TeamOrdersListDetails"></activity>
+        <activity android:name=".CardItemsDetails"></activity>
+
         <activity
             android:name=".UserLog"
             android:screenOrientation="portrait"

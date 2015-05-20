@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/TV_notification"
+        android:layout_weight="0.75" />
 
     <Button
         android:layout_width="wrap_content"
@@ -9,8 +17,9 @@
         android:text="Przyjmij zlecenie"
         android:id="@+id/button10"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="300dp"
-        android:background="#ff22ff00" />
+        android:layout_marginTop="50dp"
+        android:background="#ff22ff00"
+        android:onClick="acceptNotificationOnClick" />
 
     <Button
         android:layout_width="wrap_content"
@@ -18,5 +27,6 @@
         android:text="Odrzuć zlecenie"
         android:id="@+id/button9"
         android:layout_gravity="center_horizontal"
-        android:background="#ffff1800" />
+        android:background="#ffff1800"
+        android:onClick="notAcceptNotificationOnClick" />
 </LinearLayout>

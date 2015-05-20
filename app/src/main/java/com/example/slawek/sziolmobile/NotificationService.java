@@ -1,18 +1,12 @@
 package com.example.slawek.sziolmobile;
 
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.StrictMode;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +15,7 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import Models.Client;
+import Models.NotificationModel;
 import sziolmobile.RestClientService;
 import sziolmobile.RestService;
 
@@ -31,6 +25,13 @@ import sziolmobile.RestService;
 public class NotificationService extends Service {
     private Timer timer;
     private TimerTask timerTask;
+
+    private static NotificationModel notification;
+
+    public static NotificationModel getNotification()
+    {
+       return notification;
+    }
 
     public static JSONArray notifications;
     RestService restService;
@@ -70,6 +71,11 @@ public class NotificationService extends Service {
                 description = jsonObj.get("Description").toString();
                 ticketId = jsonObj.get("TicketId").toString();
 
+
+                //
+                notification = new NotificationModel(id, title, description, ticketId);
+
+                //
                 Notify(title, description, ticketId);
                 restService.DeleteNotification(Integer.parseInt(id));
             } catch (JSONException e) {
