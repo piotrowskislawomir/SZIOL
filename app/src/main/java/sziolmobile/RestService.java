@@ -202,11 +202,14 @@ public class RestService {
 
     }
 
-    public int SendStatusNotification(int notificationId, boolean accepted)
+    public int SendStatusNotification(int notificationId, String ticketId, boolean accepted)
     {
         JSONObject jsonData = new JSONObject();
         try {
-            jsonData.put("Accept", accepted);
+            jsonData.put("Accepted", accepted);
+            jsonData.put("TicketId", ticketId);
+
+
             }
         catch (JSONException jex)
         {}

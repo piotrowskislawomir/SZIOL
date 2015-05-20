@@ -21,20 +21,14 @@ import sziolmobile.RestService;
  * Created by Michał on 2015-05-10.
  */
 
-// assign to ticket false
-    //executor id null
 public class CardItemsDetails extends Activity {
-    TextView et;
 
+    TextView et;
     public static Order or;
     JSONArray singleOrder;
     JSONObject jsonObj;
     static Order order;
-
-
     String id, title, description, status, date, creatorId, executorId, customerId, teamId;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +49,6 @@ public class CardItemsDetails extends Activity {
         });
 
         try {
-            // singleOrder = new JSONArray(RestClientService.resp);
             jsonObj = new JSONObject(RestClientService.resp);
             id = jsonObj.get("Id").toString();
             title = jsonObj.get("Title").toString();
@@ -66,24 +59,17 @@ public class CardItemsDetails extends Activity {
             executorId = jsonObj.get("ExecutorId").toString();
             customerId = jsonObj.get("CustomerId").toString();
             teamId = jsonObj.get("TeamId").toString();
-
-
         }
         catch(JSONException e){}
 
-        // order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, true);
-
         order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, teamId, date, creatorId );
-
-
 
         et = (TextView) findViewById(R.id.TV_card_order_unpin);
         et.setText(title.toString()+ "\n" + description.toString() + "\n" + status.toString()+ "\n" + date.toString());
     }
 
+        public void unPinOrderOnClick(View v) {
 
-
-    public void unPinOrderOnClick(View v) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -101,18 +87,14 @@ public class CardItemsDetails extends Activity {
                 {
                     Toast.makeText(getApplicationContext(), "NIE odpięto", Toast.LENGTH_LONG).show();
                 }
-
-                //  TextView tv = (TextView) findViewById(R.id.textView3);
-
-            }
+        }
         });
 
-
-    //    Intent myIntent = new Intent(v.getContext(), EditOrderActivity.class);
-    //    OrdersActivitySettings.this.startActivity(myIntent);
-     //   finish();
+        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myIntent);
+        finish();
     }
-
 }
 
 

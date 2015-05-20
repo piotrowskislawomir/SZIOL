@@ -113,10 +113,6 @@ public class ClientsActivitySettings extends Activity {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
                 restService.DeleteCustomer(ClientsActivity.cl.getId());
-
-
-            //    TextView tv = (TextView) findViewById(R.id.textView3);
-
             }
         });
 

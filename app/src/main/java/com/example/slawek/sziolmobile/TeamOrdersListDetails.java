@@ -131,6 +131,40 @@ public class TeamOrdersListDetails extends Activity {
     }
 
 
+    public void takeOrderOtherCustomer(View v)
+    {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+                int status =  restService.PinOrder(Integer.parseInt(id), order);
+
+                if(status == 200)
+                {
+                    Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "przypięcie NIE ok", Toast.LENGTH_LONG).show();
+                }
+
+                //  TextView tv = (TextView) findViewById(R.id.textView3);
+
+            }
+        });
+
+        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myIntent);
+        finish();
+
+
+
+    }
+
 
     @Override
     public void onRestart() {

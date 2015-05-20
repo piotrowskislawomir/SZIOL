@@ -36,17 +36,7 @@ public class ClientsActivity extends Activity{
     JSONArray clients;
      ///////////////////
 
-    String firstName;
-    String lastName;
-    String address; // ??????
-    String clientId;
-    String teamId;
-    String team;
-    String city;
-    String street;
-    String homeNumber;
-    String flatNumber;
-
+    String firstName, lastName, address,clientId,teamId, team, city, street, homeNumber, flatNumber;
     String gpslat;  ///????
     String gpsLon;  ///????
 
@@ -65,7 +55,7 @@ public class ClientsActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_menu);
         lv = (ListView)findViewById(R.id.LV_clients);
-        ////
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -82,18 +72,12 @@ public class ClientsActivity extends Activity{
 
             }
         });
-        ////
-
         AddClientsToListView();
     }
-
-
 
     @Override
     public void onRestart() {
         super.onRestart();
-        //When BACK BUTTON is pressed, the activity on the stack is restarted
-        //Do what you want on the refresh procedure here
         super.onResume();
         AddClientsToListView();
     }
@@ -121,7 +105,6 @@ public class ClientsActivity extends Activity{
                 gpsLon = jsonObj.get("GpsLongitude").toString();
 
                 clientsList.add(new Client(clientId, firstName, lastName, city, street, homeNumber, flatNumber));
-             //  clientsList.add(new Client(clientId, firstName, lastName, address));
                 listAdapter.add(firstName+" "+lastName+"\n"+address);
             }
             catch(JSONException e)
@@ -129,12 +112,7 @@ public class ClientsActivity extends Activity{
                 e.printStackTrace();
             }
 
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listAdapter);
-            lv.setAdapter(adapter);
-
-            ArrayAdapter<Client> adap = new ArrayAdapter<Client>(this,
-                    android.R.layout.simple_list_item_1, clientsList);
-
+            ArrayAdapter<Client> adap = new ArrayAdapter<Client>(this, android.R.layout.simple_list_item_1, clientsList);
             lv.setAdapter(adap);
 
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -142,38 +120,18 @@ public class ClientsActivity extends Activity{
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
 
-//
-                 //   String cl =  adapter.getItem(position);
-
                     cl =   (Client)(lv.getItemAtPosition(position));
-
 
                     Intent myIntent = new Intent(view.getContext(), ClientsActivitySettings.class);
                     ClientsActivity.this.startActivityForResult(myIntent, 0);
-
-                 //   int color = parent.getAdapter().getItem(position);
-
-                 //  Toast.makeText(getBaseContext(), cl.getCity(), Toast.LENGTH_LONG).show();
-
-
-
                 }
             });
-
-
-            // clientsList.add(clients)
         }
-
-
     }
+
     public void senderAddClientButtonOnClick(View v)
     {
-       // Intent i = new Intent(this, SecondActivity.class);
-       // startActivityForResult(i, 1);
         Intent intent = new Intent(ClientsActivity.this, NewClient.class);
-        //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-       // finish();
-
     }
 }
