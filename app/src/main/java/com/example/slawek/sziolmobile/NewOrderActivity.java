@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import Models.Client;
 import Orders.NewOrder;
@@ -17,6 +18,7 @@ import sziolmobile.RestService;
  */
 public class NewOrderActivity extends Activity {
 
+    int statusik;
     Client cl;
     Order ord;
     EditText title, description, status;
@@ -47,9 +49,19 @@ public class NewOrderActivity extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.AddNewOrder(ord);
+                statusik = restService.AddNewOrder(ord);
             }
         });
+
+        if(statusik == 200)
+        {
+    //        Toast.makeText(getApplicationContext(), "dodano ok", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+    //        Toast.makeText(getApplicationContext(), "NIE dodano", Toast.LENGTH_LONG).show();
+        }
+
 
 
         Intent myIntent = new Intent(v.getContext(), MainMenu.class);

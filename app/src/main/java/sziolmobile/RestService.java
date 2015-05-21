@@ -214,7 +214,7 @@ public class RestService {
         catch (JSONException jex)
         {}
         _restClientService.SetToken(UserLog.token);
-        return _restClientService.SendPost(Notifications+"/"+notificationId, jsonData.toString());
+        return _restClientService.PutPost(Notifications+"/"+notificationId, jsonData.toString());
     }
 
 

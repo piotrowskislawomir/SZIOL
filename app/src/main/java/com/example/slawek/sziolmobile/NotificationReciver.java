@@ -96,7 +96,7 @@ public class NotificationReciver extends Activity {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
                 int status =  restService.PinOrder(Integer.parseInt(id), order);
-       //         status = restService.SendStatusNotification(Integer.parseInt(nm.getNotificationId()),order.getId(), true);
+                status = restService.SendStatusNotification(Integer.parseInt(nm.getNotificationId()),order.getId(), true);
                 if(status == 200)
                 {
                     Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
@@ -118,7 +118,7 @@ public class NotificationReciver extends Activity {
     {
         RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
         RestService restService = new RestService(restClientService);
- //       restService.SendStatusNotification(Integer.parseInt(nm.getNotificationId()), order.getId(), false);
+        restService.SendStatusNotification(Integer.parseInt(nm.getNotificationId()), order.getId(), false);
          finish();
         //????
     }
