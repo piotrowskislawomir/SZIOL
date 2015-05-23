@@ -7,16 +7,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-import sziolmobile.RestClientService;
-import sziolmobile.RestService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,7 +20,7 @@ public class MainActivity extends ActionBarActivity {
 
     Timer timer;
     TimerTask timerTask;
-    GpsLocalizator gps;
+    GpsNetLocalizator gps;
 
     final Handler handler = new Handler();
 

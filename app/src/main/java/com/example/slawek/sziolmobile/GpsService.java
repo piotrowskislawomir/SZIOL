@@ -1,6 +1,7 @@
 package com.example.slawek.sziolmobile;
 
 
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -46,13 +47,12 @@ public class GpsService extends Service {
             super.onCreate();
             writeToLogs("Called onCreate() method.");
             gpsTracker=new GpsTracker(getApplicationContext());
-
             timer = new Timer();
         }
 
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
-            writeToLogs("Called onStartCommand() methond");
+            writeToLogs("Called onStartCommand() method");
             clearTimerSchedule();
             initTask();
             gpsTracker.getLocation();

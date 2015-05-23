@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -33,10 +34,10 @@ import sziolmobile.RestService;
 
     public class UserLog extends Activity {
 
+    SharedPropertiesManager _sharedPropertiesManager;
+    Resources _resources;
     private EditText log;
     private EditText pass;
-    String res = "";
-    public static String token ="";
 
     // do sprawdzenia
     String message;
@@ -66,6 +67,10 @@ import sziolmobile.RestService;
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         notificationManager.notify(1, n);
+
+
+        _sharedPropertiesManager = new SharedPropertiesManager(getBaseContext());
+        _resources = getResources();
         }
 
 
@@ -105,22 +110,13 @@ import sziolmobile.RestService;
 
                 if(restService.SendClientLogin(log.getText().toString(), pass.getText().toString()) == 200)
                 {
-
-
-
                     try
                     {
                         // tu można wyciągnać status
                         JSONObject jsonObj = new JSONObject(RestClientService.resp);
-                        res = jsonObj.get("Result").toString();
-                        token = jsonObj.get("Token").toString();
+                        String res = jsonObj.get("Result").toString();
+                        String token = jsonObj.get("Token").toString();
                         message = jsonObj.get("Message").toString();
-
-                    }
-                    catch(JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
 
                     if(message != "null")
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
@@ -128,6 +124,13 @@ import sziolmobile.RestService;
                     {
                         if(res == "true" && token != "")
                         {
+                            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_login), log.getText().toString());
+                            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_password), pass.getText().toString());
+                            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_token), token);
+                            RestClientService.SetToken(token);
+
+                            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_localization_enable), "true");
+
                             Intent intent = new Intent(UserLog.this, MainMenu.class);
                             startActivity(intent);
                             finish();
@@ -136,6 +139,12 @@ import sziolmobile.RestService;
                         {
                             Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
                         }
+                    }
+
+                    }
+                    catch(JSONException e)
+                    {
+                        e.printStackTrace();
                     }
                     }
                 else
@@ -146,10 +155,7 @@ import sziolmobile.RestService;
             }
 
             });
-
-
     }
-
     }
 
 

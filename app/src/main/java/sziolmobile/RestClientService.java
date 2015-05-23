@@ -31,7 +31,7 @@ public class RestClientService {
    // JSONArray cl = new JSONArray();
 
     private final String _serviceUrl;
-    private  String _token = "";
+    public static  String token = "";
 
     // dodane
     public static String resp;
@@ -41,20 +41,19 @@ public class RestClientService {
         _serviceUrl = serviceUrl;
     }
 
-    public void SetToken(String token)
+    public static void SetToken(String tokenVal)
     {
-        _token = "?token=" + token;
+        token = "?token=" + tokenVal;
     }
-// public int SendPost(String resource,String jsonData)
 
-    public int PutPost(String resource,String jsonData)
+    public int SendPut(String resource,String jsonData)
     {
         try {
-            HttpPut req = new HttpPut(_serviceUrl + resource + _token);
+            HttpPut req = new HttpPut(_serviceUrl + resource + token);
             req.setHeader("Content-type", "application/json");
             req.setEntity(new ByteArrayEntity(jsonData.getBytes("UTF8")));
             HttpResponse res = client.execute(req);
-//
+
             resp = Userrequest(res);
 
             return res.getStatusLine().getStatusCode();
@@ -69,14 +68,14 @@ public class RestClientService {
         return -1;
     }
 
-    public int DeletePost(String resource)
+    public int SendDelete(String resource)
     {
         try {
-            HttpDelete req = new HttpDelete(_serviceUrl + resource + _token);
+            HttpDelete req = new HttpDelete(_serviceUrl + resource + token);
             req.setHeader("Content-type", "application/json");
           //  req.setEntity(new ByteArrayEntity(jsonData.getBytes("UTF8")));
             HttpResponse res = client.execute(req);
-//
+
             resp = Userrequest(res);
 
             return res.getStatusLine().getStatusCode();
@@ -91,15 +90,15 @@ public class RestClientService {
         return -1;
     }
 
-    public int GetPost(String resource)
+    public int SendGet(String resource)
     {
         try {
-            HttpGet req = new HttpGet(_serviceUrl + resource + _token);
+            HttpGet req = new HttpGet(_serviceUrl + resource + token);
             req.setHeader("Content-type", "application/json");
            // req.setEntity(new ByteArrayEntity(jsonData.getBytes("UTF8")));
 
             HttpResponse res = client.execute(req);
-//
+
             resp = Userrequest(res);
 
             return res.getStatusLine().getStatusCode();
@@ -119,7 +118,7 @@ public class RestClientService {
     public int SendPost(String resource,String jsonData)
     {
         try {
-            HttpPost request = new HttpPost(_serviceUrl + resource + _token);
+            HttpPost request = new HttpPost(_serviceUrl + resource + token);
             request.setHeader("Content-type", "application/json");
             request.setEntity(new ByteArrayEntity(jsonData.getBytes("UTF8")));
             HttpResponse response = client.execute(request);

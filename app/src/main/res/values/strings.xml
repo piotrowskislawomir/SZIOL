@@ -4,5 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="shared_space">shared_space</string>
+    <string name="shared_login">shared_login</string>
+    <string name="shared_password">shared_password</string>
+    <string name="shared_token">shared_token</string>
+    <string name="shared_localization_enable">shared_localization_enable</string>
 
 </resources>

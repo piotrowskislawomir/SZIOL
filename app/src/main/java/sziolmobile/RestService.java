@@ -31,7 +31,6 @@ public class RestService {
         _restClientService = restClientService;
     }
 
-
     public int SendClientRegistry(User usr, int registryKey)
     {
         JSONObject jsonData = new JSONObject();
@@ -57,32 +56,28 @@ public class RestService {
         }
         catch (JSONException jex)
         {}
-        return _restClientService.PutPost(Users, jsonData.toString());
+        return _restClientService.SendPut(Users, jsonData.toString());
     }
 
     public int GetClientById(int id)
     {
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Customers+"/"+id);
+        return _restClientService.SendGet(Customers+"/"+id);
     }
 
     public int GetCustomerCard(int idCard)
     {
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Cards+"/"+idCard);
+        return _restClientService.SendGet(Cards+"/"+idCard);
     }
 
 
-    public int GetAllCustomers() // co jesli inne gruby zawodowe ???
+    public int GetAllCustomers()
     {
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Customers);
+        return _restClientService.SendGet(Customers);
     }
 
-    public int GetAllTeam() // co jesli inne gruby zawodowe ???
+    public int GetAllTeam()
     {
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Cards);
+        return _restClientService.SendGet(Cards);
     }
 
     public int AddNewCustomer(Client client)
@@ -91,25 +86,20 @@ public class RestService {
         try {
             jsonData.put("FirstName", client.getFirstName());
             jsonData.put("LastName", client.getLastName());
-           // jsonData.put("Address", client.getAddress());
             jsonData.put("City", client.getCity());
             jsonData.put("Street", client.getStreet());
             jsonData.put("HomeNo", client.getHomeNumber());
             jsonData.put("FlatNo", client.getFlatNumber());
-            jsonData.put("GpsLatitude", 50.343);
-            jsonData.put("GpsLongitude", 58.343);
         }
 
 
         catch (JSONException jex)
         {}
-        _restClientService.SetToken(UserLog.token);
         return _restClientService.SendPost(Customers, jsonData.toString());
     }
 
     public int EditCustomer(int id, Client client)
     {
-    //    Url: http://s384027.iis.wmi.amu.edu.pl/api/Customers/12?token=1234
         {
             JSONObject jsonData = new JSONObject();
             try {
@@ -119,37 +109,22 @@ public class RestService {
                 jsonData.put("Street", client.getStreet());
                 jsonData.put("HomeNo", client.getHomeNumber());
                 jsonData.put("FlatNo", client.getFlatNumber());
-                jsonData.put("GpsLatitude", 54.222);
-                jsonData.put("GpsLongitude", 11.333);
   }
             catch (JSONException jex)
             {}
-            _restClientService.SetToken(UserLog.token);
-            return _restClientService.PutPost(Customers+"/"+id, jsonData.toString());
-
+            return _restClientService.SendPut(Customers+"/"+id, jsonData.toString());
         }
-
-
     }
-
 
     public int DeleteCustomer(String id)
     {
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.DeletePost(Customers+"/"+id);
-
+        return _restClientService.SendDelete(Customers+"/"+id);
     }
 
    public int DeleteTicket(int id)
     {
-       // Url: http://s384027.iis.wmi.amu.edu.pl/api/Tickets/10?token=1234
-
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.DeletePost(Tickets+"/"+id);
-
+        return _restClientService.SendDelete(Tickets+"/"+id);
     }
-
-
 
     public int AddNewOrder(Order order)
     {
@@ -162,7 +137,6 @@ public class RestService {
         }
         catch (JSONException jex)
         {}
-        _restClientService.SetToken(UserLog.token);
         return _restClientService.SendPost(Tickets, jsonData.toString());
     }
 
@@ -185,20 +159,17 @@ public class RestService {
 
     public int GetAllOrders() // co jesli inne gruby zawodowe ???
     {
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Tickets);
+        return _restClientService.SendGet(Tickets);
     }
 
     public int GetOrder(int id) // co jesli inne gruby zawodowe ???
     {
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Tickets+"/"+id);
+        return _restClientService.SendGet(Tickets+"/"+id);
     }
 
     public int GetNotification()
     {
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Notifications);
+        return _restClientService.SendGet(Notifications);
 
     }
 
@@ -213,16 +184,12 @@ public class RestService {
             }
         catch (JSONException jex)
         {}
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.PutPost(Notifications+"/"+notificationId, jsonData.toString());
+        return _restClientService.SendPut(Notifications+"/"+notificationId, jsonData.toString());
     }
-
 
     public int GetCards()
     {
-        // Url: http://s384027.iis.wmi.amu.edu.pl/api/Cards?token=1234
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Cards);
+        return _restClientService.SendGet(Cards);
     }
 
     public int EditOrder(int id, Order order) {
@@ -261,8 +228,7 @@ public class RestService {
             //    jsonData.put("GpsLongitude", 11.333);
         } catch (JSONException jex) {
         }
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.PutPost(Tickets + "/" + id, jsonData.toString());
+        return _restClientService.SendPut(Tickets + "/" + id, jsonData.toString());
     }
 
     public int PinOrder(int id, Order order) {
@@ -301,8 +267,7 @@ public class RestService {
             //    jsonData.put("GpsLongitude", 11.333);
         } catch (JSONException jex) {
         }
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.PutPost(Tickets + "/" + id, jsonData.toString());
+        return _restClientService.SendPut(Tickets + "/" + id, jsonData.toString());
     }
 
     public int unPinOrder(int id, Order order) {
@@ -341,17 +306,11 @@ public class RestService {
             //    jsonData.put("GpsLongitude", 11.333);
         } catch (JSONException jex) {
         }
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.PutPost(Tickets + "/" + id, jsonData.toString());
+        return _restClientService.SendPut(Tickets + "/" + id, jsonData.toString());
     }
-
-
-
-
 
     public int AddCoordinate(Coordinate coordinate)
         {
-          //  Url: http://s384027.iis.wmi.amu.edu.pl/api/Coordinates?token=1234
             JSONObject jsonData = new JSONObject();
             try {
                 jsonData.put("Latitude", coordinate.getLatitude());
@@ -359,54 +318,30 @@ public class RestService {
             }
             catch (JSONException jex)
             {}
-            _restClientService.SetToken(UserLog.token);
             return _restClientService.SendPost(Coordinates, jsonData.toString());
         }
 
 
     public int GetNotifications()
     {
-        //  Url: http://s384027.iis.wmi.amu.edu.pl/api/Notifications?token=1234
-
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Notifications);
+        return _restClientService.SendGet(Notifications);
     }
 
     public int DeleteNotification(int id)
     {
-        // Url: http://s384027.iis.wmi.amu.edu.pl/api/Notifications/1?token=1234
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.DeletePost(Notifications+"/"+id);
+        return _restClientService.SendDelete(Notifications+"/"+id);
     }
 
 
     public int GetMyCard()
     {
-        //  Url: http://s384027.iis.wmi.amu.edu.pl/api/Cards/1?token=1234
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Cards+"/"+"0");
+        return _restClientService.SendGet(Cards+"/"+"0");
     }
 
     public int GetCard(int workerId)
     {
-        //  Url: http://s384027.iis.wmi.amu.edu.pl/api/Cards/1?token=1234
-        _restClientService.SetToken(UserLog.token);
-        return _restClientService.GetPost(Cards+"/"+workerId);
+        return _restClientService.SendGet(Cards+"/"+workerId);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public int SendLocation(Coordinate cor)
     {
@@ -417,7 +352,7 @@ public class RestService {
         }
         catch (JSONException jex)
         {}
-        _restClientService.SetToken(UserLog.token);
+
         return _restClientService.SendPost(CoordinateResource, jsonData.toString());
     }
 }
