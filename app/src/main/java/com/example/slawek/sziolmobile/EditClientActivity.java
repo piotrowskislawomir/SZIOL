@@ -68,7 +68,7 @@ public class EditClientActivity extends Activity{
 
 
                  // TextView tv = (TextView) findViewById(R.id.textView3);
-                  Intent intent = new Intent(EditClientActivity.this, ClientsActivity.class);
+                  Intent intent = new Intent(EditClientActivity.this, Fragment_clients.class);
                      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                   startActivity(intent);
                 //  finish();

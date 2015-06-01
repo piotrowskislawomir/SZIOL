@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="445dp"
         android:id="@+id/LV_clients"
-        android:layout_weight="0.89"
+        android:layout_weight="1.15"
         android:textColor="#fffffffa"
         android:layout_marginTop="40dp" />
 
@@ -19,14 +19,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="51dp"
-            android:text="DODAJ KLIENTA"
-            android:id="@+id/button12"
-            android:onClick="senderAddClientButtonOnClickFrag"
-            android:nestedScrollingEnabled="false"
-            android:background="#ffff6d2b"
-            android:textColor="#ffffffff" />
     </TableRow>
 </LinearLayout>

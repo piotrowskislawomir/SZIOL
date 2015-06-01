@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,10 +15,9 @@ import sziolmobile.RestClientService;
 import sziolmobile.RestService;
 
 /**
- * Created by Michał on 2015-05-10.
+ * Created by Michał on 2015-06-01.
  */
-public class ClientsActivitySettings extends Activity {
-
+public class Fragment_client_add_order extends Activity {
     EditText et;
     JSONObject jsonObj;
 
@@ -51,7 +48,7 @@ public class ClientsActivitySettings extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_options);
 
-      //  cl = ClientsActivity.cl;
+        //  cl = ClientsActivity.cl;
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -62,7 +59,7 @@ public class ClientsActivitySettings extends Activity {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
                 restService.GetClientById(Integer.parseInt(Fragment_clients.getClient().getId()));
-           }
+            }
         });
 
         try {
@@ -87,47 +84,19 @@ public class ClientsActivitySettings extends Activity {
 
         et = (EditText) findViewById(R.id.ET_clients_settings);
         et.append("Imię: " + firstName + "\n" +
-                  "Nazwisko: " + lastName +"\n" +
-                  "Ulica " + street + "\n" +
-                  "Numer domu: " + homeNumber + "\n" +
-                  "Numer mieszkania: " + flatNumber + "\n" +
-                  "Miejscowość: " + city);
+                "Nazwisko: " + lastName +"\n" +
+                "Ulica " + street + "\n" +
+                "Numer domu: " + homeNumber + "\n" +
+                "Numer mieszkania: " + flatNumber + "\n" +
+                "Miejscowość: " + city);
 
 
 
     }
-
-    public void editClientOnClick(View v) {
-        Intent myIntent = new Intent(v.getContext(), EditClientActivity.class);
-        ClientsActivitySettings.this.startActivity(myIntent);
-       this.finish();
-    }
-
-    public void deleteClientOnClick(View v) {
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        runOnUiThread(new Runnable() {
-            public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
-                restService.DeleteCustomer(ClientsActivity.cl.getId());
-            }
-        });
-
-
-        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
-        ClientsActivitySettings.this.startActivity(myIntent);
-        finish();
-
-
-    }
-
     public void addNewOrderOnClick(View v)
     {
         Intent myIntent = new Intent(v.getContext(), NewOrderActivity.class);
-        ClientsActivitySettings.this.startActivity(myIntent);
-       // finish();
+        Fragment_client_add_order.this.startActivity(myIntent);
+        // finish();
     }
 }

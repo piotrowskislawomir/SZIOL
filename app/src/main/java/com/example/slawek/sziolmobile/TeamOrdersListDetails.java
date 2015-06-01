@@ -156,7 +156,7 @@ public class TeamOrdersListDetails extends Activity {
             }
         });
 
-        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
         myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(myIntent);
         finish();

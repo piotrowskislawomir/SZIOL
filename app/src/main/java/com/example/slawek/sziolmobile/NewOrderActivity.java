@@ -30,7 +30,8 @@ public class NewOrderActivity extends Activity {
         title = (EditText)findViewById(R.id.ET_order_title);
         description = (EditText)findViewById(R.id.ET_order_description);
         status = (EditText)findViewById(R.id.ET_order_status);
-        cl = ClientsActivitySettings.getSingleClient();
+      //  cl = ClientsActivitySettings.getSingleClient();
+        cl = Fragment_activity_client_settings.getSingleClient();
     }
 
     public void addNewOrderActivityOnClick(View v)
@@ -63,8 +64,9 @@ public class NewOrderActivity extends Activity {
         }
 
 
+        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
 
-        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        // 01.06   Intent myIntent = new Intent(v.getContext(), MainMenu.class);
         NewOrderActivity.this.startActivity(myIntent);
         finish();
     }

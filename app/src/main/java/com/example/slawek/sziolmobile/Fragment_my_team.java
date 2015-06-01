@@ -1,24 +1,16 @@
-
-/**
- * Created by Michał on 2015-05-19.
- */
-
-
 package com.example.slawek.sziolmobile;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,13 +25,11 @@ import sziolmobile.RestClientService;
 import sziolmobile.RestService;
 
 /**
- * Created by Michał on 2015-04-12.
+ * Created by Michał on 2015-06-01.
  */
-public class TeamOrdersList extends Activity {
+public class Fragment_my_team extends Fragment{
 
-    ///////////////
-
-    // noiwa aktualizacja
+    View rootView;
     JSONArray teamOrders;
     ///////////////////
 
@@ -53,7 +43,6 @@ public class TeamOrdersList extends Activity {
     String street;
     String homeNumber;
     String flatNumber;
-    String titleOrder;
 
     String orderId;
 
@@ -64,73 +53,52 @@ public class TeamOrdersList extends Activity {
 
     List<String> listAdapter;
 
-    List<Order> orderList;
+    List<Card> cardList;
     ListView lv;
     private static Card card;
     ArrayAdapter<String> adapter;
-    Card cr;
-    static Order ord;
 
-
-    public static Order getCustomerOrder()
+    public static Card getCard()
     {
-        return ord;
+        return card;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.actvity_team_orders_card);
-        lv = (ListView)findViewById(R.id.LV_customer_orders);
-        ////
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 
-        runOnUiThread(new Runnable() {
-            public void run() {
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        rootView = inflater.inflate(R.layout.activity_team_orders, container, false);
+
+        lv = (ListView)rootView.findViewById(R.id.LV_orders);
+        ////
+
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                // restService.GetAllCustomers();
-               // cr = TeamOrders.getCard();
-               cr = Fragment_my_team.getCard();
-                restService.GetCustomerCard(cr.getCardId());
+                restService.GetAllTeam();
                 try {
                     teamOrders = new JSONArray(RestClientService.resp);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-            }
-        });
-        ////
 
         AddClientsToListView();
+
+        return rootView;
     }
 
-
-
-    @Override
-    public void onRestart() {
-        super.onRestart();
-        //When BACK BUTTON is pressed, the activity on the stack is restarted
-        //Do what you want on the refresh procedure here
-        super.onResume();
-        AddClientsToListView();
-    }
-
-    private void AddClientsToListView()
-    {
+    private void AddClientsToListView() {
         listAdapter = new ArrayList<String>();
-        orderList =  new ArrayList<Order>();
+        cardList = new ArrayList<Card>();
 
-        for(int i=0; i<teamOrders.length(); i++)
-        {
+        for (int i = 0; i < teamOrders.length(); i++) {
             try {
                 JSONObject jsonObj = teamOrders.getJSONObject(i);
-     //           firstName = jsonObj.getJSONObject("Worker").getString("FirstName").toString();
-      //          lastName = jsonObj.getJSONObject("Worker").getString("LastName").toString();
-                orderId = jsonObj.get("Id").toString();
-                titleOrder = jsonObj.get("Title").toString();
+                firstName = jsonObj.getJSONObject("Worker").getString("FirstName").toString();
+                lastName = jsonObj.getJSONObject("Worker").getString("LastName").toString();
+                orderId = jsonObj.get("CardId").toString();
                 /*
                 address = jsonObj.get("Address").toString();
                 teamId = jsonObj.get("TeamId").toString();
@@ -147,21 +115,17 @@ public class TeamOrdersList extends Activity {
                 //  clientsList.add(new Client(clientId, firstName, lastName, address));
                 listAdapter.add(firstName+" "+lastName+"\n"+address);
             */
-           //     card = new Card(Integer.parseInt(orderId), firstName, lastName);
-ord = new Order(orderId, titleOrder);
-                orderList.add(ord);
+                card = new Card(Integer.parseInt(orderId), firstName, lastName);
+
+                cardList.add(card);
                 //     listAdapter.add(firstName+" "+lastName);
-            }
-            catch(JSONException e)
-            {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listAdapter);
-            lv.setAdapter(adapter);
 
-            ArrayAdapter<Order> adap = new ArrayAdapter<Order>(this,
-                    android.R.layout.simple_list_item_1, orderList);
+            ArrayAdapter<Card> adap = new ArrayAdapter<Card>(getActivity(),
+                    android.R.layout.simple_list_item_1, cardList);
 
             lv.setAdapter(adap);
 
@@ -170,13 +134,12 @@ ord = new Order(orderId, titleOrder);
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
 
-                    ord =   (Order)(lv.getItemAtPosition(position));
+                    card = (Card) (lv.getItemAtPosition(position));
 
 
-                    Intent myIntent = new Intent(view.getContext(), TeamOrdersListDetails.class);
+                    Intent myIntent = new Intent(view.getContext(), TeamOrdersList.class);
                     startActivity(myIntent);
 //                    ClientsActivity.this.startActivityForResult(myIntent, 0);
-
 
 
                 }
@@ -185,13 +148,6 @@ ord = new Order(orderId, titleOrder);
 
             // clientsList.add(clients)
         }
-
-
     }
-    public void senderAddClientButtonOnClick(View v)
-    {
-        //   Intent intent = new Intent(ClientsActivity.this, NewClient.class);
-        //    startActivity(intent);
 
-    }
 }

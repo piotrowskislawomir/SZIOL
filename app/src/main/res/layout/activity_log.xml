@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="#FFFFFF"
     android:weightSum="1">
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:paddingLeft="10dp"
         android:layout_weight="0.41"
         android:layout_marginTop="30dp"
-        android:background="@android:color/darker_gray">
+        android:background="#FFFFFF">
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +23,8 @@
             android:text="Login"
             android:id="@+id/textView3"
             android:paddingTop="10dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="#0707a6" />
 
         <EditText
             android:layout_width="250dp"
@@ -32,8 +33,10 @@
             android:ems="10"
             android:id="@+id/ET_log_log"
             android:paddingTop="10dp"
-            android:background="#ffffffff"
-            android:layout_gravity="center_horizontal" />
+            android:background="@drawable/edit_text_style"
+            android:layout_gravity="center_horizontal"
+
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,7 +45,8 @@
             android:text="Hasło"
             android:id="@+id/textView4"
             android:paddingTop="10dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="#0707a6" />
 
         <EditText
             android:layout_width="250dp"
@@ -51,8 +55,9 @@
             android:ems="10"
             android:id="@+id/ET_pass_log"
             android:paddingTop="10dp"
-            android:background="#ffffffff"
-            android:layout_gravity="center_horizontal" />
+            android:background="@drawable/edit_text_style"
+            android:layout_gravity="center_horizontal"
+            android:accessibilityLiveRegion="none" />
 
         <Button
             android:layout_width="250dp"
@@ -62,9 +67,9 @@
             android:layout_gravity="center_horizontal"
             android:singleLine="false"
             android:layout_marginTop="60dp"
-            android:background="#ffff6d2b"
+            android:background="#0707a6"
             android:onClick="loginButtonOnClick"
-            android:textColor="#ffffffff" />
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 

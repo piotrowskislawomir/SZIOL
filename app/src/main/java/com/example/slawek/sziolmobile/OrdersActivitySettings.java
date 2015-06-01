@@ -41,7 +41,7 @@ public class OrdersActivitySettings extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_options);
 
-        or = OrdersActivity.or;
+        or = Fragment_tickets.or;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -119,7 +119,7 @@ public class OrdersActivitySettings extends Activity {
             }
         });
 
-        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
         myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(myIntent);
         finish();
@@ -148,7 +148,7 @@ public class OrdersActivitySettings extends Activity {
         ////////////
         ////////////
         //////////////// TU ZMIENI I ODSWIEZAC WIDOK
-        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         OrdersActivitySettings.this.startActivity(myIntent);
 

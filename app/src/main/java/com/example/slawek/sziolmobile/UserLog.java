@@ -131,10 +131,14 @@ import sziolmobile.RestService;
 
                             _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_localization_enable), "true");
 
-                            Intent intent = new Intent(UserLog.this, MainMenu.class);
-                            startActivity(intent);
-                            finish();
-                        }
+                           // Intent intent = new Intent(UserLog.this, MainMenu.class);
+                            Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+                    //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                 //           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);     //    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            InternetConnectionService.setLoginStatus(true);
+                          }
                         else
                         {
                             Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();

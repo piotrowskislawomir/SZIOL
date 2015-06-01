@@ -86,7 +86,7 @@ private void Alert(String str)
         startService(serviceIntent);
     }
 
-    private void stopInternetService() {
+    public void stopInternetService() {
         Intent serviceIntent = new Intent(this, InternetConnectionService.class);
         stopService(serviceIntent);
     }
@@ -96,7 +96,7 @@ private void Alert(String str)
         startService(serviceIntent);
     }
 
-    private void stopMyService() {
+    public void stopMyService() {
         Intent serviceIntent = new Intent(this, GpsService.class);
         stopService(serviceIntent);
     }
@@ -106,7 +106,7 @@ private void Alert(String str)
         startService(serviceIntent);
     }
 
-    private void stopNotificationService() {
+    public void stopNotificationService() {
         Intent serviceIntent = new Intent(this, NotificationService.class);
         stopService(serviceIntent);
     }
@@ -144,7 +144,22 @@ private void Alert(String str)
              stopMyService();
          } catch (Exception ex) {}
            startMyService();
+
+         if(InternetConnectionService.getLoginStatus())
+         {
+             Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+             //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+             //           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+             startActivity(intent);     //    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+         }
      }
+
+     //
+   //  Intent myIntent = new Intent(MainActivity.this, NavigationActivity.class);
+   //  MainActivity.this.startActivity(myIntent);
+     //
 }
 
   @Override
@@ -184,7 +199,5 @@ private void Alert(String str)
         Intent myIntent = new Intent(MainActivity.this, UserReg.class);
         MainActivity.this.startActivity(myIntent);
     }
-
-
 
 }

@@ -19,7 +19,7 @@ import sziolmobile.RestService;
 /**
  * Created by Michał on 2015-05-10.
  */
-public class ClientsActivitySettings extends Activity {
+public class Fragment_activity_client_settings extends Activity {
 
     EditText et;
     JSONObject jsonObj;
@@ -49,9 +49,9 @@ public class ClientsActivitySettings extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_options);
+        setContentView(R.layout.fragment_add_ticket);
 
-      //  cl = ClientsActivity.cl;
+        //  cl = ClientsActivity.cl;
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -61,8 +61,8 @@ public class ClientsActivitySettings extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetClientById(Integer.parseInt(Fragment_clients.getClient().getId()));
-           }
+                restService.GetClientById(Integer.parseInt(Fragment_new_ticket.getClient().getId()));
+            }
         });
 
         try {
@@ -87,11 +87,11 @@ public class ClientsActivitySettings extends Activity {
 
         et = (EditText) findViewById(R.id.ET_clients_settings);
         et.append("Imię: " + firstName + "\n" +
-                  "Nazwisko: " + lastName +"\n" +
-                  "Ulica " + street + "\n" +
-                  "Numer domu: " + homeNumber + "\n" +
-                  "Numer mieszkania: " + flatNumber + "\n" +
-                  "Miejscowość: " + city);
+                "Nazwisko: " + lastName +"\n" +
+                "Ulica " + street + "\n" +
+                "Numer domu: " + homeNumber + "\n" +
+                "Numer mieszkania: " + flatNumber + "\n" +
+                "Miejscowość: " + city);
 
 
 
@@ -99,8 +99,8 @@ public class ClientsActivitySettings extends Activity {
 
     public void editClientOnClick(View v) {
         Intent myIntent = new Intent(v.getContext(), EditClientActivity.class);
-        ClientsActivitySettings.this.startActivity(myIntent);
-       this.finish();
+        Fragment_activity_client_settings.this.startActivity(myIntent);
+        this.finish();
     }
 
     public void deleteClientOnClick(View v) {
@@ -118,16 +118,16 @@ public class ClientsActivitySettings extends Activity {
 
 
         Intent myIntent = new Intent(v.getContext(), MainMenu.class);
-        ClientsActivitySettings.this.startActivity(myIntent);
+        Fragment_activity_client_settings.this.startActivity(myIntent);
         finish();
 
 
     }
 
-    public void addNewOrderOnClick(View v)
+    public void addNewOrderOnClickFrag(View v)
     {
         Intent myIntent = new Intent(v.getContext(), NewOrderActivity.class);
-        ClientsActivitySettings.this.startActivity(myIntent);
-       // finish();
+        Fragment_activity_client_settings.this.startActivity(myIntent);
+        // finish();
     }
 }

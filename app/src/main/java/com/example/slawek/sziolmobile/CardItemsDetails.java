@@ -35,8 +35,8 @@ public class CardItemsDetails extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_details);
 
-        or = CardItems.getCard();
-
+      //  or = CardItems.getCard();
+or = Fragment_my_card.getCard();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -90,7 +90,7 @@ public class CardItemsDetails extends Activity {
         }
         });
 
-        Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
         myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(myIntent);
         finish();

@@ -35,6 +35,17 @@ import sziolmobile.RestService;
 public class InternetConnectionService extends Service {
     private Timer timer;
     private TimerTask timerTask;
+    private static boolean loginStatus = false;
+
+    public static void setLoginStatus(boolean status)
+    {
+        loginStatus = status;
+    }
+
+    public static boolean getLoginStatus()
+    {
+        return loginStatus;
+    }
 
     public boolean isOnline() {
         ConnectivityManager cm =
