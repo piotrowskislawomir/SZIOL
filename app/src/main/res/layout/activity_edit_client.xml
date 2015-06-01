@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray">
+    android:background="@drawable/edit_text_style"
+    android:weightSum="1">
 
     <EditText
         android:layout_width="wrap_content"
@@ -10,9 +11,10 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/ET_edit_firstName"
-        android:background="#fffffffa"
+        android:background="@drawable/edit_text_style"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="80dp"
+        android:layout_weight="0.07" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -20,9 +22,10 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/ET_edit_lastName"
-        android:background="#fffffffa"
+        android:background="@drawable/edit_text_style"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.07" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -30,9 +33,10 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/ET_edit_street"
-        android:background="#fffffffa"
+        android:background="@drawable/edit_text_style"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.07" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -40,9 +44,10 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/ET_edit_homeNumber"
-        android:background="#fffffffa"
+        android:background="@drawable/edit_text_style"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.07" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -50,9 +55,10 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/ET_edit_flatNumber"
-        android:background="#fffffffa"
+        android:background="@drawable/edit_text_style"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.07" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -60,17 +66,19 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/ET_edit_city"
-        android:background="#fffffffa"
+        android:background="@drawable/edit_text_style"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.07" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="243dp"
         android:layout_height="wrap_content"
         android:text="Zapisz"
         android:id="@+id/BT_edit_client_save"
         android:layout_gravity="center_horizontal"
         android:onClick="saveEditClientOnClick"
-        android:background="#ffff6d2b"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+        android:background="#0707a6"
+        android:textColor="#ffffffff" />
 </LinearLayout>

@@ -3,28 +3,28 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="@android:color/darker_gray">
+    android:background="#ffffffff">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ET_clients_settings"
         android:layout_weight="0.64"
-        android:background="@android:color/darker_gray"
+        android:background="#ffffffff"
         android:enabled="false"
         android:editable="false" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:text="Dodaj zgłoszenie"
         android:id="@+id/BT_add_order"
-        android:layout_weight="0.04"
         android:onClick="addNewOrderOnClickFrag"
-        android:background="#ffff6d2b"
+        android:background="#0707a6"
         android:layout_marginTop="10dp"
         android:textColor="#fffffffa"
-        android:nestedScrollingEnabled="false" />
+        android:nestedScrollingEnabled="false"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="match_parent"

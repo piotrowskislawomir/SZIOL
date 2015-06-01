@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    android:background="@android:color/darker_gray">
+    android:background="#ffffffff">
 
     <ListView
         android:layout_width="match_parent"
@@ -12,7 +12,8 @@
         android:id="@+id/LV_clients"
         android:layout_weight="0.89"
         android:textColor="#fffffffa"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp"
+        android:background="#ffffffff" />
 
     <TableRow
         android:layout_width="match_parent"
@@ -26,7 +27,7 @@
             android:id="@+id/button12"
             android:onClick="senderAddClientButtonOnClickFrag"
             android:nestedScrollingEnabled="false"
-            android:background="#ffff6d2b"
+            android:background="#0707a6"
             android:textColor="#ffffffff" />
     </TableRow>
 </LinearLayout>

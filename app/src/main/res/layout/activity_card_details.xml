@@ -2,14 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#ffffffff">
 
     <TextView
         android:layout_width="315dp"
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/TV_card_order_unpin"
-        android:layout_weight="0.54" />
+        android:layout_weight="0.54"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp" />
 
     <Button
         android:layout_width="266dp"
@@ -17,5 +20,8 @@
         android:text="Odepnij zlecenie"
         android:id="@+id/BT_card_unpin"
         android:layout_weight="0.06"
-        android:onClick="unPinOrderOnClick" />
+        android:onClick="unPinOrderOnClick"
+        android:background="#0707a6"
+        android:textColor="#ffffffff"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
