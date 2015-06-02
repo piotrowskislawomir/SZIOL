@@ -28,6 +28,7 @@ public class NewClient extends Activity {
     private EditText flatNumberClient;
     private EditText cityClient;
     int restStatus;
+    public static Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,10 @@ public class NewClient extends Activity {
         flatNumberClient = (EditText)findViewById(R.id.ET_new_client_flat_number);
     }
 
+    public static Client getClient()
+    {
+        return client;
+    }
 
     public void addNewClientButtonOnClick(View v) {
 
@@ -49,7 +54,11 @@ public class NewClient extends Activity {
                 !cityClient.getText().toString().isEmpty() && !streetClient.getText().toString().isEmpty() &&
                 !homeNumberClient.getText().toString().isEmpty() && !flatNumberClient.getText().toString().isEmpty()) {
 
-            final Client client = new Client(firstNameClient.getText().toString(), lastNameClient.getText().toString(), cityClient.getText().toString(), streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
+            client = new Client(firstNameClient.getText().toString(), lastNameClient.getText().toString(), cityClient.getText().toString(), streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
+
+
+
+
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -58,7 +67,7 @@ public class NewClient extends Activity {
                 public void run() {
                     RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                     RestService restService = new RestService(restClientService);
-                    restStatus = restService.AddNewCustomer(client);
+           //         restStatus = restService.AddNewCustomer(client);
              }
             });
             if(restStatus == 200) {
@@ -69,7 +78,11 @@ public class NewClient extends Activity {
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "Zła odpowiedź serwera", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getApplicationContext(), "Zła odpowiedź serwera", Toast.LENGTH_SHORT).show();
+                 // bo longitude i latitude
+                Intent intent = new Intent(NewClient.this, ClientsLivePlace.class);
+             //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
             }
         }

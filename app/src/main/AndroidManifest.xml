@@ -45,6 +45,8 @@
         <activity android:name=".TeamOrdersList" />
         <activity android:name=".TeamOrdersListDetails" />
         <activity android:name=".CardItemsDetails" />
+        <activity android:name=".ClientsLivePlace" />
+
         <activity
             android:name=".UserLog"
             android:label="@string/app_name"

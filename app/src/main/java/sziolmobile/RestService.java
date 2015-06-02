@@ -80,7 +80,7 @@ public class RestService {
         return _restClientService.SendGet(Cards);
     }
 
-    public int AddNewCustomer(Client client)
+    public int AddNewCustomer(Client client, Coordinate cor)
     {
         JSONObject jsonData = new JSONObject();
         try {
@@ -90,7 +90,9 @@ public class RestService {
             jsonData.put("Street", client.getStreet());
             jsonData.put("HomeNo", client.getHomeNumber());
             jsonData.put("FlatNo", client.getFlatNumber());
-        }
+            jsonData.put("GpsLatitude", cor.getLatitude());
+            jsonData.put("GpsLongitude", cor.getLongitude());
+                }
 
 
         catch (JSONException jex)
@@ -113,6 +115,21 @@ public class RestService {
             catch (JSONException jex)
             {}
             return _restClientService.SendPut(Customers+"/"+id, jsonData.toString());
+        }
+    }
+
+    public int GetClientPlaces(Client client)
+    {
+        {
+            JSONObject jsonData = new JSONObject();
+            try {
+                jsonData.put("City", client.getCity());
+                jsonData.put("Street", client.getStreet());
+                jsonData.put("HomeNo", client.getHomeNumber());
+            }
+            catch (JSONException jex)
+            {}
+            return _restClientService.SendPut(Coordinates, jsonData.toString());
         }
     }
 

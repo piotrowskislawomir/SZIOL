@@ -35,46 +35,18 @@ public class Fragment_new_client extends Fragment {
     private EditText flatNumberClient;
     private EditText cityClient;
     int restStatus;
+    public static Client client;
 
+
+    public static Client getClient()
+    {
+        return client;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.activity_add_new_client, container, false);
-
-
-        Button button = (Button) rootView.findViewById(R.id.button13);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!firstNameClient.getText().toString().isEmpty() && lastNameClient.getText().toString().isEmpty() &&
-                        cityClient.getText().toString().isEmpty() && streetClient.getText().toString().isEmpty() &&
-                        homeNumberClient.getText().toString().isEmpty() && flatNumberClient.getText().toString().isEmpty()) {
-
-                    final Client client = new Client(firstNameClient.getText().toString(), lastNameClient.getText().toString(), cityClient.getText().toString(), streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
-
-                    RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                    RestService restService = new RestService(restClientService);
-                    restStatus = restService.AddNewCustomer(client);
-                    // restService.DeleteCustomer(8);
-
-                    //             TextView tv = (TextView) findViewById(R.id.textView3);
-                    //   }
-                    if (restStatus == 200) {
-                        Intent intent = new Intent(v.getContext(), Fragment_clients.class);
-                        //     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-
-                    } else {
-                        Toast.makeText(getActivity(), "Zła odpowiedź serwera", Toast.LENGTH_SHORT).show();
-
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "Proszę uzupełnić wszystkie informacje o kliencie", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
 
         firstNameClient = (EditText)rootView.findViewById(R.id.ET_new_client_name);
         lastNameClient = (EditText)rootView.findViewById(R.id.ET_new_client_last_name);
@@ -83,8 +55,33 @@ public class Fragment_new_client extends Fragment {
         homeNumberClient = (EditText)rootView.findViewById(R.id.ET_client_home_number);
         flatNumberClient = (EditText)rootView.findViewById(R.id.ET_new_client_flat_number);
 
+        Button button = (Button) rootView.findViewById(R.id.button13);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!firstNameClient.getText().toString().isEmpty() && !lastNameClient.getText().toString().isEmpty() &&
+                        !cityClient.getText().toString().isEmpty() && !streetClient.getText().toString().isEmpty() &&
+                        !homeNumberClient.getText().toString().isEmpty() && !flatNumberClient.getText().toString().isEmpty()) {
+
+                  client = new Client(firstNameClient.getText().toString(), lastNameClient.getText().toString(), cityClient.getText().toString(), streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
+
+                    Intent intent = new Intent(getActivity(), ClientsLivePlace.class);
+                  //  Toast.makeText(getActivity().getApplicationContext(), "DOBRZE", Toast.LENGTH_LONG).show();
+
+                    //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+            }
+            else
+                {
+                    Toast.makeText(getActivity().getApplicationContext(), "DUPA", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+
         return rootView;
     }
+
 
     public void addNewClientButtonOnClick(View v)
     {
@@ -98,7 +95,7 @@ public class Fragment_new_client extends Fragment {
 
                  RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                     RestService restService = new RestService(restClientService);
-                    restStatus = restService.AddNewCustomer(client);
+              //      restStatus = restService.AddNewCustomer(client);
                     // restService.DeleteCustomer(8);
 
        //             TextView tv = (TextView) findViewById(R.id.textView3);

@@ -70,6 +70,7 @@ package com.example.slawek.sziolmobile;
 public class Coordinate {
     double latitude;
     double longitude;
+    String nameCity;
 
     public Coordinate(double latitude, double longitude)
     {
@@ -77,8 +78,18 @@ public class Coordinate {
         this.longitude = longitude;
     }
 
+    public Coordinate(double latitude, double longitude, String nameCity)
+    {
+        this.nameCity = nameCity;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public double getLatitude(){ return latitude; }
     public double getLongitude(){ return longitude; }
+    public String toString() {
+        return this.nameCity;
+    }
 
 
 

@@ -8,9 +8,8 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="445dp"
+        android:layout_height="match_parent"
         android:id="@+id/LV_clients"
-        android:layout_weight="0.89"
         android:textColor="#fffffffa"
         android:layout_marginTop="40dp"
         android:background="#ffffffff" />
@@ -28,6 +27,8 @@
             android:onClick="senderAddClientButtonOnClickFrag"
             android:nestedScrollingEnabled="false"
             android:background="#0707a6"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:enabled="false"
+            android:visibility="invisible" />
     </TableRow>
 </LinearLayout>
