@@ -1,6 +1,7 @@
 package com.example.slawek.sziolmobile;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -84,6 +85,10 @@ public class NavigationActivity extends ActionBarActivity
                 objFragment = new Fragment_my_team();
                 mTitle = getString(R.string.title_section6);
                 break;
+            case 6:
+                objFragment = new Fragment_settings();
+                mTitle = getString(R.string.title_section7);
+                break;
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -136,6 +141,9 @@ public class NavigationActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+       //     Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+          //  myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+       //     startActivity(myIntent);
             return true;
         }
 

@@ -21,6 +21,8 @@ public class MainActivity extends ActionBarActivity {
     Timer timer;
     TimerTask timerTask;
     GpsNetLocalizator gps;
+public static boolean NOTIFICATION_SERVICE_FLAG;
+public static boolean GPS_SERVICE_FLAG;
 
     final Handler handler = new Handler();
 
@@ -81,7 +83,8 @@ private void Alert(String str)
             .show();
 }
 
-    private void startInternetService() {
+    public void startInternetService()
+    {
         Intent serviceIntent = new Intent(this, InternetConnectionService.class);
         startService(serviceIntent);
     }
@@ -91,22 +94,26 @@ private void Alert(String str)
         stopService(serviceIntent);
     }
 
-    private void startMyService() {
+    public void startMyService() {
+        GPS_SERVICE_FLAG = true;
         Intent serviceIntent = new Intent(this, GpsService.class);
         startService(serviceIntent);
     }
 
     public void stopMyService() {
+        GPS_SERVICE_FLAG = false;
         Intent serviceIntent = new Intent(this, GpsService.class);
         stopService(serviceIntent);
     }
 
-    private void startNotificationService() {
+    public void startNotificationService() {
+        NOTIFICATION_SERVICE_FLAG = true;
         Intent serviceIntent = new Intent(this, NotificationService.class);
         startService(serviceIntent);
     }
 
     public void stopNotificationService() {
+        NOTIFICATION_SERVICE_FLAG = false;
         Intent serviceIntent = new Intent(this, NotificationService.class);
         stopService(serviceIntent);
     }
@@ -199,5 +206,7 @@ private void Alert(String str)
         Intent myIntent = new Intent(MainActivity.this, UserReg.class);
         MainActivity.this.startActivity(myIntent);
     }
+
+
 
 }

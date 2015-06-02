@@ -271,7 +271,7 @@ public class RestService {
             jsonData.put("CreatorId", order.getCreatorId());
             jsonData.put("Description", order.getDescription());
             jsonData.put("CustomerId", order.getCustomerId());
-            jsonData.put("Status", order.getStatus());
+            jsonData.put("Status", "EX");
             jsonData.put("Title", order.getTitle());
             jsonData.put("ExecutorId", order.getExecutorId()); // tutaj na stałę
             jsonData.put("AssignToTicket", true);
@@ -310,7 +310,7 @@ public class RestService {
             jsonData.put("CreatorId", order.getCreatorId());
             jsonData.put("Description", order.getDescription());
             jsonData.put("CustomerId", order.getCustomerId());
-            jsonData.put("Status", order.getStatus());
+            jsonData.put("Status", "CP");
             jsonData.put("Title", order.getTitle());
             jsonData.put("ExecutorId", "null"); // tutaj na stałę
             jsonData.put("AssignToTicket", false);

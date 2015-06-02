@@ -51,7 +51,9 @@ public class NavigationDrawerFragment extends Fragment {
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
-
+//
+private ArrayAdapter<String> adapter;
+    //
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
@@ -110,9 +112,12 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section4),
                         getString(R.string.title_section5),
                         getString(R.string.title_section6),
-
+                        getString(R.string.title_section7),
+                        
                 }));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+     //   adapter = new CustomAdapter(getActivity(), R.layout.row, myStringArray1);
+
+          mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
 

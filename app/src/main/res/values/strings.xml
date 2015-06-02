@@ -2,7 +2,7 @@
     <string name="app_name"></string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Lokalizacja</string>
 
     <string name="shared_space">shared_space</string>
     <string name="shared_login">shared_login</string>
@@ -21,6 +21,7 @@
     <string name="title_section4">Lista Klientów</string>
     <string name="title_section5">Dodaj Klienta</string>
     <string name="title_section6">Mój Zespół</string>
+    <string name="title_section7">Ustawienia</string>
 
 
 
