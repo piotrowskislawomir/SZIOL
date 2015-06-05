@@ -86,7 +86,7 @@ public class NavigationActivity extends ActionBarActivity
                 mTitle = getString(R.string.title_section6);
                 break;
             case 6:
-                objFragment = new Fragment_settings();
+                objFragment = new Fragment_settings(getBaseContext());
                 mTitle = getString(R.string.title_section7);
                 break;
         }

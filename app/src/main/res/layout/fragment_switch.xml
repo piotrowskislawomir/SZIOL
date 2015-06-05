@@ -6,10 +6,21 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dostęp do lokalizacji"
-        android:id="@+id/switch1"
+        android:text="Wysyłanie lokalizacji"
+        android:id="@+id/switchLocalization"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:checked="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Odbieranie notyfikacji"
+        android:id="@+id/switchNotifiaction"
+        android:checked="true"
+        android:layout_below="@+id/switchLocalization"
+        android:layout_alignLeft="@+id/switchLocalization"
+        android:layout_alignStart="@+id/switchLocalization"
+        android:layout_marginTop="20dp" />
 
 </RelativeLayout>

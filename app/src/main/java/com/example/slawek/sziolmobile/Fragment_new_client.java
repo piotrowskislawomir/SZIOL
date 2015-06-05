@@ -61,7 +61,7 @@ public class Fragment_new_client extends Fragment {
             public void onClick(View v) {
                 if (!firstNameClient.getText().toString().isEmpty() && !lastNameClient.getText().toString().isEmpty() &&
                         !cityClient.getText().toString().isEmpty() && !streetClient.getText().toString().isEmpty() &&
-                        !homeNumberClient.getText().toString().isEmpty() && !flatNumberClient.getText().toString().isEmpty()) {
+                        !homeNumberClient.getText().toString().isEmpty() /*&& !flatNumberClient.getText().toString().isEmpty()*/) {
 
                   client = new Client(firstNameClient.getText().toString(), lastNameClient.getText().toString(), cityClient.getText().toString(), streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
 

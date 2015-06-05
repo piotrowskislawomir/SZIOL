@@ -18,6 +18,11 @@ public class SharedPropertiesManager {
         Initialize();
     }
 
+    public SharedPropertiesManager(SharedPreferences sharedPreferences)
+    {
+        _sharedPreferences = sharedPreferences;
+    }
+
     private void Initialize()
     {
         Resources res = _ctx.getResources();

@@ -129,7 +129,7 @@ import sziolmobile.RestService;
                             _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_token), token);
                             RestClientService.SetToken(token);
 
-                            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_localization_enable), "true");
+
 
                            // Intent intent = new Intent(UserLog.this, MainMenu.class);
                             Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
