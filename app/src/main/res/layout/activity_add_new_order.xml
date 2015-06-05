@@ -43,17 +43,8 @@
         android:id="@+id/ET_order_description"
         android:background="@drawable/edit_text_style"
         android:layout_marginTop="5dp"
-        android:layout_weight="0.05"
+        android:layout_weight="0.17"
         android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status"
-        android:id="@+id/textView15"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:textColor="#0707a6" />
 
     <EditText
         android:layout_width="298dp"
@@ -64,7 +55,8 @@
         android:background="@drawable/edit_text_style"
         android:layout_marginTop="5dp"
         android:layout_weight="0.05"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible" />
 
     <Button
         android:layout_width="238dp"
