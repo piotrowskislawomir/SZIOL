@@ -148,10 +148,10 @@ public class NotificationService extends Service {
         Intent notificationIntent = new Intent(getBaseContext(), NotificationReciver.class);
 
         notificationIntent.putExtra("notification", notificationModel);
-       // notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.setAction("actionstring" + System.currentTimeMillis());
         // This pending intent will open after notification click
-        PendingIntent i=PendingIntent.getActivity(this,0,
+        PendingIntent i=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -159,7 +159,7 @@ public class NotificationService extends Service {
         note.setLatestEventInfo(this, notificationModel.getTitle(),
                 notificationModel.getDescription(),  i);
 
-        mgr.notify(2, note);
+        mgr.notify((int)System.currentTimeMillis(), note);
     }
 
 
@@ -173,7 +173,7 @@ public class NotificationService extends Service {
         note.setLatestEventInfo(this, notificationModel.getTitle(),
                 notificationModel.getDescription(),  null);
 
-        mgr.notify(2, note);
+        mgr.notify((int)System.currentTimeMillis(), note);
     }
 
     private void NotifyChangedExecutor(NotificationModel notificationModel)
@@ -185,10 +185,10 @@ public class NotificationService extends Service {
                 System.currentTimeMillis());
         Intent notificationIntent = new Intent(getBaseContext(), OrdersActivitySettings.class);
           notificationIntent.putExtra("notification", notificationModel);
-         // notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
+          notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.setAction("actionstring" + System.currentTimeMillis());
         // This pending intent will open after notification click
-         PendingIntent i=PendingIntent.getActivity(this, 0,
+         PendingIntent i=PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
                  notificationIntent,
                  PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -196,7 +196,7 @@ public class NotificationService extends Service {
         note.setLatestEventInfo(this, notificationModel.getTitle(),
                 notificationModel.getDescription(),  i);
 
-        mgr.notify(2, note);
+        mgr.notify((int)System.currentTimeMillis(), note);
     }
 
 
