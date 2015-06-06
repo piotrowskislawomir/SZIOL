@@ -56,13 +56,6 @@ public class NotificationService extends Service {
         restService = new RestService(restClientService);
     }
 
-    //private static NotificationModel notification;
-
-   /* public static NotificationModel getNotification()
-    {
-       return notification;
-    }*/
-
     public static JSONArray notifications;
 
     private class MyTimerTask extends TimerTask {
@@ -97,6 +90,7 @@ public class NotificationService extends Service {
         String title;
         String description;
         String ticketId;
+        String type;
 
         for (int i = 0; i < notifications.length(); i++) {
             try {
@@ -105,16 +99,33 @@ public class NotificationService extends Service {
                 title = jsonObj.get("Title").toString();
                 description = jsonObj.get("Description").toString();
                 ticketId = jsonObj.get("TicketId").toString();
-                NotificationModel notification = new NotificationModel(id, title, description, ticketId);
+                type = jsonObj.get("Type").toString();
+                NotificationModel notification = new NotificationModel(id, title, description, ticketId, type);
                 restService.DeleteNotification(Integer.parseInt(id));
 
                 Boolean notificationEnable = Boolean.parseBoolean(sharedPropertiesManager.GetValue(resources.getString(R.string.shared_notification_enable), "true"));
+
                 if(notificationEnable) {
-                    Notify(notification);
+
+
+                    if(type.equals("NW"))
+                    {
+                        NotifyNearestWorker(notification);
+                    }
+                    else if(type.equals("CE"))
+                    {
+                        NotifyChangedExecutor(notification);
+                    }
+                    else if(type.equals("DT"))
+                    {
+                        NotifyDeletedTicket(notification);
+                    }
                 }
                 else
                 {
-                    restService.SendStatusNotification(Integer.parseInt(notification.getId()), notification.getTicketId(), false);
+                    if(type.equals("NW")) {
+                        restService.SendStatusNotification(Integer.parseInt(notification.getId()), notification.getTicketId(), false);
+                    }
                 }
 
             } catch (JSONException e) {
@@ -123,7 +134,7 @@ public class NotificationService extends Service {
         }
     }
 
-    private void Notify(NotificationModel notificationModel)
+    private void NotifyNearestWorker(NotificationModel notificationModel)
     {
         final NotificationManager mgr=
                 (NotificationManager)this.getSystemService(getBaseContext().NOTIFICATION_SERVICE);
@@ -141,10 +152,43 @@ public class NotificationService extends Service {
 
 
         note.setLatestEventInfo(this, notificationModel.getTitle(),
-                notificationModel.getDescription() + " : " + notificationModel.getTicketId(),  i);
+                notificationModel.getDescription(),  i);
 
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mgr.notify(2, note);
+    }
 
+
+    private void NotifyDeletedTicket(NotificationModel notificationModel)
+    {
+        final NotificationManager mgr=
+                (NotificationManager)this.getSystemService(getBaseContext().NOTIFICATION_SERVICE);
+        Notification note=new Notification(R.drawable.abc_ab_share_pack_holo_dark,
+                notificationModel.getTitle(),
+                System.currentTimeMillis());
+        note.setLatestEventInfo(this, notificationModel.getTitle(),
+                notificationModel.getDescription(),  null);
+
+        mgr.notify(2, note);
+    }
+
+    private void NotifyChangedExecutor(NotificationModel notificationModel)
+    {
+        final NotificationManager mgr=
+                (NotificationManager)this.getSystemService(getBaseContext().NOTIFICATION_SERVICE);
+        Notification note=new Notification(R.drawable.abc_ab_share_pack_holo_dark,
+                notificationModel.getTitle(),
+                System.currentTimeMillis());
+        Intent notificationIntent = new Intent(getBaseContext(), OrdersActivitySettings.class);
+          notificationIntent.putExtra("notification", notificationModel);
+          notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        // This pending intent will open after notification click
+         PendingIntent i=PendingIntent.getActivity(this, 0,
+                 notificationIntent,
+                 0);
+
+        note.setLatestEventInfo(this, notificationModel.getTitle(),
+                notificationModel.getDescription(),  i);
 
         mgr.notify(2, note);
     }

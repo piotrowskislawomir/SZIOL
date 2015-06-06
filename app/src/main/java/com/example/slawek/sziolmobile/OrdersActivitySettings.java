@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import Models.Client;
+import Models.NotificationModel;
 import sziolmobile.RestClientService;
 import sziolmobile.RestService;
 
@@ -41,7 +42,23 @@ public class OrdersActivitySettings extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_options);
 
-        or = Fragment_tickets.or;
+        NotificationModel notificationModel = null;
+
+        if(getIntent() != null)
+            if(getIntent().getExtras() != null)
+                if(getIntent().getExtras().getSerializable("notification") != null)
+                {
+                    notificationModel = (NotificationModel)getIntent().getExtras().getSerializable("notification");
+
+                }
+
+        if(notificationModel != null)
+        {
+            or = new Order(notificationModel.getTicketId(), null);
+        }
+        else {
+            or = Fragment_tickets.or;
+        }
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

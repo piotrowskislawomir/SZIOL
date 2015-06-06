@@ -53,8 +53,8 @@ import sziolmobile.RestService;
         log = (EditText)findViewById(R.id.ET_log_log);
         pass = (EditText)findViewById(R.id.ET_pass_log);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+      //  Intent intent = new Intent(this, MainActivity.class);
+       /* PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
 
         Notification n  = new Notification.Builder(this)
@@ -66,7 +66,7 @@ import sziolmobile.RestService;
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        notificationManager.notify(1, n);
+        notificationManager.notify(1, n);*/
 
 
         _sharedPropertiesManager = new SharedPropertiesManager(getBaseContext());
