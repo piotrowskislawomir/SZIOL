@@ -146,13 +146,14 @@ public class NotificationService extends Service {
                 notificationModel.getTitle(),
                 System.currentTimeMillis());
         Intent notificationIntent = new Intent(getBaseContext(), NotificationReciver.class);
+
         notificationIntent.putExtra("notification", notificationModel);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+       // notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         // This pending intent will open after notification click
-        PendingIntent i=PendingIntent.getActivity(this, 0,
+        PendingIntent i=PendingIntent.getActivity(this,0,
                 notificationIntent,
-                0);
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         note.setLatestEventInfo(this, notificationModel.getTitle(),
@@ -184,12 +185,13 @@ public class NotificationService extends Service {
                 System.currentTimeMillis());
         Intent notificationIntent = new Intent(getBaseContext(), OrdersActivitySettings.class);
           notificationIntent.putExtra("notification", notificationModel);
-          notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+         // notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         // This pending intent will open after notification click
          PendingIntent i=PendingIntent.getActivity(this, 0,
                  notificationIntent,
-                 0);
+                 PendingIntent.FLAG_UPDATE_CURRENT);
+
 
         note.setLatestEventInfo(this, notificationModel.getTitle(),
                 notificationModel.getDescription(),  i);
