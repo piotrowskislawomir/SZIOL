@@ -61,26 +61,30 @@ public class NotificationService extends Service {
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
+            try {
+                token = sharedPropertiesManager.GetValue(resources.getString(R.string.shared_token), null);
 
-            token = sharedPropertiesManager.GetValue(resources.getString(R.string.shared_token), null);
+                if (token != null) {
+                    int status = restService.GetNotifications();
 
-            if(token != null)
+                    if (status != 200) {
+                        Login();
+                        restService.GetNotifications();
+                    }
+
+                    try {
+                        notifications = new JSONArray(RestClientService.resp);
+                        ProcessNotifications();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                int status = restService.GetNotifications();
-
-                if(status != 200)
-                {
-                    Login();
-                    restService.GetNotifications();
-                }
-
-                try {
-                    notifications = new JSONArray(RestClientService.resp);
-                    ProcessNotifications();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                ExceptionLogger exceptionLogger = new ExceptionLogger();
+                exceptionLogger.writefile("sziolnotify.txt", ex.getMessage());
             }
          }
     }

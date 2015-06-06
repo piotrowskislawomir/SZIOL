@@ -51,27 +51,31 @@ public class GpsNetLocalizator implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
-        if(isBetterLocation(location, previousBestLocation))
-        {
-        Coordinate coordinate = new Coordinate(location.getLatitude(), location.getLongitude());
+        try {
+            if (isBetterLocation(location, previousBestLocation)) {
+                Coordinate coordinate = new Coordinate(location.getLatitude(), location.getLongitude());
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
 
-        localizationEnable = Boolean.parseBoolean(sharedPropertiesManager.GetValue(resources.getString(R.string.shared_localization_enable), "false"));
-        token = sharedPropertiesManager.GetValue(resources.getString(R.string.shared_token), null);
+                localizationEnable = Boolean.parseBoolean(sharedPropertiesManager.GetValue(resources.getString(R.string.shared_localization_enable), "false"));
+                token = sharedPropertiesManager.GetValue(resources.getString(R.string.shared_token), null);
 
-        if (localizationEnable && token != null)
-        {
-            int status = restService.SendLocation(coordinate);
+                if (localizationEnable && token != null) {
+                    int status = restService.SendLocation(coordinate);
 
-            if(status != 201)
-            {
-                Login();
-                restService.SendLocation(coordinate);
+                    if (status != 201) {
+                        Login();
+                        restService.SendLocation(coordinate);
+                    }
+                }
+                previousBestLocation = location;
             }
         }
-            previousBestLocation = location;
+        catch (Exception ex)
+        {
+            ExceptionLogger exceptionLogger = new ExceptionLogger();
+            exceptionLogger.writefile("sziolgps.txt", ex.getMessage());
         }
     }
 

@@ -130,7 +130,6 @@ import sziolmobile.RestService;
                             RestClientService.SetToken(token);
 
 
-
                            // Intent intent = new Intent(UserLog.this, MainMenu.class);
                             Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
                     //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

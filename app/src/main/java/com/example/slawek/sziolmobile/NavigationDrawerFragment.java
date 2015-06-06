@@ -1,6 +1,7 @@
 package com.example.slawek.sziolmobile;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import sziolmobile.RestClientService;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -62,6 +65,9 @@ private ArrayAdapter<String> adapter;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    SharedPropertiesManager _sharedPropertiesManager;
+    Resources _resources;
+
     public NavigationDrawerFragment() {
     }
 
@@ -81,6 +87,9 @@ private ArrayAdapter<String> adapter;
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
+
+        _sharedPropertiesManager = new SharedPropertiesManager(getActivity().getBaseContext());
+        _resources = getResources();
     }
 
     @Override
@@ -260,7 +269,10 @@ private ArrayAdapter<String> adapter;
         }
 
         if (item.getItemId() == R.id.action_example) {
-
+            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_login), null);
+            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_password), null);
+            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_token), null);
+            RestClientService.SetToken(null);
               InternetConnectionService.setLoginStatus(false);
 
 
