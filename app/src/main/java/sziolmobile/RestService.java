@@ -310,7 +310,7 @@ public class RestService {
             jsonData.put("CreatorId", order.getCreatorId());
             jsonData.put("Description", order.getDescription());
             jsonData.put("CustomerId", order.getCustomerId());
-            jsonData.put("Status", "CP");
+            jsonData.put("Status", "CR");
             jsonData.put("Title", order.getTitle());
             jsonData.put("ExecutorId", "null"); // tutaj na stałę
             jsonData.put("AssignToTicket", false);
