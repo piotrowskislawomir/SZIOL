@@ -9,12 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Location;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -142,9 +144,7 @@ public class NotificationService extends Service {
     {
         final NotificationManager mgr=
                 (NotificationManager)this.getSystemService(getBaseContext().NOTIFICATION_SERVICE);
-        Notification note=new Notification(R.drawable.abc_ab_share_pack_holo_dark,
-                notificationModel.getTitle(),
-                System.currentTimeMillis());
+
         Intent notificationIntent = new Intent(getBaseContext(), NotificationReciver.class);
 
         notificationIntent.putExtra("notification", notificationModel);
@@ -155,11 +155,28 @@ public class NotificationService extends Service {
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.abc_ab_share_pack_holo_dark)
+                        //.setSubText(notificationModel.getDescription())
+                        .setContentTitle(notificationModel.getTitle())
+                        .setContentText(notificationModel.getDescription());
 
-        note.setLatestEventInfo(this, notificationModel.getTitle(),
-                notificationModel.getDescription(),  i);
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setContentIntent(i);
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
+        builder.setVibrate(pattern);
+        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
+        style.setBigContentTitle(notificationModel.getTitle());
+        String[] lines = notificationModel.getDescription().split("\n");
+        for(String line : lines)
+        {
+            style.addLine(line);
+        }
 
-        mgr.notify((int)System.currentTimeMillis(), note);
+        builder.setStyle(style);
+
+        mgr.notify((int)System.currentTimeMillis(), builder.build());
     }
 
 
@@ -167,36 +184,65 @@ public class NotificationService extends Service {
     {
         final NotificationManager mgr=
                 (NotificationManager)this.getSystemService(getBaseContext().NOTIFICATION_SERVICE);
-        Notification note=new Notification(R.drawable.abc_ab_share_pack_holo_dark,
-                notificationModel.getTitle(),
-                System.currentTimeMillis());
-        note.setLatestEventInfo(this, notificationModel.getTitle(),
-                notificationModel.getDescription(),  null);
 
-        mgr.notify((int)System.currentTimeMillis(), note);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.abc_ab_share_pack_holo_dark)
+                        //.setSubText(notificationModel.getDescription())
+                        .setContentTitle(notificationModel.getTitle())
+                        .setContentText(notificationModel.getDescription());
+
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
+        builder.setVibrate(pattern);
+        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
+        style.setBigContentTitle(notificationModel.getTitle());
+        String[] lines = notificationModel.getDescription().split("\n");
+        for(String line : lines)
+        {
+            style.addLine(line);
+        }
+        builder.setStyle(style);
+
+        mgr.notify((int)System.currentTimeMillis(), builder.build());
     }
 
     private void NotifyChangedExecutor(NotificationModel notificationModel)
     {
         final NotificationManager mgr=
                 (NotificationManager)this.getSystemService(getBaseContext().NOTIFICATION_SERVICE);
-        Notification note=new Notification(R.drawable.abc_ab_share_pack_holo_dark,
-                notificationModel.getTitle(),
-                System.currentTimeMillis());
         Intent notificationIntent = new Intent(getBaseContext(), OrdersActivitySettings.class);
-          notificationIntent.putExtra("notification", notificationModel);
-          notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        notificationIntent.putExtra("notification", notificationModel);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         notificationIntent.setAction("actionstring" + System.currentTimeMillis());
         // This pending intent will open after notification click
-         PendingIntent i=PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
-                 notificationIntent,
-                 PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent i=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.abc_ab_share_pack_holo_dark)
+                        //.setSubText(notificationModel.getDescription())
+                        .setContentTitle(notificationModel.getTitle())
+                        .setContentText(notificationModel.getDescription());
 
-        note.setLatestEventInfo(this, notificationModel.getTitle(),
-                notificationModel.getDescription(),  i);
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setContentIntent(i);
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
+        builder.setVibrate(pattern);
+        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
+        style.setBigContentTitle(notificationModel.getTitle());
+        String[] lines = notificationModel.getDescription().split("\n");
+        for(String line : lines)
+        {
+            style.addLine(line);
+        }
 
-        mgr.notify((int)System.currentTimeMillis(), note);
+        builder.setStyle(style);
+
+        mgr.notify((int)System.currentTimeMillis(), builder.build());
     }
 
 
