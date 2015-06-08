@@ -79,6 +79,6 @@
         android:layout_gravity="center_horizontal"
         android:onClick="saveEditClientOnClick"
         android:layout_marginTop="50dp"
-        android:background="#0707a6"
+        android:background="#e5070c1d"
         android:textColor="#ffffffff" />
 </LinearLayout>

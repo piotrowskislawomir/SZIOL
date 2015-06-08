@@ -41,12 +41,18 @@
         <activity
             android:name=".NotificationReciver"
             android:screenOrientation="portrait" />
-        <activity android:name=".CardItems" />
-        <activity android:name=".TeamOrders" />
-        <activity android:name=".TeamOrdersList" />
-        <activity android:name=".TeamOrdersListDetails" />
-        <activity android:name=".CardItemsDetails" />
-        <activity android:name=".ClientsLivePlace" />
+        <activity android:name=".CardItems"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TeamOrders"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TeamOrdersList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TeamOrdersListDetails"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CardItemsDetails"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ClientsLivePlace"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".UserLog"
@@ -61,9 +67,11 @@
                  </intent-filter>
             -->
         </activity>
-        <activity android:name=".ClientsActivitySettings" >
+        <activity android:name=".ClientsActivitySettings"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Fragment_activity_client_settings" >
+        <activity android:name=".Fragment_activity_client_settings"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
@@ -103,7 +111,8 @@
         </activity>
         <activity
             android:name=".NavigationActivity"
-            android:label="@string/title_activity_navigation" >
+            android:label="@string/title_activity_navigation"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

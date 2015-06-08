@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,8 @@ public class EditOrderActivity extends Activity {
 
        ord.setDescription(desc.getText().toString());
         ord.setTitle(title.getText().toString());
-        ord.setStatus(status.getText().toString());
+       // ord.setStatus(status.getText().toString());
+        ord.setStatus("CR");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -62,16 +64,24 @@ public class EditOrderActivity extends Activity {
                  restService.EditOrder(Integer.parseInt(ord.getId()), ord);
 
 
-                TextView tv = (TextView) findViewById(R.id.textView3);
+             //   TextView tv = (TextView) findViewById(R.id.textView3);
 
             }
         });
 
-        Intent intent = new Intent(EditOrderActivity.this, Fragment_tickets.class);
+        Intent intent = new Intent(v.getContext(), NavigationActivity.class);
+    //    startActivity(intent);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        //finish();
 
+        EditOrderActivity.this.startActivity(intent);
+
+
+
+
+       // finish();
+        //finish();
+        // 01.06   Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+         finish();
 
 
         // Intent myIntent = new Intent(v.getContext(), MainMenu.class);

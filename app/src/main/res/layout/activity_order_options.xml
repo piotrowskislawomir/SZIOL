@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/ET_orders_settings"
         android:layout_weight="0.64"
-        android:background="#ffffffff" />
+        android:background="#ffffffff"
+        android:paddingLeft="50dp"
+        android:textColor="#e5070c1d" />
 
     <Button
         android:layout_width="218dp"
@@ -20,18 +22,18 @@
         android:layout_gravity="center_horizontal"
         android:onClick="pinOrderOnClick"
         android:textColor="#fffffffa"
-        android:background="#0707a6"
+        android:background="#e5070c1d"
         android:layout_marginTop="10dp" />
 
     <Button
         android:layout_width="218dp"
-        android:layout_height="61dp"
+        android:layout_height="wrap_content"
         android:text="Edytuj zgloszenie"
         android:id="@+id/BT_edit_order"
         android:onClick="editSingleOrderOnClick"
         android:layout_gravity="center_horizontal"
         android:textColor="#fffffffa"
-        android:background="#0707a6"
+        android:background="#e5070c1d"
         android:layout_marginTop="10dp" />
 
     <Button
@@ -42,7 +44,7 @@
         android:layout_gravity="center_horizontal"
         android:onClick="deleteOrderOnClick"
         android:textColor="#fffffffa"
-        android:background="#0707a6"
+        android:background="#e5070c1d"
         android:layout_marginTop="10dp" />
 
 </LinearLayout>

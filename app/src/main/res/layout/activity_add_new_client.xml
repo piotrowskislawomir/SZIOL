@@ -18,19 +18,20 @@
             android:text="Imię klienta"
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal"
-            android:textColor="#0707a6" />
+            android:textColor="#e5070c1d" />
 
         <EditText
-            android:layout_width="276dp"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/ET_new_client_name"
-            android:paddingBottom="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#0707a6"
+            android:textColor="#e5070c1d"
             android:background="@drawable/edit_text_style"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,21 +39,22 @@
             android:text="Nazwisko klienta"
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textColor="#0707a6" />
+            android:layout_marginTop="15dp"
+            android:textColor="#e5070c1d" />
 
         <EditText
-            android:layout_width="276dp"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/ET_new_client_last_name"
-            android:paddingBottom="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#0707a6"
+            android:textColor="#e5070c1d"
             android:singleLine="false"
             android:background="@drawable/edit_text_style"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,19 +62,22 @@
             android:text="Miasto"
             android:id="@+id/textView9"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textColor="#0707a6" />
+            android:layout_marginTop="15dp"
+            android:textColor="#e5070c1d" />
 
         <EditText
-            android:layout_width="276dp"
-            android:layout_height="32dp"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/ET_new_client_city"
             android:background="@drawable/edit_text_style"
             android:layout_marginTop="5dp"
-            android:textColor="#0707a6"
-            android:layout_gravity="center_horizontal" />
+            android:textColor="#e5070c1d"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingLeft="5dp"
+            android:elegantTextHeight="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,20 +85,21 @@
             android:text="Ulica"
             android:id="@+id/textView10"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textColor="#0707a6" />
+            android:layout_marginTop="15dp"
+            android:textColor="#e5070c1d" />
 
         <EditText
-            android:layout_width="276dp"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
             android:inputType="textPostalAddress"
             android:ems="10"
             android:id="@+id/ET_new_client_street"
-            android:paddingBottom="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#0707a6"
+            android:textColor="#e5070c1d"
             android:background="@drawable/edit_text_style"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,20 +107,21 @@
             android:text="Numer domu"
             android:id="@+id/textView11"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textColor="#0707a6" />
+            android:layout_marginTop="15dp"
+            android:textColor="#e5070c1d" />
 
         <EditText
-            android:layout_width="276dp"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
             android:ems="10"
             android:id="@+id/ET_client_home_number"
-            android:paddingBottom="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#0707a6"
+            android:textColor="#e5070c1d"
             android:inputType="text"
             android:background="@drawable/edit_text_style"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,28 +129,29 @@
             android:text="Numer mieszkania"
             android:id="@+id/textView12"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textColor="#0707a6" />
+            android:layout_marginTop="15dp"
+            android:textColor="#e5070c1d" />
 
         <EditText
-            android:layout_width="276dp"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
             android:inputType="text|textEmailAddress"
             android:ems="10"
             android:id="@+id/ET_new_client_flat_number"
-            android:paddingBottom="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#0707a6"
+            android:textColor="#e5070c1d"
             android:background="@drawable/edit_text_style"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingLeft="5dp" />
 
         <Button
-            android:layout_width="362dp"
-            android:layout_height="60dp"
+            android:layout_width="257dp"
+            android:layout_height="wrap_content"
             android:text="DODAJ KLIENTA"
             android:id="@+id/button13"
             android:onClick="addNewClientButtonOnClick"
-            android:background="#0707a6"
+            android:background="#e5070c1d"
             android:textColor="#fffffffa"
             android:layout_marginTop="35dp"
             android:layout_gravity="center_horizontal" />

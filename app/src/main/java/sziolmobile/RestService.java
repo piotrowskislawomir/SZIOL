@@ -149,7 +149,9 @@ public class RestService {
         try {
             jsonData.put("Title", order.getTitle());
             jsonData.put("Description", order.getDescription());
-            jsonData.put("Status", order.getStatus());
+            jsonData.put("Status", order.getStatus());// AUTOMATYCZNIE NA REśCIE
+           // jsonData.put("Status", "CR");
+
             jsonData.put("CustomerId", order.getCustomerId());
         }
         catch (JSONException jex)
@@ -271,7 +273,7 @@ public class RestService {
             jsonData.put("CreatorId", order.getCreatorId());
             jsonData.put("Description", order.getDescription());
             jsonData.put("CustomerId", order.getCustomerId());
-            jsonData.put("Status", "EX");
+            jsonData.put("Status", "AS");
             jsonData.put("Title", order.getTitle());
             jsonData.put("ExecutorId", order.getExecutorId()); // tutaj na stałę
             jsonData.put("AssignToTicket", true);
@@ -288,22 +290,7 @@ public class RestService {
     }
 
     public int unPinOrder(int id, Order order) {
-        //13.	Edycja zgłoszenia
-        // Typ: put
-        // Url: http://s384027.iis.wmi.amu.edu.pl/api/Tickets/10?token=1234
 
-
-        /* TO DOSTANĘ ZAPISUJE DO OBIEKTU I NASTĘPNIE CZĘSC DANYCH MOGĘ ZMIENIC
-        "Title": "ticket4",
-            "Description": "desc4",
-            "CreatorId": 10,
-            "Creator": null,
-            "ExecutorId": 10,
-            "CreateDate": "2015-04-19T16:36:56.95",
-            "TeamId": 5,
-            "Status": "C ",
-            "CustomerId": 1
-*/
         JSONObject jsonData = new JSONObject();
         try {
             // from class Order
@@ -321,6 +308,40 @@ public class RestService {
             //    jsonData.put("FlatNo", client.getFlatNumber());
             //    jsonData.put("GpsLatitude", 54.222);
             //    jsonData.put("GpsLongitude", 11.333);
+        } catch (JSONException jex) {
+        }
+        return _restClientService.SendPut(Tickets + "/" + id, jsonData.toString());
+    }
+
+    public int executeOrder(int id, Order order) {
+
+        JSONObject jsonData = new JSONObject();
+        try {
+            // from class Order
+            jsonData.put("CreatorId", order.getCreatorId());
+            jsonData.put("Description", order.getDescription());
+            jsonData.put("CustomerId", order.getCustomerId());
+            jsonData.put("Status", "EX");
+            jsonData.put("Title", order.getTitle());
+            jsonData.put("ExecutorId", "null"); // tutaj na stałę
+            jsonData.put("AssignToTicket", true);
+        } catch (JSONException jex) {
+        }
+        return _restClientService.SendPut(Tickets + "/" + id, jsonData.toString());
+    }
+
+    public int closeOrder(int id, Order order) {
+
+        JSONObject jsonData = new JSONObject();
+        try {
+            // from class Order
+            jsonData.put("CreatorId", order.getCreatorId());
+            jsonData.put("Description", order.getDescription());
+            jsonData.put("CustomerId", order.getCustomerId());
+            jsonData.put("Status", "CL");
+            jsonData.put("Title", order.getTitle());
+            jsonData.put("ExecutorId", "null"); // tutaj na stałę
+            jsonData.put("AssignToTicket", false);
         } catch (JSONException jex) {
         }
         return _restClientService.SendPut(Tickets + "/" + id, jsonData.toString());

@@ -11,26 +11,29 @@
         android:text="New Text"
         android:id="@+id/TV_notification"
         android:layout_weight="0.75"
-        android:background="#ffffffff" />
+        android:background="#ffffffff"
+        android:paddingTop="30dp"
+        android:paddingLeft="60dp"
+        android:textSize="17dp" />
 
     <Button
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
         android:text="Przyjmij zlecenie"
         android:id="@+id/button10"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:background="#0707a6"
+        android:background="#e5070c1d"
         android:onClick="acceptNotificationOnClick"
         android:textColor="#ffffffff" />
 
     <Button
-        android:layout_width="136dp"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
         android:text="Odrzuć zlecenie"
         android:id="@+id/button9"
         android:layout_gravity="center_horizontal"
-        android:background="#0707a6"
+        android:background="#e5070c1d"
         android:onClick="notAcceptNotificationOnClick"
         android:textColor="#ffffffff"
         android:layout_marginTop="20dp" />

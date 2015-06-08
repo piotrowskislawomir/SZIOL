@@ -38,7 +38,7 @@ public class NewOrderActivity extends Activity {
     {
         /// tuuuuuuuuuuuuuu
 
-        ord = new Order(title.getText().toString(), description.getText().toString(), "C", Integer.parseInt(cl.getId()));
+        ord = new Order(title.getText().toString(), description.getText().toString(), "CR", Integer.parseInt(cl.getId()));
 
         //luka w bazie
 
@@ -54,17 +54,18 @@ public class NewOrderActivity extends Activity {
             }
         });
 
-        if(statusik == 200)
+        if(statusik == 201)
         {
-    //        Toast.makeText(getApplicationContext(), "dodano ok", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "dodano ok", Toast.LENGTH_LONG).show();
         }
         else
         {
-    //        Toast.makeText(getApplicationContext(), "NIE dodano", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "NIE dodano", Toast.LENGTH_LONG).show();
         }
 
 
         Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // 01.06   Intent myIntent = new Intent(v.getContext(), MainMenu.class);
         NewOrderActivity.this.startActivity(myIntent);

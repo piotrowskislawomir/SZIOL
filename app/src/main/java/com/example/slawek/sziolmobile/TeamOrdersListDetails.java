@@ -117,12 +117,65 @@ public class TeamOrdersListDetails extends Activity {
 
                 // order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, true);
 
-                order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, teamId, date, creatorId );
+             //   RestService restService = new RestService(restClientService);
+                restService.GetClientById(Integer.parseInt(customerId));
+                try {
+                    jsonObj = new JSONObject(RestClientService.resp);
+                    address = jsonObj.get("Address").toString();
+                    firstName = jsonObj.get("FirstName").toString();
+                    lastName = jsonObj.get("LastName").toString();
 
+                    city = jsonObj.get("City").toString();
+                    street = jsonObj.get("Street").toString();
+                    homeNumber = jsonObj.get("HomeNo").toString();
+                    flatNumber = jsonObj.get("FlatNo").toString();
+                }
+                catch(JSONException e){}
 
+        /*
+         this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.street = street;
+        this.homeNumber = homeNumber;
+        this.flatNumber = flatNumber;
+        */
+
+                //////
+
+                if(!flatNumber.isEmpty())
+                {
+                    flatNumber = "/"+flatNumber;
+                }
+
+                //   et = (TextView) findViewById(R.id.TV_card_order_unpin);
+
+                String aktualnyStatus = "";
+
+                if(status.toString().equalsIgnoreCase("AS"))
+                {
+                    aktualnyStatus = "Przypisane";
+                }
+                if(status.toString().equalsIgnoreCase("EX"))
+                {
+                    aktualnyStatus = "Realizowane";
+                }
+                if(status.toString().equalsIgnoreCase("CL"))
+                {
+                    aktualnyStatus = "Wykonano";
+                }
+                if(status.toString().equalsIgnoreCase("CR"))
+                {
+                    aktualnyStatus = "Gotowy do realizacji";
+                }
 
                 et = (EditText) findViewById(R.id.ET_team_card_order_details);
-                et.append(title.toString()+ "\n" + description.toString() + "\n" + status.toString()+ "\n" + date.toString());
+
+
+                et.append("Klient: " + firstName + " " + lastName + "\n" + "Tytuł: " + title.toString()+ "\n" + "Opis: " + description.toString() + "\n" + "Status: " + aktualnyStatus +
+                        "\n" + "Ulica: " + street+ " " + homeNumber + flatNumber
+                        + "\n" + "Miejscowość: " + city);
+
 
             }
         });

@@ -12,7 +12,9 @@
         android:layout_weight="0.94"
         android:background="#ffffffff"
         android:enabled="false"
-        android:editable="false" />
+        android:editable="false"
+        android:textColor="#e5070c1d"
+        android:paddingLeft="90dp" />
 
     <Button
         android:layout_width="290dp"
@@ -20,10 +22,11 @@
         android:text="Dodaj zgłoszenie"
         android:id="@+id/BT_add_order"
         android:onClick="addNewOrderOnClick"
-        android:background="#0707a6"
+        android:background="#e5070c1d"
         android:layout_marginTop="10dp"
         android:textColor="#fffffffa"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible" />
 
     <Button
         android:layout_width="296dp"
@@ -32,7 +35,7 @@
         android:id="@+id/BT_edytuj_klienta"
         android:onClick="editClientOnClick"
         android:layout_gravity="center_horizontal"
-        android:background="#0707a6"
+        android:background="#e5070c1d"
         android:layout_marginTop="10dp"
         android:textColor="#fffffffa" />
 

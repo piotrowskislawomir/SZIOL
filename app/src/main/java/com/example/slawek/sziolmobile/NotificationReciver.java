@@ -6,6 +6,7 @@ package com.example.slawek.sziolmobile;
 
 
         import android.app.Activity;
+        import android.content.Intent;
         import android.os.Bundle;
         import android.os.StrictMode;
         import android.view.View;
@@ -75,8 +76,35 @@ public class NotificationReciver extends Activity {
             order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, teamId, date, creatorId);
 
 
-            tv = (TextView) findViewById(R.id.TV_notification);
-            tv.setText(title.toString() + "\n" + description.toString() + "\n" + status.toString() + "\n" + date.toString());
+
+        String aktualnyStatus = "";
+
+        if(status.toString().equalsIgnoreCase("CR"))
+        {
+            aktualnyStatus = "Gotowe do realizacji";
+        }
+        if(status.toString().equalsIgnoreCase("AS"))
+        {
+            aktualnyStatus = "Przypisane";
+        }
+        if(status.toString().equalsIgnoreCase("EX"))
+        {
+            aktualnyStatus = "Realizowane";
+        }
+        if(status.toString().equalsIgnoreCase("CL"))
+        {
+            aktualnyStatus = "Wykonano";
+        }
+        tv = (TextView) findViewById(R.id.TV_notification);
+
+        tv.setText("Tytuł: " + title.toString()+ "\n" + "Opis: " + description.toString() + "\n" + "Status: " + aktualnyStatus );//+ date.toString());
+
+
+
+
+       //     tv = (TextView) findViewById(R.id.TV_notification);
+  //          tv.setText(title.toString() + "\n" + description.toString() + "\n" + status.toString() + "\n" + date.toString());
+
 
 
             //
@@ -116,7 +144,13 @@ public class NotificationReciver extends Activity {
 
             }
         });
-           finish();
+        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        // 01.06   Intent myIntent = new Intent(v.getContext(), MainMenu.class);
+        NotificationReciver.this.startActivity(myIntent);
+        finish();
+    //       finish();
     }
 
 

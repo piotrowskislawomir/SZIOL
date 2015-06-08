@@ -1,37 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="#ffffffff">
+    android:background="#ffffffff"
+    android:orientation="vertical">
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ET_clients_settings"
-        android:layout_weight="0.64"
+         android:id="@+id/ET_clients_settings"
+        android:layout_weight="0.75"
         android:background="#ffffffff"
         android:enabled="false"
-        android:editable="false" />
+        android:editable="false"
+        android:textColor="#e5070c1d"
+        android:layout_gravity="center_horizontal"
 
-    <Button
-        android:layout_width="210dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Dodaj zgłoszenie"
-        android:id="@+id/BT_add_order"
-        android:onClick="addNewOrderOnClickFrag"
-        android:background="#0707a6"
-        android:layout_marginTop="10dp"
-        android:textColor="#fffffffa"
-        android:nestedScrollingEnabled="false"
-        android:layout_gravity="center_horizontal" />
+        android:textAlignment="center"
+        android:paddingLeft="95dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Usuń"
         android:id="@+id/BT_usun_klienta"
-        android:layout_weight="0.04"
         android:onClick="deleteClientOnClick"
         android:layout_gravity="center_horizontal"
         android:background="#ffff6d2b"
@@ -39,5 +32,25 @@
         android:textColor="#fffffffa"
         android:enabled="false"
         android:visibility="invisible" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="210dp"
+            android:layout_height="fill_parent"
+            android:text="Dodaj zgłoszenie"
+            android:id="@+id/BT_add_order"
+            android:onClick="addNewOrderOnClickFrag"
+            android:background="#e5070c1d"
+            android:textColor="#fffffffa"
+            android:nestedScrollingEnabled="false"
+            android:layout_gravity="left|bottom|center_horizontal"
+            android:layout_weight="0.58" />
+    </LinearLayout>
 
 </LinearLayout>

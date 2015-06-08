@@ -24,7 +24,7 @@
             android:id="@+id/textView3"
             android:paddingTop="10dp"
             android:layout_gravity="center_horizontal"
-            android:textColor="#0707a6" />
+            android:textColor="#e5070c1d" />
 
         <EditText
             android:layout_width="250dp"
@@ -36,7 +36,7 @@
             android:background="@drawable/edit_text_style"
             android:layout_gravity="center_horizontal"
 
-            />
+            android:paddingLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:id="@+id/textView4"
             android:paddingTop="10dp"
             android:layout_gravity="center_horizontal"
-            android:textColor="#0707a6" />
+            android:textColor="#e5070c1d" />
 
         <EditText
             android:layout_width="250dp"
@@ -57,7 +57,8 @@
             android:paddingTop="10dp"
             android:background="@drawable/edit_text_style"
             android:layout_gravity="center_horizontal"
-            android:accessibilityLiveRegion="none" />
+            android:accessibilityLiveRegion="none"
+            android:paddingLeft="5dp" />
 
         <Button
             android:layout_width="250dp"
@@ -67,7 +68,7 @@
             android:layout_gravity="center_horizontal"
             android:singleLine="false"
             android:layout_marginTop="60dp"
-            android:background="#0707a6"
+            android:background="#e5070c1d"
             android:onClick="loginButtonOnClick"
             android:textColor="#FFFFFF" />
 
