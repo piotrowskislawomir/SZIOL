@@ -130,7 +130,7 @@ public class NotificationService extends Service {
                 else
                 {
                     if(type.equals("NW")) {
-                        restService.SendStatusNotification(Integer.parseInt(notification.getId()), notification.getTicketId(), false);
+                        restService.SendStatusNotification(Integer.parseInt(notification.getId()), false);
                     }
                 }
 
@@ -140,6 +140,8 @@ public class NotificationService extends Service {
         }
     }
 
+    long[] pattern = {500,500,500,500,500,500,500,500};
+
     private void NotifyNearestWorker(NotificationModel notificationModel)
     {
         final NotificationManager mgr=
@@ -147,24 +149,24 @@ public class NotificationService extends Service {
 
         Intent notificationIntent = new Intent(getBaseContext(), NotificationReciver.class);
 
+        int uniqueNo =  (int)System.currentTimeMillis();
+
         notificationIntent.putExtra("notification", notificationModel);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        notificationIntent.setAction("actionstring" + System.currentTimeMillis());
+        notificationIntent.setAction(Integer.toString(uniqueNo));
         // This pending intent will open after notification click
-        PendingIntent i=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),
+        PendingIntent i=PendingIntent.getActivity(getBaseContext(),uniqueNo,
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(getBaseContext())
                         .setSmallIcon(R.drawable.abc_ab_share_pack_holo_dark)
-                        //.setSubText(notificationModel.getDescription())
                         .setContentTitle(notificationModel.getTitle())
                         .setContentText(notificationModel.getDescription());
 
         builder.setDefaults(Notification.DEFAULT_SOUND);
         builder.setContentIntent(i);
-        long[] pattern = {500,500,500,500,500,500,500,500,500};
         builder.setVibrate(pattern);
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
         style.setBigContentTitle(notificationModel.getTitle());
@@ -176,7 +178,7 @@ public class NotificationService extends Service {
 
         builder.setStyle(style);
 
-        mgr.notify((int)System.currentTimeMillis(), builder.build());
+        mgr.notify(uniqueNo, builder.build());
     }
 
 
@@ -188,12 +190,12 @@ public class NotificationService extends Service {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.abc_ab_share_pack_holo_dark)
-                        //.setSubText(notificationModel.getDescription())
                         .setContentTitle(notificationModel.getTitle())
                         .setContentText(notificationModel.getDescription());
 
+        int uniqueNo =  (int)System.currentTimeMillis();
+
         builder.setDefaults(Notification.DEFAULT_SOUND);
-        long[] pattern = {500,500,500,500,500,500,500,500,500};
         builder.setVibrate(pattern);
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
         style.setBigContentTitle(notificationModel.getTitle());
@@ -204,7 +206,7 @@ public class NotificationService extends Service {
         }
         builder.setStyle(style);
 
-        mgr.notify((int)System.currentTimeMillis(), builder.build());
+        mgr.notify(uniqueNo, builder.build());
     }
 
     private void NotifyChangedExecutor(NotificationModel notificationModel)
@@ -213,24 +215,25 @@ public class NotificationService extends Service {
                 (NotificationManager)this.getSystemService(getBaseContext().NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(getBaseContext(), OrdersActivitySettings.class);
 
+        int uniqueNo =  (int)System.currentTimeMillis();
+
         notificationIntent.putExtra("notification", notificationModel);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        notificationIntent.setAction("actionstring" + System.currentTimeMillis());
+        notificationIntent.setAction(Integer.toString(uniqueNo));
         // This pending intent will open after notification click
-        PendingIntent i=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),
+        PendingIntent i=PendingIntent.getActivity(this,uniqueNo,
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.abc_ab_share_pack_holo_dark)
-                        //.setSubText(notificationModel.getDescription())
                         .setContentTitle(notificationModel.getTitle())
                         .setContentText(notificationModel.getDescription());
 
         builder.setDefaults(Notification.DEFAULT_SOUND);
         builder.setContentIntent(i);
-        long[] pattern = {500,500,500,500,500,500,500,500,500};
+
         builder.setVibrate(pattern);
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
         style.setBigContentTitle(notificationModel.getTitle());
@@ -242,7 +245,7 @@ public class NotificationService extends Service {
 
         builder.setStyle(style);
 
-        mgr.notify((int)System.currentTimeMillis(), builder.build());
+        mgr.notify(uniqueNo, builder.build());
     }
 
 
@@ -296,7 +299,7 @@ public class NotificationService extends Service {
         resources =getApplicationContext().getResources();
 
 
-        writeToLogs("Called onStartCommand() methond");
+        writeToLogs("Called onStartCommand() method");
         clearTimerSchedule();
         initTask();
         timer.scheduleAtFixedRate(timerTask,  1000, 1 * 60 * 1000);

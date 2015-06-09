@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -18,51 +19,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends ActionBarActivity {
 
-    Timer timer;
-    TimerTask timerTask;
-    GpsNetLocalizator gps;
-public static boolean NOTIFICATION_SERVICE_FLAG;
-public static boolean GPS_SERVICE_FLAG;
-
-    final Handler handler = new Handler();
-
- //   @Override
-  //  protected void onResume() {
-   //     super.onResume();
-
-     //   startTimer();
-    //}
-
-    public void startTimer() {
-        timer = new Timer();
-        //initializeTimerTask();
-        timer.schedule(timerTask, 5000, 10000); //
-    }
-
-    public void stoptimertask(View v) {
-        //stop the timer, if it's not already null
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-    }
-
-    /*
-    public void initializeTimerTask() {
-        timerTask = new TimerTask() {
-            public void run() {
-                //use a handler to run a toast that shows the current timestamp
-                handler.post(new Runnable() {
-                    public void run() {
-                        //get the current timeStamp
-
-                        getLocation();
-                    }
-                });
-            }
-        };
-    }
-*/
 
 private void Alert(String str)
 {
@@ -74,12 +30,6 @@ private void Alert(String str)
                     finish();
                 }
             })
-           // .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-           //     public void onClick(DialogInterface dialog, int which) {
-                    // do nothing
-         //       }
-           // })
-                    // .setIcon(android.R.drawable.ic_dialog_alert)
             .show();
 }
 
@@ -95,25 +45,21 @@ private void Alert(String str)
     }
 
     public void startMyService() {
-        GPS_SERVICE_FLAG = true;
         Intent serviceIntent = new Intent(this, GpsService.class);
         startService(serviceIntent);
     }
 
     public void stopMyService() {
-        GPS_SERVICE_FLAG = false;
         Intent serviceIntent = new Intent(this, GpsService.class);
         stopService(serviceIntent);
     }
 
     public void startNotificationService() {
-        NOTIFICATION_SERVICE_FLAG = true;
         Intent serviceIntent = new Intent(this, NotificationService.class);
         startService(serviceIntent);
     }
 
     public void stopNotificationService() {
-        NOTIFICATION_SERVICE_FLAG = false;
         Intent serviceIntent = new Intent(this, NotificationService.class);
         stopService(serviceIntent);
     }
@@ -130,6 +76,19 @@ private void Alert(String str)
     protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
+
+     Thread.setDefaultUncaughtExceptionHandler(
+             new Thread.UncaughtExceptionHandler() {
+
+                 @Override
+                 public void uncaughtException(Thread thread, Throwable ex) {
+                     Log.e("Error", "Unhandled exception: " + ex.getMessage());
+
+                     ExceptionLogger exceptionLogger = new ExceptionLogger();
+                     exceptionLogger.writefile("sziolerror.txt", ex.getMessage());
+                     System.exit(1);
+                 }
+             });
 
      if(!isOnline())
      {
@@ -176,21 +135,6 @@ private void Alert(String str)
         return true;
   }
 
-    /*
-    public void buttonClicked(View v)
-    {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        runOnUiThread(new Runnable() {
-            public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
-     //           restService.SendLocation(1, "12.232323", "12.42332");
-            }
-        });
-    }
-    */
 
     // przycisk logowanie
     public void buttonLogOnClick(View v)

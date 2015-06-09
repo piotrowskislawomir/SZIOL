@@ -13,30 +13,26 @@ import java.io.OutputStreamWriter;
  */
 public class ExceptionLogger {
 
-    public  void writefile(String fileName, String content) {
+    public void writefile(String fileName, String content) {
         File externalStorageDir = Environment.getExternalStorageDirectory();
         File myFile = new File(externalStorageDir, fileName);
 
-        if (myFile.exists()) {
-            try {
-
-                FileOutputStream fostream = new FileOutputStream(myFile);
-                OutputStreamWriter oswriter = new OutputStreamWriter(fostream);
-                BufferedWriter bwriter = new BufferedWriter(oswriter);
-                bwriter.write(content);
-                bwriter.newLine();
-                bwriter.close();
-                oswriter.close();
-                fostream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
+        try {
+            if (!myFile.exists()) {
                 myFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
+            FileOutputStream fostream = new FileOutputStream(myFile);
+            OutputStreamWriter oswriter = new OutputStreamWriter(fostream);
+            BufferedWriter bwriter = new BufferedWriter(oswriter);
+            bwriter.write(content);
+            bwriter.newLine();
+            bwriter.close();
+            oswriter.close();
+            fostream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
+

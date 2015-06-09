@@ -29,7 +29,26 @@ public class NotificationReciver extends Activity {
     Order order;
     TextView tv;
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        LoadNotification();
+    }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        finish();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +57,13 @@ public class NotificationReciver extends Activity {
        // setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_notification);
 
+    }
+
+    private void LoadNotification()
+    {
         try {
-            //
+
             nm = (NotificationModel) getIntent().getExtras().getSerializable("notification");
-            //   nm = NotificationService.getNotification();
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -55,7 +77,6 @@ public class NotificationReciver extends Activity {
             });
 
             try {
-                // singleOrder = new JSONArray(RestClientService.resp);
                 jsonObj = new JSONObject(RestClientService.resp);
                 id = jsonObj.get("Id").toString();
                 title = jsonObj.get("Title").toString();
@@ -71,54 +92,38 @@ public class NotificationReciver extends Activity {
             } catch (JSONException e) {
             }
 
-            // order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, true);
-
             order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, teamId, date, creatorId);
+            String aktualnyStatus = GetStatus(status);
 
-
-
-        String aktualnyStatus = "";
-
-        if(status.toString().equalsIgnoreCase("CR"))
-        {
-            aktualnyStatus = "Gotowe do realizacji";
-        }
-        if(status.toString().equalsIgnoreCase("AS"))
-        {
-            aktualnyStatus = "Przypisane";
-        }
-        if(status.toString().equalsIgnoreCase("EX"))
-        {
-            aktualnyStatus = "Realizowane";
-        }
-        if(status.toString().equalsIgnoreCase("CL"))
-        {
-            aktualnyStatus = "Wykonano";
-        }
-        tv = (TextView) findViewById(R.id.TV_notification);
-
-        tv.setText("Tytuł: " + title.toString()+ "\n" + "Opis: " + description.toString() + "\n" + "Status: " + aktualnyStatus );//+ date.toString());
-
-
-
-
-       //     tv = (TextView) findViewById(R.id.TV_notification);
-  //          tv.setText(title.toString() + "\n" + description.toString() + "\n" + status.toString() + "\n" + date.toString());
-
-
-
-            //
-
-            //   TextView tv = new TextView(this);
-            //   tv.setText("Yo!");
-            // setContentView(tv);
-
+            tv = (TextView) findViewById(R.id.TV_notification);
+            tv.setText("Tytuł: " + title.toString()+ "\n" + "Opis: " + description.toString() + "\n" + "Status: " + aktualnyStatus );//+ date.toString());
         }catch (Exception ex)
         {
-            finish();
+
         }
     }
 
+    private String GetStatus(String status)
+    {
+        if(status.toString().equalsIgnoreCase("CR"))
+        {
+            return "Gotowe do realizacji";
+        }
+        if(status.toString().equalsIgnoreCase("AS"))
+        {
+            return "Przypisane";
+        }
+        if(status.toString().equalsIgnoreCase("EX"))
+        {
+            return "Realizowane";
+        }
+        if(status.toString().equalsIgnoreCase("CL"))
+        {
+           return  "Wykonano";
+        }
+
+        return "";
+    }
 
     public void acceptNotificationOnClick(View v)
     {
@@ -130,7 +135,7 @@ public class NotificationReciver extends Activity {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
                 int status =  restService.PinOrder(Integer.parseInt(id), order);
-                status = restService.SendStatusNotification(Integer.parseInt(nm.getId()),order.getId(), true);
+                status = restService.SendStatusNotification(Integer.parseInt(nm.getId()), true);
                 if(status == 200)
                 {
                     Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
@@ -158,7 +163,7 @@ public class NotificationReciver extends Activity {
     {
         RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
         RestService restService = new RestService(restClientService);
-        restService.SendStatusNotification(Integer.parseInt(nm.getId()), order.getId(), false);
+        restService.SendStatusNotification(Integer.parseInt(nm.getId()), false);
          finish();
         //????
     }
