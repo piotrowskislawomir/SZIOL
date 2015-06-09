@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -16,22 +17,15 @@ import android.view.View;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import sziolmobile.RestClientService;
+import sziolmobile.RestService;
+
 
 public class MainActivity extends ActionBarActivity {
 
 
-private void Alert(String str)
-{
-    new AlertDialog.Builder(this)
-            .setTitle("Komunikat")
-            .setMessage(str)
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            })
-            .show();
-}
+    private SharedPropertiesManager sharedPropertiesManager;
+    private Resources resources;
 
     public void startInternetService()
     {
@@ -64,12 +58,13 @@ private void Alert(String str)
         stopService(serviceIntent);
     }
 
+    /*
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
+    }*/
 
 
  @Override
@@ -90,28 +85,34 @@ private void Alert(String str)
                  }
              });
 
-     if(!isOnline())
+     sharedPropertiesManager = new SharedPropertiesManager(getApplicationContext());
+     resources =getApplicationContext().getResources();
+   /*  if(!isOnline())
      {
           Alert("BRAK POŁĄCZENIA Z INTERNETEM");
      }
      else
-     {
+     {*/
          try {
              stopNotificationService();
          } catch (Exception ex) {}
            startNotificationService();
 
-         try {
+       /*  try {
              stopInternetService();
          } catch (Exception ex) {}
          startInternetService();
-
+*/
          try {
              stopMyService();
          } catch (Exception ex) {}
            startMyService();
 
-         if(InternetConnectionService.getLoginStatus())
+
+         String token = sharedPropertiesManager.GetValue(resources.getString(R.string.shared_token), null);
+         //if(InternetConnectionService.getLoginStatus())
+
+        if(token != null)
          {
              Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
              //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -120,7 +121,7 @@ private void Alert(String str)
              startActivity(intent);     //    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
          }
-     }
+     //}
 
      //
    //  Intent myIntent = new Intent(MainActivity.this, NavigationActivity.class);

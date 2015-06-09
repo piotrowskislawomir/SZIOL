@@ -108,55 +108,51 @@ import sziolmobile.RestService;
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
 
-                if(restService.SendClientLogin(log.getText().toString(), pass.getText().toString()) == 200)
-                {
-                    try
-                    {
-                        // tu można wyciągnać status
-                        JSONObject jsonObj = new JSONObject(RestClientService.resp);
-                        String res = jsonObj.get("Result").toString();
-                        String token = jsonObj.get("Token").toString();
-                        message = jsonObj.get("Message").toString();
+                try {
+                    if (restService.SendClientLogin(log.getText().toString(), pass.getText().toString()) == 200) {
+                        try {
+                            // tu można wyciągnać status
+                            JSONObject jsonObj = new JSONObject(RestClientService.resp);
+                            String res = jsonObj.get("Result").toString();
+                            String token = jsonObj.get("Token").toString();
+                            message = jsonObj.get("Message").toString();
 
-                    if(message != "null")
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                    else
-                    {
-                        if(res == "true" && token != "")
-                        {
-                            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_login), log.getText().toString());
-                            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_password), pass.getText().toString());
-                            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_token), token);
-                            RestClientService.SetToken(token);
+                            if (message != "null")
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            else {
+                                if (res == "true" && token != "") {
+                                    _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_login), log.getText().toString());
+                                    _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_password), pass.getText().toString());
+                                    _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_token), token);
+                                    RestClientService.SetToken(token);
 
 
-                           // Intent intent = new Intent(UserLog.this, MainMenu.class);
-                            Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
-                    //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                 //           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);     //    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            InternetConnectionService.setLoginStatus(true);
-                          }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
+                                    // Intent intent = new Intent(UserLog.this, MainMenu.class);
+                                    Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+                                    //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    //           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);     //    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    InternetConnectionService.setLoginStatus(true);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Serwer nie odpowiedział", Toast.LENGTH_SHORT).show();
+                        // progress = ProgressDialog.show(getApplicationContext(),"BŁĄD", "SERWER NIE ODPOWIADA" );
                     }
 
-                    }
-                    catch(JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Serwer nie odpowiedział", Toast.LENGTH_SHORT).show();
-                   // progress = ProgressDialog.show(getApplicationContext(),"BŁĄD", "SERWER NIE ODPOWIADA" );
+
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+
                 }
             }
-
             });
     }
     }

@@ -73,7 +73,7 @@ public class Fragment_new_client extends Fragment {
             }
             else
                 {
-                    Toast.makeText(getActivity().getApplicationContext(), "DUPA", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Błąd", Toast.LENGTH_LONG).show();
 
                 }
             }

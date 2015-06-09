@@ -58,6 +58,9 @@ public class UserReg extends Activity {
                     public void run() {
                         RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                         RestService restService = new RestService(restClientService);
+
+                        try
+                        {
                         int restStatus = restService.SendClientRegistry(newUser, Integer.parseInt(teamKeyActivity));
                         if(restStatus==200)
                         {
@@ -76,6 +79,11 @@ public class UserReg extends Activity {
                         else
                         {
                             Toast.makeText(getApplicationContext(), "Rejestracja nie powiodła się", Toast.LENGTH_SHORT).show();
+                        }
+
+                        } catch (Exception ex) {
+                            Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                            return;
                         }
 
                     }

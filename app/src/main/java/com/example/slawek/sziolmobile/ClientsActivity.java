@@ -47,7 +47,6 @@ public class ClientsActivity extends Activity{
     List<Client> clientsList;
     ListView lv;
     Client client;
-    ArrayAdapter<String> adapter;
 
 
     @Override
@@ -58,21 +57,6 @@ public class ClientsActivity extends Activity{
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-        runOnUiThread(new Runnable() {
-            public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
-                restService.GetAllCustomers();
-                try {
-                    clients = new JSONArray(RestClientService.resp);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        AddClientsToListView();
     }
 
     @Override
@@ -84,6 +68,29 @@ public class ClientsActivity extends Activity{
 
     private void AddClientsToListView()
     {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+                RestService restService = new RestService(restClientService);
+
+                try
+                {
+                    clients = new JSONArray();
+                    restService.GetAllCustomers();
+                    try {
+                        clients = new JSONArray(RestClientService.resp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+        });
+
         listAdapter = new ArrayList<String>();
         clientsList =  new ArrayList<Client>();
 
@@ -127,11 +134,5 @@ public class ClientsActivity extends Activity{
                 }
             });
         }
-    }
-
-    public void senderAddClientButtonOnClick(View v)
-    {
-        Intent intent = new Intent(ClientsActivity.this, NewClient.class);
-        startActivity(intent);
     }
 }

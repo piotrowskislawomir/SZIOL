@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import Models.Client;
 import sziolmobile.RestClientService;
@@ -45,9 +46,6 @@ public class EditClientActivity extends Activity{
         home.setText(singleClientEdit.getHomeNumber().toString());
         city.setText(singleClientEdit.getCity().toString());
 
-
-       // Client client = new Client(ClientsActivitySettings.cl.getId());
-
     }
 
       public void saveEditClientOnClick(View v) {
@@ -64,32 +62,19 @@ public class EditClientActivity extends Activity{
               public void run() {
                   RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                   RestService restService = new RestService(restClientService);
-                  restService.EditCustomer(Integer.parseInt(singleClientEdit.getId()), singleClientEdit);
-
-
-                 // TextView tv = (TextView) findViewById(R.id.textView3);
-
-
-
+                  try
+                  {
+                    restService.EditCustomer(Integer.parseInt(singleClientEdit.getId()), singleClientEdit);
+                  } catch (Exception ex) {
+                      Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                     return;
+                  }
               }
           });
           Intent intent = new Intent(v.getContext(), NavigationActivity.class);
           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
           EditClientActivity.this.startActivity(intent);
           finish();
-
-          //Intent intent = new Intent(NewClient.this, MainMenu.class);
-          //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-          //startActivity(intent);
-          //finish();
-
-
-
-       // Intent myIntent = new Intent(v.getContext(), MainMenu.class);
-      //  ClientsActivitySettings.this.startActivityForResult(myIntent, 0);
-
-
-
 
     }
 }

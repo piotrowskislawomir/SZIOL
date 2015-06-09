@@ -67,7 +67,13 @@ public class OrdersActivitySettings extends Activity {
                 public void run() {
                     RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                     RestService restService = new RestService(restClientService);
-                    restService.GetOrder(Integer.parseInt(or.getId()));
+                    try
+                    {
+                        restService.GetOrder(Integer.parseInt(or.getId()));
+                    } catch (Exception ex) {
+                        Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
                 }
             });
 
@@ -100,19 +106,26 @@ public class OrdersActivitySettings extends Activity {
 
         RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
         RestService restService = new RestService(restClientService);
-        restService.GetClientById(Integer.parseInt(customerId));
-        try {
-            jsonObj = new JSONObject(RestClientService.resp);
-            address = jsonObj.get("Address").toString();
-            firstName = jsonObj.get("FirstName").toString();
-            lastName = jsonObj.get("LastName").toString();
+            try
+            {
+                restService.GetClientById(Integer.parseInt(customerId));
+                try {
+                    jsonObj = new JSONObject(RestClientService.resp);
+                    address = jsonObj.get("Address").toString();
+                    firstName = jsonObj.get("FirstName").toString();
+                    lastName = jsonObj.get("LastName").toString();
 
-            city = jsonObj.get("City").toString();
-            street = jsonObj.get("Street").toString();
-            homeNumber = jsonObj.get("HomeNo").toString();
-            flatNumber = jsonObj.get("FlatNo").toString();
-        }
-        catch(JSONException e){}
+                    city = jsonObj.get("City").toString();
+                    street = jsonObj.get("Street").toString();
+                    homeNumber = jsonObj.get("HomeNo").toString();
+                    flatNumber = jsonObj.get("FlatNo").toString();
+                }
+                catch(JSONException e){}
+
+            } catch (Exception ex) {
+                Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                finish();
+            }
 
         /*
          this.firstName = firstName;
@@ -198,18 +211,25 @@ public class OrdersActivitySettings extends Activity {
         runOnUiThread(new Runnable() {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+
                 RestService restService = new RestService(restClientService);
-              int status =  restService.PinOrder(Integer.parseInt(id), order);
 
-                if(status == 200)
+                try
                 {
-                    Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "przypięcie NIE ok", Toast.LENGTH_LONG).show();
-                }
+                      int status =  restService.PinOrder(Integer.parseInt(id), order);
 
+                        if(status == 200)
+                        {
+                            Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "przypięcie NIE ok", Toast.LENGTH_LONG).show();
+                        }
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    return;
+                }
               //  TextView tv = (TextView) findViewById(R.id.textView3);
 
             }
@@ -232,8 +252,13 @@ public class OrdersActivitySettings extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
+                try
+                {
                restService.DeleteTicket(Integer.parseInt(order.getId()));
 
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                }
 
                 //    TextView tv = (TextView) findViewById(R.id.textView3);
 

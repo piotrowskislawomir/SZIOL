@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -95,13 +96,18 @@ public class MainMenu extends Activity{
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetAllOrders();
+                try
+                {
+                    orders = new JSONArray();
+                    restService.GetAllOrders();
                 try {
                     orders = new JSONArray(RestClientService.resp);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -128,13 +134,19 @@ public class MainMenu extends Activity{
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetMyCard();
+
+                try
+                {
+                    cardsItems = new JSONArray();
+                    restService.GetMyCard();
                 try {
                     cardsItems = new JSONArray(RestClientService.resp);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                }
             }
         });
         Intent intent = new Intent(MainMenu.this, CardItems.class);
@@ -174,13 +186,21 @@ public class MainMenu extends Activity{
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetAllCustomers();
-                try {
-                     clients = new JSONArray(RestClientService.resp);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
+                try
+                {
+                    clients = new JSONArray();
+
+                    restService.GetAllCustomers();
+                    try {
+                         clients = new JSONArray(RestClientService.resp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
         });
 

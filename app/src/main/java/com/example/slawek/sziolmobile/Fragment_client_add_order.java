@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +59,13 @@ public class Fragment_client_add_order extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetClientById(Integer.parseInt(Fragment_clients.getClient().getId()));
+                try
+                {
+                    restService.GetClientById(Integer.parseInt(Fragment_clients.getClient().getId()));
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
         });
 

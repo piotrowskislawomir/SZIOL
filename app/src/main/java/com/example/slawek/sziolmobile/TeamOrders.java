@@ -88,11 +88,20 @@ public class TeamOrders extends Activity {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
                // restService.GetAllCustomers();
-                restService.GetAllTeam();
-                try {
-                    teamOrders = new JSONArray(RestClientService.resp);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                try
+                {
+                    teamOrders = new JSONArray();
+
+                    restService.GetAllTeam();
+                    try {
+                        teamOrders = new JSONArray(RestClientService.resp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
                 }
 
             }

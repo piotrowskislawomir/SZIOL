@@ -50,7 +50,14 @@ public class NewOrderActivity extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                statusik = restService.AddNewOrder(ord);
+                try {
+                    statusik = restService.AddNewOrder(ord);
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
         });
 

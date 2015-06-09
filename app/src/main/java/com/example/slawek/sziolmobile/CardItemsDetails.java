@@ -36,7 +36,6 @@ public class CardItemsDetails extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_details);
 
-      //  or = CardItems.getCard();
 or = Fragment_my_card.getCard();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -45,7 +44,16 @@ or = Fragment_my_card.getCard();
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetOrder(Integer.parseInt(or.getId()));
+
+                try
+                {
+                    restService.GetOrder(Integer.parseInt(or.getId()));
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
         });
 
@@ -73,6 +81,10 @@ or = Fragment_my_card.getCard();
 
         RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
         RestService restService = new RestService(restClientService);
+
+        try
+        {
+
         restService.GetClientById(Integer.parseInt(customerId));
         try {
             jsonObj = new JSONObject(RestClientService.resp);
@@ -86,6 +98,11 @@ or = Fragment_my_card.getCard();
             flatNumber = jsonObj.get("FlatNo").toString();
         }
         catch(JSONException e){}
+
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+            finish();
+        }
 
         /*
          this.firstName = firstName;
@@ -131,26 +148,35 @@ or = Fragment_my_card.getCard();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+
         runOnUiThread(new Runnable() {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                int status =  restService.unPinOrder(Integer.parseInt(id), order);
 
-                if(status == 200)
-                {
-                    Toast.makeText(getApplicationContext(), "Opięto zlecenie", Toast.LENGTH_LONG).show();
+                try{
+                    int status =  restService.unPinOrder(Integer.parseInt(id), order);
+
+                    if(status == 200)
+                    {
+                        Toast.makeText(getApplicationContext(), "Opięto zlecenie", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Nie można odpiąć", Toast.LENGTH_LONG).show();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Toast.makeText(getApplicationContext(), "Nie można odpiąć", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
                 }
             }
         });
-        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
-        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myIntent);
-        finish();
+
+            Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(myIntent);
+            finish();
     }
 
         public void executeOrderOnClick(View v) {
@@ -162,15 +188,23 @@ or = Fragment_my_card.getCard();
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                int status =  restService.executeOrder(Integer.parseInt(id), order);
 
-                if(status == 200)
+                try
                 {
-                    Toast.makeText(getApplicationContext(), "W trakcie realizacji", Toast.LENGTH_LONG).show();
+                    int status =  restService.executeOrder(Integer.parseInt(id), order);
+
+                    if(status == 200)
+                    {
+                        Toast.makeText(getApplicationContext(), "W trakcie realizacji", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Nie można realizować", Toast.LENGTH_LONG).show();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Toast.makeText(getApplicationContext(), "Nie można realizować", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
                 }
         }
         });
@@ -190,16 +224,25 @@ or = Fragment_my_card.getCard();
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                int status =  restService.closeOrder(Integer.parseInt(id), order);
 
-                if(status == 200)
+                try
                 {
-                    Toast.makeText(getApplicationContext(), "Zamknięto zlecenie", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie możńa zamknąć zlecenia", Toast.LENGTH_LONG).show();
-                }
+                    int status =  restService.closeOrder(Integer.parseInt(id), order);
+
+                    if(status == 200)
+                    {
+                        Toast.makeText(getApplicationContext(), "Zamknięto zlecenie", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Nie możńa zamknąć zlecenia", Toast.LENGTH_LONG).show();
+                    }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    }
             }
         });
 

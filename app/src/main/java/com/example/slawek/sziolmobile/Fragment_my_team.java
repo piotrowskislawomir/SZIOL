@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +77,8 @@ public class Fragment_my_team extends Fragment{
 
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
+        try
+        {
                 restService.GetAllTeam();
                 try {
                     teamOrders = new JSONArray(RestClientService.resp);
@@ -85,6 +88,9 @@ public class Fragment_my_team extends Fragment{
 
 
         AddClientsToListView();
+        } catch (Exception ex) {
+            Toast.makeText(getActivity().getBaseContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+        }
 
         return rootView;
     }

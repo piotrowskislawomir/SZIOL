@@ -63,13 +63,19 @@ public class OrdersActivity extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetAllOrders();
-                try {
-                    orders = new JSONArray(RestClientService.resp);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                try
+                {
+                    orders = new JSONArray();
 
+                    restService.GetAllOrders();
+                    try {
+                        orders = new JSONArray(RestClientService.resp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

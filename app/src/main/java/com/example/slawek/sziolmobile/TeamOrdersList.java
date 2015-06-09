@@ -93,13 +93,19 @@ public class TeamOrdersList extends Activity {
                 // restService.GetAllCustomers();
                // cr = TeamOrders.getCard();
                cr = Fragment_my_team.getCard();
-                restService.GetCustomerCard(cr.getCardId());
-                try {
-                    teamOrders = new JSONArray(RestClientService.resp);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                try
+                {
+                    teamOrders = new JSONArray();
+                    restService.GetCustomerCard(cr.getCardId());
+                    try {
+                        teamOrders = new JSONArray(RestClientService.resp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    finish();
                 }
-
             }
         });
         ////

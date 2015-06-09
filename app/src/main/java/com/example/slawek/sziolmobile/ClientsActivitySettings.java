@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,9 +52,6 @@ public class ClientsActivitySettings extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_options);
 
-      //  cl = ClientsActivity.cl;
-
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -61,38 +59,49 @@ public class ClientsActivitySettings extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
-                restService.GetClientById(Integer.parseInt(Fragment_clients.getClient().getId()));
-           }
+
+                try
+                {
+                    restService.GetClientById(Integer.parseInt(Fragment_clients.getClient().getId()));
+
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
         });
-
         try {
-            jsonObj = new JSONObject(RestClientService.resp);
-            id = jsonObj.get("Id").toString();
-            firstName = jsonObj.get("FirstName").toString();
-            lastName = jsonObj.get("LastName").toString();
-            address = jsonObj.get("Address").toString();
-            teamId = jsonObj.get("TeamId").toString();
-            team = jsonObj.get("Team").toString();
-            city = jsonObj.get("City").toString();
-            street = jsonObj.get("Street").toString();
-            homeNumber = jsonObj.get("HomeNo").toString();
-            street = jsonObj.get("Street").toString();
-            flatNumber = jsonObj.get("FlatNo").toString();
-            gpsLatitude = jsonObj.get("GpsLatitude").toString();
-            gpsLongitude = jsonObj.get("GpsLongitude").toString();
+            try {
+                jsonObj = new JSONObject(RestClientService.resp);
+                id = jsonObj.get("Id").toString();
+                firstName = jsonObj.get("FirstName").toString();
+                lastName = jsonObj.get("LastName").toString();
+                address = jsonObj.get("Address").toString();
+                teamId = jsonObj.get("TeamId").toString();
+                team = jsonObj.get("Team").toString();
+                city = jsonObj.get("City").toString();
+                street = jsonObj.get("Street").toString();
+                homeNumber = jsonObj.get("HomeNo").toString();
+                street = jsonObj.get("Street").toString();
+                flatNumber = jsonObj.get("FlatNo").toString();
+                gpsLatitude = jsonObj.get("GpsLatitude").toString();
+                gpsLongitude = jsonObj.get("GpsLongitude").toString();
+            } catch (JSONException e) {
+            }
+
+            singleClient = new Client(id, firstName, lastName, city, street, homeNumber, flatNumber, gpsLatitude, gpsLongitude, teamId, team);
+
+            et = (EditText) findViewById(R.id.ET_clients_settings);
+            et.append("Imię: " + firstName + "\n" +
+                    "Nazwisko: " + lastName + "\n" +
+                    "Ulica " + street + "\n" +
+                    "Numer domu: " + homeNumber + "\n" +
+                    "Numer mieszkania: " + flatNumber + "\n" +
+                    "Miejscowość: " + city);
+
         }
-        catch(JSONException e){}
-
-        singleClient = new Client(id, firstName, lastName, city, street, homeNumber, flatNumber, gpsLatitude, gpsLongitude, teamId, team);
-
-        et = (EditText) findViewById(R.id.ET_clients_settings);
-        et.append("Imię: " + firstName + "\n" +
-                  "Nazwisko: " + lastName +"\n" +
-                  "Ulica " + street + "\n" +
-                  "Numer domu: " + homeNumber + "\n" +
-                  "Numer mieszkania: " + flatNumber + "\n" +
-                  "Miejscowość: " + city);
-
+        catch(Exception ex)
+        {}
 
 
     }

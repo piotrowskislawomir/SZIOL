@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +75,10 @@ public class Fragment_clients extends Fragment {
 
         RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
         RestService restService = new RestService(restClientService);
+        try
+        {
         restService.GetAllCustomers();
+
         try {
             clients = new JSONArray(RestClientService.resp);
         } catch (JSONException e) {
@@ -82,6 +86,10 @@ public class Fragment_clients extends Fragment {
         }
 
         AddClientsToListView();
+
+        } catch (Exception ex) {
+            Toast.makeText(rootView.getContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+        }
         return rootView;
     }
 
@@ -128,11 +136,4 @@ public class Fragment_clients extends Fragment {
             });
         }
     }
-/*
-   public void senderAddClientButtonOnClickFrag(View v)
-    {
-        Intent intent = new Intent(v.getContext(), NewClient.class);
-        startActivity(intent);
-    }
-    */
 }

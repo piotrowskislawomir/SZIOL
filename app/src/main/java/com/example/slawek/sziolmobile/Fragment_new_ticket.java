@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +61,10 @@ public class Fragment_new_ticket extends Fragment {
 
         RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
         RestService restService = new RestService(restClientService);
-        restService.GetAllCustomers();
+        try
+        {
+            clients = new JSONArray();
+            restService.GetAllCustomers();
         try {
             clients = new JSONArray(RestClientService.resp);
         } catch (JSONException e) {
@@ -68,6 +72,9 @@ public class Fragment_new_ticket extends Fragment {
         }
 
         AddClientsToListView();
+        } catch (Exception ex) {
+            Toast.makeText(getActivity().getBaseContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+        }
         return rootView;
     }
 

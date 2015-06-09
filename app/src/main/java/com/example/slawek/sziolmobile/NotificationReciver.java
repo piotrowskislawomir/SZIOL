@@ -72,7 +72,13 @@ public class NotificationReciver extends Activity {
                 public void run() {
                     RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                     RestService restService = new RestService(restClientService);
-                    restService.GetOrder(Integer.parseInt(nm.getTicketId()));
+                    try
+                    {
+                        restService.GetOrder(Integer.parseInt(nm.getTicketId()));
+                    } catch (Exception ex) {
+                        Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
                 }
             });
 
@@ -135,16 +141,22 @@ public class NotificationReciver extends Activity {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
                 int status =  restService.PinOrder(Integer.parseInt(id), order);
-                status = restService.SendStatusNotification(Integer.parseInt(nm.getId()), true);
-                if(status == 200)
-                {
-                    Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "przypięcie NIE ok", Toast.LENGTH_LONG).show();
-                }
 
+                try
+                {
+                    status = restService.SendStatusNotification(Integer.parseInt(nm.getId()), true);
+                    if(status == 200)
+                    {
+                        Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "przypięcie NIE ok", Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 //  TextView tv = (TextView) findViewById(R.id.textView3);
 
             }
@@ -163,7 +175,14 @@ public class NotificationReciver extends Activity {
     {
         RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
         RestService restService = new RestService(restClientService);
-        restService.SendStatusNotification(Integer.parseInt(nm.getId()), false);
+        try
+        {
+
+            restService.SendStatusNotification(Integer.parseInt(nm.getId()), false);
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+            return;
+        }
          finish();
         //????
     }

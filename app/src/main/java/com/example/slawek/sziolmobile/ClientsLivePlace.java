@@ -54,19 +54,25 @@ public class ClientsLivePlace extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_place);
-        lv = (ListView)findViewById(R.id.LV_client_places);
+        lv = (ListView) findViewById(R.id.LV_client_places);
 
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
-               // restService.GetAllCustomers();
-                restService.GetClientPlaces(Fragment_new_client.getClient());
-                try {
-                    places = new JSONArray(RestClientService.resp);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+        RestService restService = new RestService(restClientService);
 
-        AddClientsToListView();
+        try {
+            restService.GetClientPlaces(Fragment_new_client.getClient());
+            try {
+                places = new JSONArray(RestClientService.resp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            AddClientsToListView();
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
     }
 
 
@@ -102,31 +108,29 @@ public class ClientsLivePlace extends Activity {
 
                     RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                     RestService restService = new RestService(restClientService);
-                   int restStatus = restService.AddNewCustomer(Fragment_new_client.getClient(), cor);
 
-                    if(restStatus == 201)
+                    try
                     {
-                        Toast.makeText(getApplicationContext(), "Dodano klienta pomyślnie", Toast.LENGTH_LONG).show();
-                        Intent myIntent = new Intent(view.getContext(), NavigationActivity.class);
-                        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(myIntent);
-                        finish();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Nie dodano", Toast.LENGTH_LONG).show();
-                    }
+                       int restStatus = restService.AddNewCustomer(Fragment_new_client.getClient(), cor);
 
-                    //      Intent myIntent = new Intent(view.getContext(), ClientsActivitySettings.class);
-              //      ClientsActivity.this.startActivityForResult(myIntent, 0);
+                        if(restStatus == 201)
+                        {
+                            Toast.makeText(getApplicationContext(), "Dodano klienta pomyślnie", Toast.LENGTH_LONG).show();
+                            Intent myIntent = new Intent(view.getContext(), NavigationActivity.class);
+                            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(myIntent);
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "Nie dodano", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception ex) {
+                        Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         }
     }
 
-    public void senderAddClientButtonOnClick(View v)
-    {
-    //    Intent intent = new Intent(ClientsActivity.this, NewClient.class);
-      //  startActivity(intent);
-    }
 }

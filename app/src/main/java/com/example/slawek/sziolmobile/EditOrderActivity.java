@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import sziolmobile.RestClientService;
 import sziolmobile.RestService;
@@ -61,10 +62,14 @@ public class EditOrderActivity extends Activity {
             public void run() {
                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
                 RestService restService = new RestService(restClientService);
+
+                try
+                {
                  restService.EditOrder(Integer.parseInt(ord.getId()), ord);
-
-
-             //   TextView tv = (TextView) findViewById(R.id.textView3);
+                } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
             }
         });
