@@ -72,7 +72,7 @@ public class TeamOrdersListDetails extends Activity {
     private static Card card;
     ArrayAdapter<String> adapter;
     Card cr;
-    Order ord;
+  //  Order ord;
     JSONObject jsonObj;
     Order order;
     EditText et;
@@ -97,8 +97,8 @@ public class TeamOrdersListDetails extends Activity {
 
                 try
                 {
-                    ord = TeamOrdersList.getCustomerOrder();
-                    restService.GetOrder(Integer.parseInt(ord.getId()));
+                    order = TeamOrdersList.getCustomerOrder();
+                    restService.GetOrder(Integer.parseInt(order.getId()));
                 } catch (Exception ex) {
                     Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
                     finish();
@@ -121,7 +121,7 @@ public class TeamOrdersListDetails extends Activity {
                 }
                 catch(JSONException e){}
 
-                // order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, true);
+                 order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, true);
 
              //   RestService restService = new RestService(restClientService);
                 try
