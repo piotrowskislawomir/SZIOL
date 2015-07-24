@@ -1,19 +1,20 @@
 package com.example.slawek.sziolmobile;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.provider.Telephony;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import Models.User;
-import sziolmobile.RestClientService;
-import sziolmobile.RestService;
+import org.json.JSONObject;
+
+import models.UserModel;
+import services.RestClientService;
+import services.RestService;
+import utils.BaseHelper;
+import utils.BaseVariables;
 
 /**
  * Created by Michał on 2015-04-11.
@@ -26,7 +27,10 @@ public class UserReg extends Activity {
     private EditText firstName;
     private EditText lastName;
     private EditText teamKey;
-    public static TextView tv;
+    private TextView tv;
+
+    RestClientService restClientService;
+    RestService restService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,66 +44,65 @@ public class UserReg extends Activity {
         firstName = (EditText) findViewById(R.id.ET_name_reg);
         lastName = (EditText) findViewById(R.id.ET_lastName_reg);
         teamKey = (EditText) findViewById(R.id.ET_reg_key);
+
+        restClientService = new RestClientService(BaseVariables.RestUrl, getBaseContext());
+        restService = new RestService(restClientService);
     }
 
 
     public void registerButtonOnClick(View v) {
 
-        if(!tv.getText().toString().isEmpty() && !login.getText().toString().isEmpty() && !pass.getText().toString().isEmpty() && !pass2.getText().toString().isEmpty()
-                && !firstName.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty()&& !teamKey.getText().toString().isEmpty()) {
-            // equals ignore ?>>>
-            if (pass.getText().toString().equalsIgnoreCase(pass2.getText().toString())) {
-                final User newUser = new User(login.getText().toString(), pass.getText().toString(), firstName.getText().toString(), lastName.getText().toString());
-                final String teamKeyActivity = teamKey.getText().toString();
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
+        if (!ValidInput()) {
+            BaseHelper.ShowMessage(getBaseContext(), "Wszystkie pola muszą zostać uzupełnione");
+        }
+        if (!pass.getText().toString().equals(pass2.getText().toString())) {
 
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                        RestService restService = new RestService(restClientService);
+            BaseHelper.ShowMessage(getBaseContext(), "Hasła różnią się");
+        }
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-                        try
-                        {
-                        int restStatus = restService.SendClientRegistry(newUser, Integer.parseInt(teamKeyActivity));
-                        if(restStatus==200)
-                        {
-                            Toast.makeText(getApplicationContext(), "Rejestracja powiodła się pomyślnie", Toast.LENGTH_SHORT).show();
-                            try {
-                                Thread.sleep(8000);
-                                Intent myIntent = new Intent(UserReg.this, UserLog.class);
-                                UserReg.this.startActivity(myIntent);
-                                finish();
-                            }
-                            catch(InterruptedException ex)
-                            {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                UserModel newUser = new UserModel();
+                newUser.setUserName(login.getText().toString());
+                newUser.setPassword(pass.getText().toString());
+                newUser.setFirstName(firstName.getText().toString());
+                newUser.setLastName(lastName.getText().toString());
 
-                            }
+                String teamKeyActivity = teamKey.getText().toString();
+
+                try {
+                    int restStatus = restService.RegisterUser(newUser, teamKeyActivity);
+                    if (restStatus == 200) {
+                        BaseHelper.ShowMessage(getBaseContext(), "Użytkownik został zarejestrowany.");
+
+                        Intent myIntent = new Intent(UserReg.this, UserLog.class);
+                        UserReg.this.startActivity(myIntent);
+                        finish();
+                    } else {
+                        JSONObject jsonObj = new JSONObject(restService.GetContent());
+                        String message = jsonObj.get("Message").toString();
+
+                        if (message != null && !message.isEmpty()) {
+                            BaseHelper.ShowMessage(getBaseContext(), "Rejestracja nie powiodła się");
                         }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "Rejestracja nie powiodła się", Toast.LENGTH_SHORT).show();
-                        }
-
-                        } catch (Exception ex) {
-                            Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
                     }
-                });
-            } else {
-                Context context = getApplicationContext();
-                CharSequence text = "Hasła są różne!";
-                int duration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                } catch (Exception ex) {
+                    BaseHelper.ShowMessage(getBaseContext(), "Brak połączenia");
+                }
             }
-        }
-        else
-        {
-            Toast.makeText(getApplicationContext(), "Wszystkie pola muszą zostać uzupełnione", Toast.LENGTH_LONG).show();
-        }
+        });
+    }
+
+    private boolean ValidInput() {
+        return !tv.getText().toString().isEmpty() &&
+                !login.getText().toString().isEmpty() &&
+                !pass.getText().toString().isEmpty() &&
+                !pass2.getText().toString().isEmpty() &&
+                !firstName.getText().toString().isEmpty() &&
+                !lastName.getText().toString().isEmpty()&&
+                !teamKey.getText().toString().isEmpty();
     }
 }

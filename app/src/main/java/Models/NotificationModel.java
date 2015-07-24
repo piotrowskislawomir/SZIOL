@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 import java.io.Serializable;
 
@@ -6,51 +6,54 @@ import java.io.Serializable;
  * Created by Michał on 2015-05-20.
  */
 public class NotificationModel implements Serializable {
-    private final String type;
-    String id;
-    String title;
-    String description;
-    String ticketId;
+    private String type;
+    private Integer id;
+    private String title;
+    private String description;
+    private Integer ticketId;
 
-    public NotificationModel(String id, String title, String description, String ticketId, String type)
+    public NotificationModel()
     {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.ticketId = ticketId;
+
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
         this.type = type;
     }
 
-    public String getId()
-    {
-        return this.id;
+    public Integer getId() {
+        return id;
     }
 
-    public String getTitle()
-    {
-        return this.title;
+    public void setId(Integer id) {
+        this.id= id;
     }
 
-    public String getDescription()
-    {
-        return this.description;
+    public String getTitle() {
+        return title;
     }
 
-    public String getTicketId()
-    {
-        return this.ticketId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getType()
-    {
-        return this.type;
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public String toString() {
-        return "NotificationModel [id=" + id + ", title=" + title + ", description=" + description +
-               ", ticketId=" + ticketId + ", type=" + type
-                + "]";
+    public void setDescription(String description) {
+        this.description = description;
     }
 
+    public Integer getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Integer ticketId) {
+        this.ticketId = ticketId;
+    }
 }

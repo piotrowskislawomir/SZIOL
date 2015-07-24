@@ -2,18 +2,12 @@
 package com.example.slawek.sziolmobile;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,33 +16,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import Models.Client;
-import sziolmobile.RestClientService;
-import sziolmobile.RestService;
+import conventers.ModelConverter;
+import models.CoordinateModel;
+import services.RestClientService;
+import services.RestService;
+import utils.BaseHelper;
+import utils.BaseVariables;
 
-/**
- * Created by Michał on 2015-04-12.
- */
+
 public class ClientsLivePlace extends Activity {
 
-    ///////////////
-
-    // noiwa aktualizacja
-    JSONArray places;
-    ///////////////////
-
-    String firstName, lastName, address,clientId,teamId, team, city, street, homeNumber, flatNumber;
-    String gpslat;  ///????
-    String gpsLon;  ///????
-
-    public static Coordinate cor;
-
-    List<String> listAdapter;
-
-    List<Coordinate> coordinatesList;
     ListView lv;
-    Client client;
 
+    RestClientService restClientService;
+    RestService restService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,81 +37,55 @@ public class ClientsLivePlace extends Activity {
         setContentView(R.layout.activity_client_place);
         lv = (ListView) findViewById(R.id.LV_client_places);
 
-        RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-        RestService restService = new RestService(restClientService);
+        restClientService = new RestClientService(BaseVariables.RestUrl, getBaseContext());
+        restService = new RestService(restClientService);
 
         try {
             restService.GetClientPlaces(Fragment_new_client.getClient());
-            try {
-                places = new JSONArray(RestClientService.resp);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            JSONArray places = new JSONArray(restService.GetContent());
 
-            AddClientsToListView();
+            AddClientsToListView(places);
+        } catch (JSONException e) {
+            e.printStackTrace();
         } catch (Exception ex) {
-            Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+            BaseHelper.ShowMessage(getBaseContext(), "Brak połączenia");
             finish();
         }
-
     }
 
+    private void AddClientsToListView(JSONArray places) throws JSONException {
+        ModelConverter modelConverter = new ModelConverter();
+        List<CoordinateModel> coordinatesList = new ArrayList<CoordinateModel>();
 
-    private void AddClientsToListView()
-    {
-        coordinatesList =  new ArrayList<Coordinate>();
+        for (int i = 0; i < places.length(); i++) {
+            JSONObject jsonObj = places.getJSONObject(i);
+            coordinatesList.add(modelConverter.ConvertCoordinate(jsonObj));
 
-        for(int i=0; i<places.length(); i++)
-        {
-            try {
-                JSONObject jsonObj = places.getJSONObject(i);
-                city = jsonObj.get("Name").toString();
-                gpslat = jsonObj.get("Latitude").toString();
-                gpsLon = jsonObj.get("Longitude").toString();
-
-                coordinatesList.add(new Coordinate(Double.parseDouble(gpslat), Double.parseDouble(gpsLon), city));
-             //   listAdapter.add(city);
-            }
-            catch(JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-            ArrayAdapter<Coordinate> adap = new ArrayAdapter<Coordinate>(this, android.R.layout.simple_list_item_1, coordinatesList);
+            ArrayAdapter<CoordinateModel> adap = new ArrayAdapter<CoordinateModel>(this, android.R.layout.simple_list_item_1, coordinatesList);
             lv.setAdapter(adap);
 
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
+                    CoordinateModel coordinate = (CoordinateModel) (lv.getItemAtPosition(position));
+                    try {
+                        int restStatus = restService.AddCustomer(Fragment_new_client.getClient(), coordinate);
 
-                    cor =   (Coordinate)(lv.getItemAtPosition(position));
-
-                    RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                    RestService restService = new RestService(restClientService);
-
-                    try
-                    {
-                       int restStatus = restService.AddNewCustomer(Fragment_new_client.getClient(), cor);
-
-                        if(restStatus == 201)
-                        {
-                            Toast.makeText(getApplicationContext(), "Dodano klienta pomyślnie", Toast.LENGTH_LONG).show();
+                        if (restStatus == 201) {
+                            BaseHelper.ShowMessage(getBaseContext(), "Dodano klienta");
                             Intent myIntent = new Intent(view.getContext(), NavigationActivity.class);
                             myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(myIntent);
                             finish();
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "Nie dodano", Toast.LENGTH_LONG).show();
+                        } else {
+                            BaseHelper.ShowMessage(getBaseContext(), "Błąd podczas dodawania klienta");
                         }
                     } catch (Exception ex) {
-                        Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                        BaseHelper.ShowMessage(getBaseContext(), "Brak połączenia");
                     }
                 }
             });
         }
     }
-
 }

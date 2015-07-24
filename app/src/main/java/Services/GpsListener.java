@@ -1,18 +1,20 @@
-package Services;
+package services;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.StrictMode;
 
-import com.example.slawek.sziolmobile.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import Models.CoordinateModel;
+import models.ConfigurationDictioniary;
+import models.ConfigurationModel;
+import models.CoordinateModel;
+import models.UserModel;
+import services.databases.DatabaseLogic;
+import utils.BaseVariables;
 
 /**
  * Created by Michał on 2015-05-09.
@@ -20,15 +22,10 @@ import Models.CoordinateModel;
 public class GpsListener implements LocationListener {
 
     Context context;
-    String token;
-    String login;
-    String password;
-    Boolean localizationEnable;
 
-    private SharedPropertiesManager sharedPropertiesManager;
-    private Resources resources;
     RestClientService restClientService;
     RestService restService;
+    DatabaseLogic dbLogic;
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
     public Location previousBestLocation = null;
@@ -36,69 +33,64 @@ public class GpsListener implements LocationListener {
     public GpsListener(Context context)
     {
         this.context= context;
-        resources = context.getResources();
-        sharedPropertiesManager = new SharedPropertiesManager(context);
+        dbLogic = new DatabaseLogic(context);
 
-        Initialize();
-    }
-
-    private void Initialize()
-    {
-        restClientService  = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
+        restClientService  = new RestClientService(BaseVariables.RestUrl, context);
         restService = new RestService(restClientService);
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        if (isBetterLocation(location, previousBestLocation)) {
+            CoordinateModel coordinate = new CoordinateModel(location.getLatitude(), location.getLongitude());
 
-        try {
-            if (isBetterLocation(location, previousBestLocation)) {
-                CoordinateModel coordinate = new CoordinateModel(location.getLatitude(), location.getLongitude());
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
+            ConfigurationModel configLocalization = dbLogic.GetConfiguration(ConfigurationDictioniary.USER_LOCALIZATION);
+            ConfigurationModel configToken = dbLogic.GetConfiguration(ConfigurationDictioniary.USER_TOKEN);
 
-                localizationEnable = Boolean.parseBoolean(sharedPropertiesManager.GetValue(resources.getString(R.string.shared_localization_enable), "false"));
-                token = sharedPropertiesManager.GetValue(resources.getString(R.string.shared_token), null);
+            if (configToken != null && configLocalization != null && Boolean.parseBoolean(configLocalization.getValue())) {
+                int status = restService.SendCoordinate(coordinate);
 
-                if (localizationEnable && token != null) {
-                    int status = restService.SendLocation(coordinate);
-
-                    if (status != 201) {
-                        Login();
-                        restService.SendLocation(coordinate);
-                    }
+                if (status != 201) {
+                    Login();
+                    restService.SendCoordinate(coordinate);
                 }
-                previousBestLocation = location;
             }
-        }
-        catch (Exception ex)
-        {
-            ExceptionLoggerService exceptionLogger = new ExceptionLoggerService();
-            exceptionLogger.writefile("sziolgps.txt", ex.getMessage());
+            previousBestLocation = location;
         }
     }
 
     private boolean Login()
     {
-        login = sharedPropertiesManager.GetValue(resources.getString(R.string.shared_login), null);
-        password = sharedPropertiesManager.GetValue(resources.getString(R.string.shared_password), null);
+        ConfigurationModel configLogin = dbLogic.GetConfiguration(ConfigurationDictioniary.USER_LOGIN);
+        ConfigurationModel configPassword = dbLogic.GetConfiguration(ConfigurationDictioniary.USER_PASSWORD);
 
-        if(login != null && password != null)
+        if(configLogin != null && configPassword != null)
         {
-            int status = restService.SendClientLogin(login, password);
+            UserModel user = new UserModel();
+            user.setUserName(configLogin.getValue());
+            user.setPassword(configPassword.getValue());
+            int status = restService.LoginUser(user);
 
             try
             {
                 if(status == 200)
                 {
-                    JSONObject jsonObj = new JSONObject(RestClientService.resp);
+                    JSONObject jsonObj = new JSONObject(restService.GetContent());
                     String result = jsonObj.get("Result").toString();
                     String token = jsonObj.get("Token").toString();
 
                     if(result == "true" && token != null)
                     {
-                        RestClientService.SetToken(token);
+                        dbLogic.DeleteConfiguration(ConfigurationDictioniary.USER_TOKEN);
+                        ConfigurationModel configToken = new ConfigurationModel(ConfigurationDictioniary.USER_TOKEN, token);
+                        dbLogic.InsertConfiguration(configToken);
+
+                        restClientService  = new RestClientService(BaseVariables.RestUrl, context);
+                        restService = new RestService(restClientService);
+
                         return  true;
                     }
                 }

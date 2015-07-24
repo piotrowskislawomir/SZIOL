@@ -1,18 +1,17 @@
 package com.example.slawek.sziolmobile;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,10 +21,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import sziolmobile.RestClientService;
+import androidservice.GpsService;
+import androidservice.NotificationService;
+import models.ConfigurationDictioniary;
+import services.databases.DatabaseLogic;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -56,7 +56,9 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
 //
 private ArrayAdapter<String> adapter;
-    //
+
+    DatabaseLogic dbLogic;
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
@@ -64,9 +66,6 @@ private ArrayAdapter<String> adapter;
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-
-    SharedPropertiesManager _sharedPropertiesManager;
-    Resources _resources;
 
     public NavigationDrawerFragment() {
     }
@@ -88,8 +87,7 @@ private ArrayAdapter<String> adapter;
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
 
-        _sharedPropertiesManager = new SharedPropertiesManager(getActivity().getBaseContext());
-        _resources = getResources();
+        dbLogic = new DatabaseLogic(getActivity().getBaseContext());
     }
 
     @Override
@@ -269,12 +267,11 @@ private ArrayAdapter<String> adapter;
         }
 
         if (item.getItemId() == R.id.action_example) {
-            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_login), null);
-            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_password), null);
-            _sharedPropertiesManager.SetValue(_resources.getString(R.string.shared_token), null);
-            RestClientService.SetToken(null);
-              InternetConnectionService.setLoginStatus(false);
+            dbLogic.DeleteConfiguration(ConfigurationDictioniary.USER_LOGIN);
+            dbLogic.DeleteConfiguration(ConfigurationDictioniary.USER_PASSWORD);
+            dbLogic.DeleteConfiguration(ConfigurationDictioniary.USER_TOKEN);
 
+            StopServices();
 
             Intent myIntent = new Intent(getActivity(), MainActivity.class);
             myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -309,5 +306,27 @@ private ArrayAdapter<String> adapter;
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    public void stopGpsService() {
+        Intent serviceIntent = new Intent(getActivity(), GpsService.class);
+        getActivity().stopService(serviceIntent);
+    }
+
+    public void stopNotificationService() {
+        Intent serviceIntent = new Intent(getActivity(), NotificationService.class);
+        getActivity().stopService(serviceIntent);
+    }
+
+    private void StopServices() {
+        try {
+            stopNotificationService();
+        } catch (Exception ex) {
+        }
+
+        try {
+            stopGpsService();
+        } catch (Exception ex) {
+        }
     }
 }

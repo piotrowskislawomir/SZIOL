@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 /**
  * Created by Michał on 2015-04-12.
@@ -8,43 +8,41 @@ public class UserModel {
     private String password;
     private String firstName;
     private String lastName;
-    //private String activation
 
-    public UserModel(String userName, String password, String firstName, String lastName)
+    public UserModel()
     {
+
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
-    public String getUserName(){
-        return this.userName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getFirstName(){
-        return this.firstName;
-    }
-    public String getLastName(){
-        return this.lastName;
-    }
-    public String getPassword(){
-        return this.password;
-    }
-
-    public void setUserName(String usrName){
-        this.userName = usrName;
-    }
-
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public void setLastName(String lastName){
-        this.lastName = lastName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUserPassword(String pass){
-        this.password = pass;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

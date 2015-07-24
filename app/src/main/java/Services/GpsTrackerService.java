@@ -1,4 +1,4 @@
-package Services;
+package services;
 
 import android.content.Context;
 import android.location.LocationManager;
@@ -8,10 +8,7 @@ import android.location.LocationManager;
  */
 public class GpsTrackerService {
 
-    private Context context;
-
-    boolean gpsEnabled = false;
-    boolean networkEnabled = false;
+    GpsListener gpsLocalizator;
 
     private static final long MIN_DISTANCE_CHANGE_TO_UPDATE = 1;
     private static final long MIN_TIME_TO_UPDATE = 1000 * 30 * 1;
@@ -19,31 +16,22 @@ public class GpsTrackerService {
     private LocationManager locationManager;
 
     public GpsTrackerService(Context context) {
-        this.context = context;
         locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        gpsLocalizator = new GpsListener(context);
     }
 
-    public void getLocation() {
+    public void startLocalize() {
         try {
-            GpsListener gpsNetLocalizator = new GpsListener(context);
-            /*gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_TO_UPDATE, MIN_DISTANCE_CHANGE_TO_UPDATE, gpsLocalizator);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_TO_UPDATE, MIN_DISTANCE_CHANGE_TO_UPDATE, gpsLocalizator);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-            if (!gpsEnabled && !networkEnabled) {
-            } else {
-                if (networkEnabled && !gpsEnabled) {
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_TO_UPDATE, MIN_DISTANCE_CHANGE_TO_UPDATE, gpsNetLocalizator);
-                }
-
-                if (gpsEnabled) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_TO_UPDATE, MIN_DISTANCE_CHANGE_TO_UPDATE, gpsNetLocalizator);
-                }
-            }*/
-
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_TO_UPDATE, MIN_DISTANCE_CHANGE_TO_UPDATE, gpsNetLocalizator);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_TO_UPDATE, MIN_DISTANCE_CHANGE_TO_UPDATE, gpsNetLocalizator);
-
-
+    public void endLocalize() {
+        try {
+            locationManager.removeUpdates(gpsLocalizator);
         } catch (Exception e) {
             e.printStackTrace();
         }

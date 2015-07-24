@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.TicketModel;
+import models.ConfigurationModel;
 
 /**
  * Created by Slawek on 2015-07-15.
@@ -18,67 +18,75 @@ public class DatabaseLogic {
 
     public DatabaseLogic(Context context)
     {
-        TicketsDbHelper ticketsDbHelper = new TicketsDbHelper(context);
-        db = ticketsDbHelper.getWritableDatabase();
+        DatabaseDbHelper databaseDbHelper = new DatabaseDbHelper(context);
+        db = databaseDbHelper.getWritableDatabase();
     }
 
-    public void InsertTicket(TicketModel ticket)
+    public void InsertConfiguration(ConfigurationModel configuration)
     {
         ContentValues values = new ContentValues();
-        values.put(TicketsContract.TicketEntry.COLUMN_NAME_ID, ticket.getId());
-        values.put(TicketsContract.TicketEntry.COLUMN_NAME_TITLE, ticket.getTitle());
+        values.put(DatabaseContract.ConfigurationEntry.COLUMN_KEY, configuration.getKey());
+        values.put(DatabaseContract.ConfigurationEntry.COLUMN_VALUE, configuration.getValue());
 
-        long newRowId  = db.insert(
-                        TicketsContract.TicketEntry.TABLE_NAME,
+              db.insert(DatabaseContract.ConfigurationEntry.TABLE_NAME,
                         null,
                         values);
     }
 
-    public TicketModel GetTicket(int id)
+    public ConfigurationModel GetConfiguration(String key)
     {
         String selectQuery = "SELECT " +
-                TicketsContract.TicketEntry.COLUMN_NAME_ID + ", " +
-                TicketsContract.TicketEntry.COLUMN_NAME_TITLE + " FROM " +
-                TicketsContract.TicketEntry.TABLE_NAME + " WHERE " +
-                TicketsContract.TicketEntry.COLUMN_NAME_ID + "=?";
+                DatabaseContract.ConfigurationEntry.COLUMN_KEY + ", " +
+                DatabaseContract.ConfigurationEntry.COLUMN_VALUE + " FROM " +
+                DatabaseContract.ConfigurationEntry.TABLE_NAME + " WHERE " +
+                DatabaseContract.ConfigurationEntry.COLUMN_KEY + "=?";
 
-        Cursor c = db.rawQuery(selectQuery, new String[]{Integer.toString(id)});
+        Cursor c = db.rawQuery(selectQuery, new String[]{key});
 
         if(c.moveToFirst())
         {
-            TicketModel ticket = new TicketModel();
-            int index = c.getColumnIndexOrThrow(TicketsContract.TicketEntry.COLUMN_NAME_ID);
-            ticket.setId(c.getInt(index));
-            index = c.getColumnIndexOrThrow(TicketsContract.TicketEntry.COLUMN_NAME_TITLE);
-            ticket.setTitle(c.getString(index));
+            ConfigurationModel config = new ConfigurationModel();
+            int index = c.getColumnIndexOrThrow(DatabaseContract.ConfigurationEntry.COLUMN_KEY);
+            config.setKey(c.getString(index));
+            index = c.getColumnIndexOrThrow(DatabaseContract.ConfigurationEntry.COLUMN_VALUE);
+            config.setValue(c.getString(index));
 
-            return ticket;
+            return config;
         }
 
         return null;
     }
 
-    public List<TicketModel> GetTickets()
+    public List<ConfigurationModel> GetConfigurations()
     {
         String selectQuery = "SELECT " +
-                TicketsContract.TicketEntry.COLUMN_NAME_ID + ", " +
-                TicketsContract.TicketEntry.COLUMN_NAME_TITLE + " FROM " +
-                TicketsContract.TicketEntry.TABLE_NAME;
+                DatabaseContract.ConfigurationEntry.COLUMN_KEY + ", " +
+                DatabaseContract.ConfigurationEntry.COLUMN_VALUE + " FROM " +
+                DatabaseContract.ConfigurationEntry.TABLE_NAME;
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        ArrayList<TicketModel> list = new ArrayList<>();
+        ArrayList<ConfigurationModel> list = new ArrayList<>();
         while(c.moveToNext())
         {
-            TicketModel ticket = new TicketModel();
-            int index = c.getColumnIndexOrThrow(TicketsContract.TicketEntry.COLUMN_NAME_ID);
-            ticket.setId(c.getInt(index));
-            index = c.getColumnIndexOrThrow(TicketsContract.TicketEntry.COLUMN_NAME_TITLE);
-            ticket.setTitle(c.getString(index));
+            ConfigurationModel config = new ConfigurationModel();
+            int index = c.getColumnIndexOrThrow(DatabaseContract.ConfigurationEntry.COLUMN_KEY);
+            config.setKey(c.getString(index));
+            index = c.getColumnIndexOrThrow(DatabaseContract.ConfigurationEntry.COLUMN_VALUE);
+            config.setValue(c.getString(index));
 
-            list.add(ticket);
+            list.add(config);
         }
 
         return list;
     }
+
+    public void DeleteConfiguration(String key)
+    {
+        String where  =  DatabaseContract.ConfigurationEntry.COLUMN_KEY + "=?";
+
+        db.delete(DatabaseContract.ConfigurationEntry.TABLE_NAME,
+                  where, new String[] {key});
+    }
+
 }

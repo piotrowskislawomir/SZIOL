@@ -1,121 +1,106 @@
-package Models;
+package models;
 
 /**
  * Created by Michał on 2015-04-12.
  */
 public class ClientModel {
-
+    private Integer id;
     private String firstName;
     private String lastName;
-    private String address;
     private String city;
     private String street;
     private String homeNumber;
     private String flatNumber;
-    double gpsLatitude;
-    double gpsLongtitude;
-    private String id;
-    private String teamId;
+    private Integer teamId;
     private String team;
+    private CoordinateModel coordinate;
 
-
-    //single Client constructor
-    public ClientModel(String id, String firstName, String lastName, String city, String street, String homeNumber, String flatNumber, String gpsLat, String gpsLong, String teamId, String team)
+    public ClientModel()
     {
-        this.gpsLatitude = Double.parseDouble(gpsLat);
-        this.gpsLongtitude = Double.parseDouble(gpsLong);
-        this.teamId = teamId;
-        this.team = team;
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.street = street;
-        this.homeNumber = homeNumber;
-        this.flatNumber = flatNumber;
+        coordinate = new CoordinateModel();
     }
-
-    public void updateData(String id, String firstName, String lastName, String city, String street, String homeNumber, String flatNumber, String gpsLat, String gpsLong, String teamId, String team)
-    {
-        this.gpsLatitude = Double.parseDouble(gpsLat);
-        this.gpsLongtitude = Double.parseDouble(gpsLong);
-        this.teamId = teamId;
-        this.team = team;
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.street = street;
-        this.homeNumber = homeNumber;
-        this.flatNumber = flatNumber;
-    }
-
-
-    public ClientModel(String id, String firstName, String lastName, String city, String street, String homeNumber, String flatNumber)
-    {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.street = street;
-        this.homeNumber = homeNumber;
-        this.flatNumber = flatNumber;
-       // this.address = address;
-    }
-
-    public ClientModel(String firstName, String lastName, String city, String street, String homeNumber, String flatNumber)
-    {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.street = street;
-        this.homeNumber = homeNumber;
-        this.flatNumber = flatNumber;
-        // this.address = address;
-    }
-
-
-    public ClientModel(String id, String firstName, String lastName, String street)
-    {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.street = street;
-    }
-
-
-    public String getFirstName(){ return firstName; }
-
-    public String getId(){ return id; }
-
-    public Double getGpsLatitude()
-    {
-        return gpsLatitude;
-    }
-
-    public Double getGpsLongitude()
-    {
-        return gpsLongtitude;
-    }
-
-    public String getTeamId(){return  teamId;}
-
-    public String getTeam()
-    {
-        return team;
-    }
-
-    public String getLastName(){ return lastName; }
-
-    public String getCity(){ return city; }
-
-    public String getStreet(){ return street; }
-
-    public String getHomeNumber(){ return homeNumber; }
-
-    public String getFlatNumber(){ return flatNumber; }
 
     public String toString() {
         return this.firstName + " " + this.lastName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHomeNumber() {
+        return homeNumber != "null" ? homeNumber : null;
+    }
+
+    public void setHomeNumber(String homeNumber) {
+        this.homeNumber = homeNumber;
+    }
+
+    public String getFlatNumber() {
+        return flatNumber != "null" ? flatNumber :null;
+    }
+
+    public void setFlatNumber(String flatNumber) {
+        this.flatNumber = flatNumber;
+    }
+
+    public Integer getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
+    public CoordinateModel getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(CoordinateModel coordinate) {
+        this.coordinate = coordinate;
     }
 }

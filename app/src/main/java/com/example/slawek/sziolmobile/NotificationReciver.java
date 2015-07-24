@@ -6,28 +6,32 @@ package com.example.slawek.sziolmobile;
 
 
         import android.app.Activity;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.os.StrictMode;
-        import android.view.View;
-        import android.widget.EditText;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.view.View;
+import android.widget.TextView;
 
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONObject;
 
-        import Models.NotificationModel;
-        import sziolmobile.RestClientService;
-        import sziolmobile.RestService;
+import androidservice.SziolLogic;
+import conventers.ModelConverter;
+        import models.ClientModel;
+        import models.NotificationModel;
+import models.TicketModel;
+import services.RestClientService;
+import services.RestService;
+import utils.BaseHelper;
+        import utils.BaseVariables;
 
 public class NotificationReciver extends Activity {
-
-    NotificationModel nm;
-    JSONObject jsonObj;
-    String id, description, status, date, creatorId, executorId, customerId, teamId, title;
-    Order order;
     TextView tv;
+
+    RestClientService restClientService;
+    RestService restService;
+
+    TicketModel ticket;
+    NotificationModel notification;
 
     @Override
     protected void onResume()
@@ -61,129 +65,88 @@ public class NotificationReciver extends Activity {
 
     private void LoadNotification()
     {
+        final ModelConverter modelConverter = new ModelConverter();
+        restClientService = new RestClientService(BaseVariables.RestUrl, getBaseContext());
+        restService = new RestService(restClientService);
+
         try {
 
-            nm = (NotificationModel) getIntent().getExtras().getSerializable("notification");
+            notification = (NotificationModel) getIntent().getExtras().getSerializable("notification");
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
             runOnUiThread(new Runnable() {
                 public void run() {
-                    RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                    RestService restService = new RestService(restClientService);
                     try
                     {
-                        restService.GetOrder(Integer.parseInt(nm.getTicketId()));
+                        restService.GetTicket(notification.getTicketId());
+
+                        JSONObject jsonObj = new JSONObject(restService.GetContent());
+                         ticket = modelConverter.ConvertTicket(jsonObj);
+
+                        restService.GetClientById(ticket.getCustomerId());
+                        jsonObj = new JSONObject(restService.GetContent());
+                        ClientModel client = modelConverter.ConvertClient(jsonObj);
+
+                        tv = (TextView) findViewById(R.id.TV_notification);
+
+                        tv.setText(SziolLogic.GetTextFromTicket(ticket) + SziolLogic.GetTextFromClient(client));
+
                     } catch (Exception ex) {
-                        Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                        BaseHelper.ShowMessage(getBaseContext(), "Brak połączenia");
                         finish();
                     }
                 }
             });
 
-            try {
-                jsonObj = new JSONObject(RestClientService.resp);
-                id = jsonObj.get("Id").toString();
-                title = jsonObj.get("Title").toString();
-                description = jsonObj.get("Description").toString();
-                status = jsonObj.get("Status").toString();
-                date = jsonObj.get("CreateDate").toString();
-                creatorId = jsonObj.get("CreatorId").toString();
-                executorId = jsonObj.get("ExecutorId").toString();
-                customerId = jsonObj.get("CustomerId").toString();
-                teamId = jsonObj.get("TeamId").toString();
-
-
-            } catch (JSONException e) {
-            }
-
-            order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, teamId, date, creatorId);
-            String aktualnyStatus = GetStatus(status);
-
-            tv = (TextView) findViewById(R.id.TV_notification);
-            tv.setText("Tytuł: " + title.toString()+ "\n" + "Opis: " + description.toString() + "\n" + "Status: " + aktualnyStatus );//+ date.toString());
-        }catch (Exception ex)
+           }catch (Exception ex)
         {
 
         }
     }
 
-    private String GetStatus(String status)
-    {
-        if(status.toString().equalsIgnoreCase("CR"))
-        {
-            return "Gotowe do realizacji";
-        }
-        if(status.toString().equalsIgnoreCase("AS"))
-        {
-            return "Przypisane";
-        }
-        if(status.toString().equalsIgnoreCase("EX"))
-        {
-            return "Realizowane";
-        }
-        if(status.toString().equalsIgnoreCase("CL"))
-        {
-           return  "Wykonano";
-        }
-
-        return "";
-    }
-
-    public void acceptNotificationOnClick(View v)
-    {
+    public void acceptNotificationOnClick(final View v) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         runOnUiThread(new Runnable() {
             public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
-                int status =  restService.PinOrder(Integer.parseInt(id), order);
 
-                try
-                {
-                    status = restService.SendStatusNotification(Integer.parseInt(nm.getId()), true);
-                    if(status == 200)
-                    {
-                        Toast.makeText(getApplicationContext(), "przypięcie ok", Toast.LENGTH_LONG).show();
+                try {
+                    int status = restService.PinTicket(ticket.getId(), ticket);
+
+                    restService.SendStatusNotification(notification.getId(), true);
+
+                    if (status == 200) {
+                        BaseHelper.ShowMessage(getBaseContext(), "Przypięto zlecenie");
+                    } else {
+                        BaseHelper.ShowMessage(getBaseContext(), "Błąd podczas przypięcia zlecenia");
                     }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "przypięcie NIE ok", Toast.LENGTH_LONG).show();
-                    }
+
+                    Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
+                    myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    NotificationReciver.this.startActivity(myIntent);
+                    finish();
                 } catch (Exception ex) {
-                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
-                    return;
+                    BaseHelper.ShowMessage(getBaseContext(), "Błąd połączenia");
                 }
-                //  TextView tv = (TextView) findViewById(R.id.textView3);
-
             }
         });
-        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        // 01.06   Intent myIntent = new Intent(v.getContext(), MainMenu.class);
-        NotificationReciver.this.startActivity(myIntent);
-        finish();
-    //       finish();
     }
 
 
-    public void notAcceptNotificationOnClick(View v)
-    {
-        RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-        RestService restService = new RestService(restClientService);
-        try
-        {
+    public void notAcceptNotificationOnClick(View v) {
+        runOnUiThread(new Runnable() {
+            public void run() {
 
-            restService.SendStatusNotification(Integer.parseInt(nm.getId()), false);
-        } catch (Exception ex) {
-            Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
-            return;
-        }
-         finish();
-        //????
+                try {
+                    restService.SendStatusNotification(notification.getId(), false);
+                    finish();
+                } catch (Exception ex) {
+                   BaseHelper.ShowMessage(getBaseContext(), "Brak połączenia");
+                }
+            }
+        });
     }
 }

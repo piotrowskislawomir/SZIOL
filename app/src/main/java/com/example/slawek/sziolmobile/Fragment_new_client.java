@@ -2,7 +2,6 @@ package com.example.slawek.sziolmobile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,38 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import models.ClientModel;
+import utils.BaseHelper;
 
-import Models.Client;
-import sziolmobile.RestClientService;
-import sziolmobile.RestService;
 
-/**
- * Created by Michał on 2015-06-01.
- */
 public class Fragment_new_client extends Fragment {
 
     View rootView;
     private EditText firstNameClient;
     private EditText lastNameClient;
-    // private EditText addressClient;
     private EditText streetClient;
     private EditText homeNumberClient;
     private EditText flatNumberClient;
     private EditText cityClient;
-    int restStatus;
-    public static Client client;
 
-
-    public static Client getClient()
+    private static ClientModel client;
+    public static ClientModel getClient()
     {
         return client;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -61,64 +49,27 @@ public class Fragment_new_client extends Fragment {
             public void onClick(View v) {
                 if (!firstNameClient.getText().toString().isEmpty() && !lastNameClient.getText().toString().isEmpty() &&
                         !cityClient.getText().toString().isEmpty() && !streetClient.getText().toString().isEmpty() &&
-                        !homeNumberClient.getText().toString().isEmpty() /*&& !flatNumberClient.getText().toString().isEmpty()*/) {
+                        !homeNumberClient.getText().toString().isEmpty()) {
 
-                  client = new Client(firstNameClient.getText().toString(), lastNameClient.getText().toString(), cityClient.getText().toString(), streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
+                  client = new ClientModel();
+                  client.setFirstName(firstNameClient.getText().toString());
+                  client.setLastName(lastNameClient.getText().toString());
+                  client.setCity(cityClient.getText().toString());
+                  client.setStreet(streetClient.getText().toString());
+                  client.setHomeNumber(homeNumberClient.getText().toString());
+                  client.setFlatNumber(flatNumberClient.getText().toString());
 
                     Intent intent = new Intent(getActivity(), ClientsLivePlace.class);
-                  //  Toast.makeText(getActivity().getApplicationContext(), "DOBRZE", Toast.LENGTH_LONG).show();
-
-                    //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
             }
             else
                 {
-                    Toast.makeText(getActivity().getApplicationContext(), "Błąd", Toast.LENGTH_LONG).show();
-
+                    BaseHelper.ShowMessage(getActivity().getBaseContext(),"Błąd podczas dodawania klienta");
                 }
             }
         });
 
         return rootView;
     }
-
-
-    public void addNewClientButtonOnClick(View v)
-    {
-
-        if (!firstNameClient.getText().toString().isEmpty() && lastNameClient.getText().toString().isEmpty() &&
-                cityClient.getText().toString().isEmpty() && streetClient.getText().toString().isEmpty() &&
-                homeNumberClient.getText().toString().isEmpty() && flatNumberClient.getText().toString().isEmpty())
-        {
-
-            final Client client = new Client(firstNameClient.getText().toString(), lastNameClient.getText().toString(), cityClient.getText().toString(), streetClient.getText().toString(), homeNumberClient.getText().toString(), flatNumberClient.getText().toString());
-
-                 RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                    RestService restService = new RestService(restClientService);
-              //      restStatus = restService.AddNewCustomer(client);
-                    // restService.DeleteCustomer(8);
-
-       //             TextView tv = (TextView) findViewById(R.id.textView3);
-          //   }
-            if(restStatus == 200)
-            {
-                Intent intent = new Intent(getActivity(), Fragment_clients.class);
-           //     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-
-            }
-            else
-            {
-                Toast.makeText(getActivity(), "Zła odpowiedź serwera", Toast.LENGTH_SHORT).show();
-
-            }
-        }
-
-        else
-        {
-            Toast.makeText(getActivity(), "Proszę uzupełnić wszystkie informacje o kliencie", Toast.LENGTH_SHORT).show();
-
-        }
-    }}
-
+}
 

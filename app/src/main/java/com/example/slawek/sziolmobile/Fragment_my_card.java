@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,9 +19,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import Models.Client;
-import sziolmobile.RestClientService;
-import sziolmobile.RestService;
+import conventers.ModelConverter;
+import models.TicketModel;
+import services.RestClientService;
+import services.RestService;
+import utils.BaseHelper;
+import utils.BaseVariables;
 
 /**
  * Created by Michał on 2015-05-31.
@@ -30,71 +32,60 @@ import sziolmobile.RestService;
 public class Fragment_my_card extends Fragment {
 
     View rootView;
-    String title;
-    String cardId;
-    JSONArray cardsItems;
-    static Order card;
-    List<Order> cardList;
+    static TicketModel ticket;
     ListView lv;
-    Client client;
 
-    public static Order getCard()
-    {
-        return card;
+    RestClientService restClientService;
+    RestService restService;
+
+    public static TicketModel getTicket() {
+        return ticket;
     }
 
     @Nullable
     @Override
-    public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        restClientService = new RestClientService(BaseVariables.RestUrl, getActivity().getBaseContext());
+        restService = new RestService(restClientService);
+
         rootView = inflater.inflate(R.layout.activity_card_items, container, false);
-        lv = (ListView)rootView.findViewById(R.id.LV_card_items);
+        lv = (ListView) rootView.findViewById(R.id.LV_card_items);
         AddItemsFromCardToListView();
 
         return rootView;
     }
 
     private void AddItemsFromCardToListView() {
-        cardList = new ArrayList<Order>();
+        ModelConverter modelConverter = new ModelConverter();
+        List<TicketModel> cardList = new ArrayList<>();
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
-                try
-                {
-                restService.GetMyCard();
-                try {
-                    cardsItems = new JSONArray(RestClientService.resp);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        try {
+            restService.GetMyCard();
+            JSONArray cardsItems = new JSONArray(restService.GetContent());
 
-        for (int i = 0; i < cardsItems.length(); i++) {
-            try {
+            for (int i = 0; i < cardsItems.length(); i++) {
                 JSONObject jsonObj = cardsItems.getJSONObject(i);
-                cardId = jsonObj.get("Id").toString();
-                title = jsonObj.get("Title").toString();
-                cardList.add(new Order(cardId.toString(), title.toString()));
-            } catch (JSONException e) {
-                e.printStackTrace();
+                cardList.add(modelConverter.ConvertTicket(jsonObj));
+                ArrayAdapter<TicketModel> adapt = new ArrayAdapter<TicketModel>(getActivity(), android.R.layout.simple_list_item_1, cardList);
+                lv.setAdapter(adapt);
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ticket = (TicketModel) (lv.getItemAtPosition(position));
+                        Intent myIntent = new Intent(view.getContext(), CardItemsDetails.class);
+                        startActivity(myIntent);
+                    }
+                });
             }
-
-            ArrayAdapter<Order> adapt = new ArrayAdapter<Order>(getActivity(), android.R.layout.simple_list_item_1, cardList);
-            lv.setAdapter(adapt);
-
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    card = (Order) (lv.getItemAtPosition(position));
-                    Intent myIntent = new Intent(view.getContext(), CardItemsDetails.class);
-                    startActivity(myIntent);
-                }
-            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+            BaseHelper.ShowMessage(getActivity().getBaseContext(), "Brak połączenia");
+        } catch (Exception ex) {
+            BaseHelper.ShowMessage(getActivity().getBaseContext(), "Brak połączenia");
         }
-                } catch (Exception ex) {
-                    Toast.makeText(getActivity().getBaseContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
-                }
     }
 }

@@ -5,17 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import Models.Client;
-import sziolmobile.RestClientService;
-import sziolmobile.RestService;
+import androidservice.SziolLogic;
+import conventers.ModelConverter;
+import models.ClientModel;
+import models.TicketModel;
+import services.RestClientService;
+import services.RestService;
+import utils.BaseHelper;
+import utils.BaseVariables;
 
 /**
  * Created by Michał on 2015-05-10.
@@ -23,233 +25,136 @@ import sziolmobile.RestService;
 
 public class CardItemsDetails extends Activity {
 
-    TextView et;
-    public static Order or;
-    JSONArray singleOrder;
-    JSONObject jsonObj;
-    static Order order;
-    String id, title, description, status, date, creatorId, executorId, customerId, teamId;
-    Client cl;
+    TextView tv;
+    ClientModel cl;
+
+    RestClientService restClientService;
+    RestService restService;
+    ModelConverter modelConverter = new ModelConverter();
+
+    TicketModel ticket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        restClientService = new RestClientService(BaseVariables.RestUrl, getBaseContext());
+        restService = new RestService(restClientService);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_details);
 
-or = Fragment_my_card.getCard();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         runOnUiThread(new Runnable() {
             public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
+                TicketModel ticketShort = Fragment_my_card.getTicket();
 
-                try
-                {
-                    restService.GetOrder(Integer.parseInt(or.getId()));
-                }
-                catch (Exception ex)
-                {
-                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                try {
+                    restService.GetTicket(ticketShort.getId());
+                    JSONObject jsonObj = new JSONObject(restService.GetContent());
+                    ticket = modelConverter.ConvertTicket(jsonObj);
+
+                    GetClient(ticket);
+                } catch (JSONException e) {
+                    BaseHelper.ShowMessage(getBaseContext(), "Brak połączenia");
+                    finish();
+                } catch (Exception ex) {
+                    BaseHelper.ShowMessage(getBaseContext(), "Brak połączenia");
                     finish();
                 }
             }
         });
+    }
 
-        try {
-            jsonObj = new JSONObject(RestClientService.resp);
-            id = jsonObj.get("Id").toString();
-            title = jsonObj.get("Title").toString();
-            description = jsonObj.get("Description").toString();
-            status = jsonObj.get("Status").toString();
-            date = jsonObj.get("CreateDate").toString();
-            creatorId = jsonObj.get("CreatorId").toString();
-            executorId = jsonObj.get("ExecutorId").toString();
-            customerId = jsonObj.get("CustomerId").toString();
-            teamId = jsonObj.get("TeamId").toString();
-        }
-        catch(JSONException e){}
+    private void GetClient(TicketModel ticket) throws JSONException {
+        restService.GetClientById(ticket.getCustomerId());
+        JSONObject jsonObj = new JSONObject(restService.GetContent());
+        ClientModel client = modelConverter.ConvertClient(jsonObj);
 
+        tv = (TextView) findViewById(R.id.TV_card_order_unpin);
 
-
-        order = new Order(id, title, description, status, Integer.parseInt(customerId), executorId, teamId, date, creatorId );
-
-        ///////////
-
-        String address, city="", street = "", homeNumber="", flatNumber="", firstName="", lastName="";
-
-        RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-        RestService restService = new RestService(restClientService);
-
-        try
-        {
-
-        restService.GetClientById(Integer.parseInt(customerId));
-        try {
-            jsonObj = new JSONObject(RestClientService.resp);
-            address = jsonObj.get("Address").toString();
-            firstName = jsonObj.get("FirstName").toString();
-            lastName = jsonObj.get("LastName").toString();
-
-            city = jsonObj.get("City").toString();
-            street = jsonObj.get("Street").toString();
-            homeNumber = jsonObj.get("HomeNo").toString();
-            flatNumber = jsonObj.get("FlatNo").toString();
-        }
-        catch(JSONException e){}
-
-        } catch (Exception ex) {
-            Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
-            finish();
-        }
-
-        /*
-         this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.street = street;
-        this.homeNumber = homeNumber;
-        this.flatNumber = flatNumber;
-        */
-
-        //////
-
-        if(!flatNumber.isEmpty())
-        {
-            flatNumber = "/"+flatNumber;
-        }
-
-        et = (TextView) findViewById(R.id.TV_card_order_unpin);
-
-        String aktualnyStatus = "";
-
-        if(status.toString().equalsIgnoreCase("AS"))
-        {
-            aktualnyStatus = "Przypisane";
-        }
-        if(status.toString().equalsIgnoreCase("EX"))
-        {
-            aktualnyStatus = "Realizowane";
-        }
-        if(status.toString().equalsIgnoreCase("CL"))
-        {
-            aktualnyStatus = "Wykonano";
-        }
-
-        et.setText("Klient: " + firstName + " " + lastName + "\n" + "Tytuł: " + title.toString()+ "\n" + "Opis: " + description.toString() + "\n" + "Status: " + aktualnyStatus +
-                 "\n" + "Ulica: " + street+ " " + homeNumber + flatNumber
-                + "\n" + "Miejscowość: " + city);
+        tv.setText(SziolLogic.GetTextFromTicket(ticket) + SziolLogic.GetTextFromClient(client));
 
     }
 
-    public void unpinOrderOnClick(View v) {
-
+    public void unpinOrderOnClick(final View v) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-
         runOnUiThread(new Runnable() {
             public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
+                try {
+                    int status = restService.UnPinTicket(ticket.getId(), ticket);
 
-                try{
-                    int status =  restService.unPinOrder(Integer.parseInt(id), order);
+                    if (status == 200) {
+                        BaseHelper.ShowMessage(getBaseContext(), "Opięto zlecenie");
+                    } else {
+                        BaseHelper.ShowMessage(getBaseContext(), "Błąd podczas odpięcia");
+                    }
 
-                    if(status == 200)
-                    {
-                        Toast.makeText(getApplicationContext(), "Opięto zlecenie", Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Nie można odpiąć", Toast.LENGTH_LONG).show();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
+                    Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(myIntent);
+                    finish();
+                } catch (Exception ex) {
+                    BaseHelper.ShowMessage(getBaseContext(), "Brak połączenia");
                 }
             }
         });
-
-            Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-            finish();
     }
 
-        public void executeOrderOnClick(View v) {
+        public void executeOrderOnClick(final View v) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+            runOnUiThread(new Runnable() {
+                public void run() {
 
-        runOnUiThread(new Runnable() {
-            public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
+                    try {
+                        int status = restService.ExecuteTicket(ticket.getId(), ticket);
 
-                try
-                {
-                    int status =  restService.executeOrder(Integer.parseInt(id), order);
+                        if (status == 200) {
+                            BaseHelper.ShowMessage(getBaseContext(), "Zlecenie oznaczone jako realozowane");
+                        } else {
+                            BaseHelper.ShowMessage(getBaseContext(), "Błąd podczas oznaczenia do realizacji");
+                        }
 
-                    if(status == 200)
-                    {
-                        Toast.makeText(getApplicationContext(), "W trakcie realizacji", Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Nie można realizować", Toast.LENGTH_LONG).show();
+                        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
+                        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(myIntent);
+                        finish();
+                    } catch (Exception ex) {
+                        BaseHelper.ShowMessage(getBaseContext(), "Błąd połączenia");
                     }
                 }
-                catch (Exception ex)
-                {
-                    Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
-                }
+            });
         }
-        });
 
-        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
-        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myIntent);
-        finish();
-    }
-
-    public void closeOrderOnClick(View v) {
-
+    public void closeOrderOnClick(final View v) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         runOnUiThread(new Runnable() {
             public void run() {
-                RestClientService restClientService = new RestClientService("http://s384027.iis.wmi.amu.edu.pl/api/");
-                RestService restService = new RestService(restClientService);
+                try {
+                    int status = restService.CloseTicket(ticket.getId(), ticket);
 
-                try
-                {
-                    int status =  restService.closeOrder(Integer.parseInt(id), order);
-
-                    if(status == 200)
-                    {
-                        Toast.makeText(getApplicationContext(), "Zamknięto zlecenie", Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Nie możńa zamknąć zlecenia", Toast.LENGTH_LONG).show();
+                    if (status == 200) {
+                        BaseHelper.ShowMessage(getBaseContext(), "Zamknięto zlecenie");
+                    } else {
+                        BaseHelper.ShowMessage(getBaseContext(), "Błąd podczas zamknięcia zlecenia");
                     }
 
-                    }
-                    catch (Exception ex)
-                    {
-                        Toast.makeText(getApplicationContext(), "Brak połączenia", Toast.LENGTH_LONG).show();
-                    }
+                    Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(myIntent);
+                    finish();
+
+                } catch (Exception ex) {
+                    BaseHelper.ShowMessage(getBaseContext(), "Błąd połączenia");
+                }
             }
         });
-
-        Intent myIntent = new Intent(v.getContext(), NavigationActivity.class);
-        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myIntent);
-        finish();
     }
 
 

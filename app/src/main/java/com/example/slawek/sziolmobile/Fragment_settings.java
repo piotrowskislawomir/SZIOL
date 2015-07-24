@@ -1,7 +1,6 @@
 package com.example.slawek.sziolmobile;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 
+import models.ConfigurationDictioniary;
+import models.ConfigurationModel;
+import services.databases.DatabaseLogic;
+
 /**
  * Created by Michał on 2015-05-31.
  */
 public class Fragment_settings extends Fragment {
 
-    private SharedPropertiesManager sharedPropertiesManager;
-    private Resources resources;
+    DatabaseLogic dbLogic;
 
     View rootView;
     Switch switchLocalization;
@@ -26,8 +28,7 @@ public class Fragment_settings extends Fragment {
 
     public Fragment_settings(Context context)
     {
-            resources = context.getResources();
-            sharedPropertiesManager = new SharedPropertiesManager(context);
+        dbLogic = new DatabaseLogic(context);
     }
 
     @Override
@@ -37,20 +38,37 @@ public class Fragment_settings extends Fragment {
         switchLocalization = (Switch)rootView.findViewById(R.id.switchLocalization);
         switchNotification = (Switch)rootView.findViewById(R.id.switchNotifiaction);
 
-        switchLocalization.setChecked(Boolean.parseBoolean(sharedPropertiesManager.GetValue(resources.getString(R.string.shared_localization_enable), "false")));
-        switchNotification.setChecked(Boolean.parseBoolean(sharedPropertiesManager.GetValue(resources.getString(R.string.shared_notification_enable), "true")));
+        switchLocalization.setChecked(false);
+        switchNotification.setChecked(false);
+
+        ConfigurationModel configNotify = dbLogic.GetConfiguration(ConfigurationDictioniary.USER_NOTIFICATION);
+        ConfigurationModel configLocal = dbLogic.GetConfiguration(ConfigurationDictioniary.USER_LOCALIZATION);
+
+        if(configLocal != null)
+        {
+            switchNotification.setChecked(Boolean.parseBoolean(configLocal.getValue()));
+        }
+
+        if(configNotify != null)
+        {
+            switchLocalization.setChecked(Boolean.parseBoolean(configNotify.getValue()));
+        }
 
         switchLocalization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPropertiesManager.SetValue(resources.getString(R.string.shared_localization_enable), Boolean.toString(switchLocalization.isChecked()));
+                ConfigurationModel config = new ConfigurationModel(ConfigurationDictioniary.USER_LOCALIZATION, Boolean.toString(switchLocalization.isChecked()));
+                dbLogic.DeleteConfiguration(ConfigurationDictioniary.USER_LOCALIZATION);
+                dbLogic.InsertConfiguration(config);
             }
         });
 
         switchNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPropertiesManager.SetValue(resources.getString(R.string.shared_notification_enable), Boolean.toString(switchNotification.isChecked()));
+                ConfigurationModel config = new ConfigurationModel(ConfigurationDictioniary.USER_NOTIFICATION, Boolean.toString(switchNotification.isChecked()));
+                dbLogic.DeleteConfiguration(ConfigurationDictioniary.USER_NOTIFICATION);
+                dbLogic.InsertConfiguration(config);
             }
         });
 
